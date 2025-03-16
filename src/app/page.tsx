@@ -65,18 +65,30 @@ export default function Home() {
   };
 
   // calculate clover's dynamic position
-  const cloverLeft = Math.max((windowWidth - cloverSize / 2) / 2, 0); // Dynamic horizontal center
-  const cloverTop = windowHeight / 2; // Vertical center of clover
+  // dynamic horizontal center
+  const cloverLeft = Math.max((windowWidth - cloverSize / 2) / 2, 0);
+  // vertical center of clover
+  const cloverTop = windowHeight / 2;
 
   // calculate shadow offset based on mouse position
   const shadowOffsetX =
-    (mousePosition.x - (cloverLeft + cloverSize / 2)) * -0.1; // Opposite direction of mouse
-  const shadowOffsetY = (mousePosition.y - (cloverTop + cloverSize / 2)) * -0.1; // Opposite direction of mouse
+    // go opposite direction of mouse
+    (mousePosition.x - (cloverLeft + cloverSize / 2)) * -0.1;
+  // go opposite direction of mouse
+  const shadowOffsetY = (mousePosition.y - (cloverTop + cloverSize / 2)) * -0.1;
 
-  // Scroll to projects section
+  // clicking on Projects in nav should scroll down to the carousel
   const scrollToProjects = () => {
     projectsRef.current?.scrollIntoView({ behavior: "smooth" });
   };
+
+  // Add this effect to handle hash changes
+  useEffect(() => {
+    // Check if the URL has #projects
+    if (window.location.hash === "#projects") {
+      projectsRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []); // Run once on mount
 
   return (
     <div className="grid max-w-full" onMouseMove={handleMouseMove}>

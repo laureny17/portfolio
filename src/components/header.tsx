@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 
 export default function Header() {
@@ -9,7 +10,15 @@ export default function Header() {
       {/* Navigation */}
       <nav className="flex space-x-3">
         <Link
-          href="/"
+          href="#projects"
+          onClick={(e) => {
+            e.preventDefault();
+            document
+              .getElementById("projects")
+              ?.scrollIntoView({ behavior: "smooth" });
+            // update URL without refreshing!
+            window.history.pushState({}, "", "#projects");
+          }}
           className="hover:underline hover:underline-offset-4 underline-green text-lg sm:text-xl md:text-2xl"
         >
           Projects

@@ -24,9 +24,9 @@ export default function About() {
         {/* picture + basic info */}
         <div className="flex items-start space-x-4">
           {/* profile pic */}
-          <div className="w-32 h-32 rounded-full overflow-hidden shadow-lg">
+          <div className="w-32 h-32 rounded-lg overflow-hidden">
             <Image
-              src="/profile.jpg" // replace later
+              src="/ProfilePhoto.jpeg" // replace later
               alt="Profile Picture"
               width={128}
               height={128}
@@ -53,8 +53,8 @@ export default function About() {
         {/* fun facts? change bullet pts later */}
         <ul className="text-xs sm:text-sm md:text-base lg:text-lg list-disc pl-6 space-y-2 pt-5">
           <li>
-            My greatest career aspiration is to work for sociocultural impact.
-            Some of my current areas of interest include (but are not limited
+            My greatest career aspiration is to work for sociocultural impact;
+            some of my current areas of interest include (but are not limited
             to) the following:
             <ul className="text-xs sm:text-xs md:text-sm lg:text-base list-disc pl-6 space-y-2 pt-3 pb-3">
               <li>Education</li>
@@ -64,7 +64,7 @@ export default function About() {
           </li>
           <li>
             I'm a part of the organizing team for HackMIT, one of the largest
-            collegiate hackathons in the nation.
+            collegiate hackathons in the nation
             <ul className="text-xs sm:text-xs md:text-sm lg:text-base list-disc pl-6 space-y-2 pt-3 pb-3">
               <li>I just love to see people have fun! :)</li>
             </ul>
@@ -76,7 +76,11 @@ export default function About() {
               <li>Go on hikes with my friends and/or dog</li>
               <li>
                 Start working on the newest coding project that has been
-                plaguing my mind
+                plaguing my mind{" "}
+                <em>
+                  (this is how this portfolio came to be: six hours of Figma on
+                  a Friday night and nonstop coding over the weekend)
+                </em>
               </li>
             </ul>
           </li>
@@ -87,7 +91,7 @@ export default function About() {
       <div className="space-y-10 pl-10">
         {/* placeholder, will put handdrawn graphic/animation later */}
         <div className="w-full h-50 bg-gray-200 rounded-md flex items-center justify-center">
-          placeholder
+          Animated graphic coming soon ❤︎
         </div>
 
         {/* languages */}
