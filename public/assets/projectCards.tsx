@@ -29,7 +29,7 @@ export const projectCards: ProjectCard[] = [
     id: 2,
     title: "Massive Intake of Tap: A Water Tour",
     description:
-      "A private water fountain exploration challenge for friends. Track discovered fountains around MIT's campus, rate their freshness and taste to develop your personalized water fountain tier list generated from your reviews, and compete against friends on a personal leaderboard——because hydration should be fun.",
+      "A water fountain exploration challenge. Discover and rate fountains around MIT's campus to build your tier list, and compete on a personal leaderboard——because hydration should be fun.",
     image: ["/placeholder.svg?height=300&width=500"],
     tags: ["Angular", "Node.js", "Express.js", "MongoDB"],
     isComplete: false,

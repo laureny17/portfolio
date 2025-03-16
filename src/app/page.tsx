@@ -10,6 +10,7 @@ export default function Home() {
   const [cloverSize, setCloverSize] = useState(600); // Default clover size
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // Mouse position
   const projectsRef = useRef<HTMLDivElement>(null);
+  const [carouselWidth, setCarouselWidth] = useState(1200);
 
   // Track window dimensions for responsive resizing
   useEffect(() => {
@@ -25,48 +26,45 @@ export default function Home() {
       } else {
         setCloverSize(700); // Large screens
       }
+
+      // Account for padding and arrows (40px padding on each side + 20px for arrows)
+      setCarouselWidth(Math.min(window.innerWidth - 120, 1200));
     }
 
+    handleResize();
     window.addEventListener("resize", handleResize);
-    handleResize(); // Set initial values
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // track mouse position for shadow effect
+  // Track mouse position for shadow effect
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     setMousePosition({ x: e.clientX, y: e.clientY });
   };
 
-  // calculate clover's dynamic position
-  // dynamic horizontal center
+  // Calculate clover's dynamic position (centered horizontally)
   const cloverLeft = Math.max((windowWidth - cloverSize / 2) / 2, 0);
-  // vertical center of clover
   const cloverTop = windowHeight / 2;
 
-  // calculate shadow offset based on mouse position
+  // Calculate shadow offset based on mouse position
   const shadowOffsetX =
-    // go opposite direction of mouse
     (mousePosition.x - (cloverLeft + cloverSize / 2)) * -0.1;
-  // go opposite direction of mouse
   const shadowOffsetY = (mousePosition.y - (cloverTop + cloverSize / 2)) * -0.1;
 
-  // clicking on Projects in nav should scroll down to the carousel
-  const scrollToProjects = () => {
-    projectsRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  // Add this effect to handle hash changes
+  // Handle hash changes to scroll to Projects
   useEffect(() => {
-    // Check if the URL has #projects
     if (window.location.hash === "#projects") {
       projectsRef.current?.scrollIntoView({ behavior: "smooth" });
     }
-  }, []); // Run once on mount
+  }, []);
 
   return (
-    <div className="grid max-w-full" onMouseMove={handleMouseMove}>
-      <main className="row-start-2 h-screen relative">
-        {/* shadow clover */}
+    <div
+      className="flex flex-col w-full max-w-full"
+      onMouseMove={handleMouseMove}
+    >
+      {/* Hero Section */}
+      <main className="relative w-full h-screen">
+        {/* Shadow Clover */}
         <div
           style={{
             position: "absolute",
@@ -76,8 +74,8 @@ export default function Home() {
             width: cloverSize,
             height: cloverSize,
             zIndex: -2,
-            filter: "blur(10px)", // add blur for shadow effect
-            opacity: 0.5, // semi-transparent
+            filter: "blur(10px)",
+            opacity: 0.5,
           }}
         >
           <Image
@@ -90,7 +88,7 @@ export default function Home() {
           />
         </div>
 
-        {/* main clover */}
+        {/* Main Clover */}
         <div
           style={{
             position: "absolute",
@@ -128,19 +126,19 @@ export default function Home() {
             CS/Math + Media Studies @ MIT
           </p>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl">
-            {`I’m passionate about building technologies\n
-            that create meaningful experiences!`}
+            {`I'm passionate about building technologies`}
+            <br />
+            {`that create meaningful experiences!`}
           </p>
         </div>
       </main>
+
       {/* Projects Section */}
-      <section
-        ref={projectsRef}
-        className="w-full py-16 row-start-3"
-        id="projects"
-      >
-        <div className="w-full max-w-7xl mx-auto px-6">
-          <Carousel cards={projectCards} />
+      <section ref={projectsRef} className="w-full py-16 px-7" id="projects">
+        <div className="w-full px-5">
+          <div className="w-full">
+            <Carousel cards={projectCards} />
+          </div>
         </div>
       </section>
     </div>
