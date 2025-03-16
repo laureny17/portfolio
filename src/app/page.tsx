@@ -2,34 +2,7 @@
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 import Carousel from "@/components/carousel";
-
-// Sample project data - you can replace with your actual projects
-const projectCards = [
-  {
-    id: 1,
-    title: "Interactive Data Visualization",
-    description:
-      "A web application that visualizes complex datasets in an intuitive and interactive way.",
-    image: "/placeholder.svg?height=300&width=500",
-    tags: ["React", "D3.js", "TypeScript"],
-  },
-  {
-    id: 2,
-    title: "AI-Powered Learning Platform",
-    description:
-      "An educational platform that uses machine learning to personalize learning experiences.",
-    image: "/placeholder.svg?height=300&width=500",
-    tags: ["Next.js", "TensorFlow.js", "Tailwind CSS"],
-  },
-  {
-    id: 3,
-    title: "Sustainable Energy Dashboard",
-    description:
-      "A dashboard for monitoring and optimizing energy usage in smart buildings.",
-    image: "/placeholder.svg?height=300&width=500",
-    tags: ["React", "Node.js", "Chart.js"],
-  },
-];
+import { projectCards } from "../../public/assets/projectCards";
 
 export default function Home() {
   const [windowWidth, setWindowWidth] = useState(0);
@@ -108,7 +81,7 @@ export default function Home() {
           }}
         >
           <Image
-            src="/Clover.svg"
+            src="/assets/Clover.svg"
             alt="shadow-clover"
             layout="intrinsic"
             width={cloverSize}
@@ -130,7 +103,7 @@ export default function Home() {
           }}
         >
           <Image
-            src="/Clover.svg"
+            src="/assets/Clover.svg"
             alt="clover"
             layout="intrinsic"
             width={cloverSize}

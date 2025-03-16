@@ -32,7 +32,7 @@ export default function Footer() {
       </div>
 
       {/* Credit */}
-      <p className="text-xs sm:text-sm" style={{ whiteSpace: "nowrap" }}>
+      <p className="text-xs sm:text-sm pb-10" style={{ whiteSpace: "nowrap" }}>
         ˖ ݁☘︎. Designed and developed by Lauren Yoo .☘︎ ݁˖
       </p>
     </footer>

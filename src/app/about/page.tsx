@@ -26,7 +26,7 @@ export default function About() {
           {/* profile pic */}
           <div className="w-32 h-32 rounded-lg overflow-hidden">
             <Image
-              src="/ProfilePhoto.jpeg" // replace later
+              src="/assets/ProfilePhoto.jpeg" // replace later
               alt="Profile Picture"
               width={128}
               height={128}

@@ -10,6 +10,7 @@ type Card = {
   description: string;
   image: string;
   tags: string[];
+  isComplete: boolean;
 };
 
 const Carousel = ({ cards }: { cards: Card[] }) => {
@@ -80,30 +81,34 @@ const Carousel = ({ cards }: { cards: Card[] }) => {
       onTouchEnd={handleTouchEnd}
     >
       {/* cards container */}
-      <div>
+      <div className="overflow-hidden">
         <div
           className="flex transition-transform duration-500 ease-in-out"
-          style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+          style={{
+            transform: `translateX(-${((currentIndex * 1) / 3) * 100}%)`,
+            width: `${cards.length * 50}%`, // Each card takes up 50% of container
+          }}
         >
           {cards.map((card) => (
-            <div key={card.id} className="w-full">
-              <div className="rounded-3xl shadow-md p-10 h-150 overflow-hidden">
+            <div key={card.id} className="w-1/2 px-3">
+              {" "}
+              {/* Changed from w-full to w-1/2 */}
+              <div className="rounded-3xl border border-[var(--black)] p-10 h-150 overflow-scroll bg-white">
                 {card.image && (
-                  <div className="mb-6 rounded-xl">
+                  <div className="mb-6 rounded-xl max-w-[500px] mx-auto items-center flex justify-center">
                     <Image
-                      // src={card.image}
-                      src={"/Clover.svg"}
+                      src={card.image || "/assets/Clover.svg"}
                       alt={card.title}
-                      width={500}
-                      height={300}
-                      className="w-full h-auto object-cover transition-transform hover:scale-105 duration-300"
+                      width={300}
+                      height={200}
+                      className="items-center object-contain transition-transform hover:scale-105 duration-300"
                     />
                   </div>
                 )}
-                <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl pb-3 italic">
+                <p className="text-base sm:text-lg md:text-xl lg:text-2xl pb-3 italic">
                   {card.title}
-                </h3>
-                <p className="text-sm sm:text-base md:text-lg lg:text-xl pb-4">
+                </p>
+                <p className="text-xs sm:text-sm md:text-base lg:text-lg pb-4">
                   {card.description}
                 </p>
 
@@ -112,11 +117,16 @@ const Carousel = ({ cards }: { cards: Card[] }) => {
                   {card.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="text-xs sm:text-xs md:text-sm lg:text-base px-3 py-1 bg-[var(--accent)] text-[var(--black)] rounded-full"
+                      className="text-xs sm:text-xs md:text-sm lg:text-base px-3 py-1 bg-[var(--accent)] text-[var(--black)] rounded-full flex items-center"
                     >
                       {tag}
                     </span>
                   ))}
+                  {!card.isComplete && (
+                    <span className="text-xs sm:text-xs md:text-sm lg:text-base px-3 py-1 text-[var(--black)] rounded-full border-2 border-[var(--accent)] leading-none flex items-center">
+                      WIP
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -127,14 +137,14 @@ const Carousel = ({ cards }: { cards: Card[] }) => {
       {/* nav arrows */}
       <button
         onClick={prevSlide}
-        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 rounded-full flex items-center justify-center bg-[var(--black)] text-[var(--background)]"
+        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-14 w-10 h-10 rounded-full flex items-center justify-center bg-[var(--black)] text-[var(--background)]"
         aria-label="Previous slide"
       >
         {`<`}
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-10 h-10 rounded-full flex items-center justify-center bg-[var(--black)] text-[var(--background)]"
+        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-14 w-10 h-10 rounded-full flex items-center justify-center bg-[var(--black)] text-[var(--background)]"
         aria-label="Next slide"
       >
         {`>`}
