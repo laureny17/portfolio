@@ -1,0 +1,40 @@
+export default function Footer() {
+  return (
+    <footer className="flex flex-col space-y-3 py-5">
+      {/* Links */}
+      <div className="flex items-center space-x-3">
+        <a
+          href="mailto:laureny@mit.edu"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:underline hover:underline-offset-4 underline-green text-base sm:text-lg md:text-xl"
+        >
+          Email
+        </a>
+        <span className="text-base sm:text-lg md:text-xl">/</span>
+        <a
+          href="https://www.linkedin.com/in/lauren-yoo/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:underline hover:underline-offset-4 underline-green text-base sm:text-lg md:text-xl"
+        >
+          LinkedIn
+        </a>
+        <span className="text-base sm:text-lg md:text-xl">/</span>
+        <a
+          href="https://github.com/laureny17"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:underline hover:underline-offset-4 underline-green text-base sm:text-lg md:text-xl"
+        >
+          GitHub
+        </a>
+      </div>
+
+      {/* Credit */}
+      <p className="text-xs sm:text-sm" style={{ whiteSpace: "nowrap" }}>
+        ˖ ݁☘︎. Designed and developed by Lauren Yoo .☘︎ ݁˖
+      </p>
+    </footer>
+  );
+}

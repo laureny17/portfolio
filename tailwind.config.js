@@ -2,16 +2,19 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: 'var(--background)',
-        black: 'var(--black)',
-        accent: 'var(--accent)',
-        gray: 'var(--gray)',
-        lightgray: 'var(--light-gray)',
+        background: "var(--background)",
+        black: "var(--black)",
+        accent: "var(--accent)",
+        gray: "var(--gray)",
+        lightgray: "var(--light-gray)",
       },
       fontFamily: {
-        title: ['Pecita'],
-        body: ['Reddit Mono'],
+        title: ["Pecita"],
+        body: ["Reddit Mono"],
+      },
+      objectFit: {
+        none: "none",
       },
     },
   },
-}
+};
