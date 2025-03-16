@@ -128,7 +128,7 @@ export default function Home() {
             CS/Math + Media Studies @ MIT
           </p>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl">
-            {`I’m passionate about building technologies <br />
+            {`I’m passionate about building technologies\n
             that create meaningful experiences!`}
           </p>
         </div>
@@ -139,7 +139,7 @@ export default function Home() {
         className="w-full py-16 row-start-3"
         id="projects"
       >
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="w-full max-w-7xl mx-auto px-6">
           <Carousel cards={projectCards} />
         </div>
       </section>

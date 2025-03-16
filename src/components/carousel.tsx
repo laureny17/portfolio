@@ -8,9 +8,64 @@ type Card = {
   id: number;
   title: string;
   description: string;
-  image: string;
+  image: string[];
   tags: string[];
   isComplete: boolean;
+};
+
+const Card = ({ card }: { card: Card }) => {
+  const [imageIndex, setImageIndex] = useState(0);
+
+  useEffect(() => {
+    if (Array.isArray(card.image)) {
+      const interval = setInterval(() => {
+        setImageIndex((prev) => (prev + 1) % card.image.length);
+      }, 3000);
+
+      return () => clearInterval(interval);
+    }
+  }, [card.image]);
+
+  return (
+    <div className="w-1/2 px-3">
+      <div className="rounded-3xl border border-[var(--black)] p-10 h-150 overflow-scroll bg-white">
+        {card.image && (
+          <div className="mb-6 rounded-xl max-w-[300px] h-[200px] mx-auto items-center flex justify-center">
+            <Image
+              src={card.image[imageIndex] || "/assets/Clover.svg"}
+              alt={card.title}
+              width={300}
+              height={200}
+              className="items-center object-contain transition-transform hover:scale-105 duration-300"
+            />
+          </div>
+        )}
+        <p className="text-base sm:text-lg md:text-xl lg:text-2xl pb-3 italic">
+          {card.title}
+        </p>
+        <p className="text-xs sm:text-sm md:text-base lg:text-lg pb-4">
+          {card.description}
+        </p>
+
+        {/* tags */}
+        <div className="flex flex-wrap gap-2">
+          {card.tags.map((tag) => (
+            <span
+              key={tag}
+              className="text-xs sm:text-xs md:text-sm lg:text-base px-3 py-1 bg-[var(--accent)] text-[var(--black)] rounded-full flex items-center"
+            >
+              {tag}
+            </span>
+          ))}
+          {!card.isComplete && (
+            <span className="text-xs sm:text-xs md:text-sm lg:text-base px-3 py-1 text-[var(--black)] rounded-full border-2 border-[var(--accent)] leading-none flex items-center">
+              WIP
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 const Carousel = ({ cards }: { cards: Card[] }) => {
@@ -85,51 +140,12 @@ const Carousel = ({ cards }: { cards: Card[] }) => {
         <div
           className="flex transition-transform duration-500 ease-in-out"
           style={{
-            transform: `translateX(-${((currentIndex * 1) / 3) * 100}%)`,
+            transform: `translateX(-${currentIndex * (100 / cards.length)}%)`,
             width: `${cards.length * 50}%`, // Each card takes up 50% of container
           }}
         >
           {cards.map((card) => (
-            <div key={card.id} className="w-1/2 px-3">
-              {" "}
-              {/* Changed from w-full to w-1/2 */}
-              <div className="rounded-3xl border border-[var(--black)] p-10 h-150 overflow-scroll bg-white">
-                {card.image && (
-                  <div className="mb-6 rounded-xl max-w-[500px] mx-auto items-center flex justify-center">
-                    <Image
-                      src={card.image || "/assets/Clover.svg"}
-                      alt={card.title}
-                      width={300}
-                      height={200}
-                      className="items-center object-contain transition-transform hover:scale-105 duration-300"
-                    />
-                  </div>
-                )}
-                <p className="text-base sm:text-lg md:text-xl lg:text-2xl pb-3 italic">
-                  {card.title}
-                </p>
-                <p className="text-xs sm:text-sm md:text-base lg:text-lg pb-4">
-                  {card.description}
-                </p>
-
-                {/* tags */}
-                <div className="flex flex-wrap gap-2">
-                  {card.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="text-xs sm:text-xs md:text-sm lg:text-base px-3 py-1 bg-[var(--accent)] text-[var(--black)] rounded-full flex items-center"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                  {!card.isComplete && (
-                    <span className="text-xs sm:text-xs md:text-sm lg:text-base px-3 py-1 text-[var(--black)] rounded-full border-2 border-[var(--accent)] leading-none flex items-center">
-                      WIP
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
+            <Card key={card.id} card={card} />
           ))}
         </div>
       </div>
