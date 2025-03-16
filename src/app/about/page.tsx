@@ -18,7 +18,7 @@ export default function About() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 p-10">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20 py-10 px-0 md:px-10">
       {/* left section will have some personal info*/}
       <div className="space-y-6">
         {/* picture + basic info */}
@@ -51,7 +51,7 @@ export default function About() {
         </div>
 
         {/* fun facts? change bullet pts later */}
-        <ul className="text-xs sm:text-sm md:text-base lg:text-lg list-disc pl-6 space-y-2 pt-5">
+        <ul className="text-sm sm:text-sm md:text-base lg:text-lg list-disc pl-6 space-y-2 pt-5">
           <li>
             {`My greatest career aspiration is to work for sociocultural impact;
             some of my current areas of interest include (but are not limited
@@ -88,9 +88,9 @@ export default function About() {
       </div>
 
       {/* right section */}
-      <div className="space-y-10 pl-10">
+      <div className="space-y-10">
         {/* placeholder, will put handdrawn graphic/animation later */}
-        <div className="w-full h-50 bg-gray-200 rounded-md flex items-center justify-center">
+        <div className="w-full h-50 bg-gray-200 rounded-md flex items-center justify-center text-center text-xs sm:text-sm md:text-base lg:text-lg p-5">
           Animated graphic coming soon ❤︎
         </div>
 

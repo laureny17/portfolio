@@ -111,7 +111,7 @@ export default function Home() {
         </div>
 
         {/* Introduction Section */}
-        <div className="absolute top-1/3 left-10 sm:left-15 md:left-20 lg:left-30">
+        <div className="absolute top-1/3 left-0 sm:left-10 md:left-20 lg:left-30">
           <p
             className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl pb-10 sm:pb-10 md:pb-20 lg:pb-25"
             style={{ fontFamily: "Pecita" }}
