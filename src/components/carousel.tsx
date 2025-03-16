@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import type React from "react";
 import Image from "next/image";
+import { useCallback } from "react";
 
 type Card = {
   id: number;
@@ -17,17 +18,17 @@ const Carousel = ({ cards }: { cards: Card[] }) => {
   const [touchEnd, setTouchEnd] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     setCurrentIndex((prevIndex) =>
       prevIndex === cards.length - 1 ? 0 : prevIndex + 1
     );
-  };
+  }, [cards.length]);
 
-  const prevSlide = () => {
+  const prevSlide = useCallback(() => {
     setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? cards.length - 1 : prevIndex - 1
     );
-  };
+  }, [cards.length]);
 
   const goToSlide = (index: number) => {
     setCurrentIndex(index);
@@ -68,7 +69,7 @@ const Carousel = ({ cards }: { cards: Card[] }) => {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
+  }, [nextSlide, prevSlide]);
 
   return (
     <div
@@ -129,14 +130,14 @@ const Carousel = ({ cards }: { cards: Card[] }) => {
         className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 rounded-full flex items-center justify-center bg-[var(--black)] text-[var(--background)]"
         aria-label="Previous slide"
       >
-        &lt;
+        {`<`}
       </button>
       <button
         onClick={nextSlide}
         className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-10 h-10 rounded-full flex items-center justify-center bg-[var(--black)] text-[var(--background)]"
         aria-label="Next slide"
       >
-        &gt;
+        {`>`}
       </button>
 
       {/* dots */}

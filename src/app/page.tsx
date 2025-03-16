@@ -145,7 +145,7 @@ export default function Home() {
             className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl pb-10 sm:pb-10 md:pb-20 lg:pb-25"
             style={{ fontFamily: "Pecita" }}
           >
-            Hi, I'm{" "}
+            {`Hi, I'm `}
             <span className="underline underline-offset-6 md:underline-offset-8 underline-green-thick">
               Lauren
             </span>
@@ -155,8 +155,8 @@ export default function Home() {
             CS/Math + Media Studies @ MIT
           </p>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl">
-            I’m passionate about building technologies <br />
-            that create meaningful experiences!
+            {`I’m passionate about building technologies <br />
+            that create meaningful experiences!`}
           </p>
         </div>
       </main>

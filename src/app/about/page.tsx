@@ -53,9 +53,9 @@ export default function About() {
         {/* fun facts? change bullet pts later */}
         <ul className="text-xs sm:text-sm md:text-base lg:text-lg list-disc pl-6 space-y-2 pt-5">
           <li>
-            My greatest career aspiration is to work for sociocultural impact;
+            {`My greatest career aspiration is to work for sociocultural impact;
             some of my current areas of interest include (but are not limited
-            to) the following:
+            to) the following:`}
             <ul className="text-xs sm:text-xs md:text-sm lg:text-base list-disc pl-6 space-y-2 pt-3 pb-3">
               <li>Education</li>
               <li>Accessibility</li>
@@ -66,7 +66,7 @@ export default function About() {
             I'm a part of the organizing team for HackMIT, one of the largest
             collegiate hackathons in the nation
             <ul className="text-xs sm:text-xs md:text-sm lg:text-base list-disc pl-6 space-y-2 pt-3 pb-3">
-              <li>I just love to see people have fun! :)</li>
+              <li>{`I just love to see people have fun! :)`}</li>
             </ul>
           </li>
           <li>
@@ -75,11 +75,11 @@ export default function About() {
               <li>Draw, paint, animate, crochet, embroider, etc.</li>
               <li>Go on hikes with my friends and/or dog</li>
               <li>
-                Start working on the newest coding project that has been
-                plaguing my mind{" "}
+                {`Start working on the newest coding project that has been
+                plaguing my mind `}
                 <em>
-                  (this is how this portfolio came to be: six hours of Figma on
-                  a Friday night and nonstop coding over the weekend)
+                  {`(this is how this portfolio came to be: six hours of Figma on
+                  a Friday night and nonstop coding over the weekend)`}
                 </em>
               </li>
             </ul>
