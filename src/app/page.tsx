@@ -134,7 +134,7 @@ export default function Home() {
       </main>
 
       {/* Projects Section */}
-      <section ref={projectsRef} className="w-full py-16 px-7" id="projects">
+      <section ref={projectsRef} className="w-full pt-15 pb-30" id="projects">
         <div className="w-full px-5">
           <div className="w-full">
             <Carousel cards={projectCards} />

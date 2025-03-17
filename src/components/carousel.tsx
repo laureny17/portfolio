@@ -1,7 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import type React from "react";
-import Image from "next/image";
 import { useCallback } from "react";
 import Card from "./card";
 
@@ -81,63 +80,70 @@ const Carousel = ({ cards }: { cards: Card[] }) => {
   }, [nextSlide, prevSlide]);
 
   return (
-    <div className="relative w-full" ref={carouselRef}>
-      {/* Container for cards with fixed width */}
-      <div className="w-full relative">
-        {/* Arrow buttons positioned relative to this container */}
+    <div className="relative w-full max-w-[95%] mx-auto" ref={carouselRef}>
+      {/* Navigation: Prev button, Dots, Next button - now above the carousel */}
+      <div className="flex justify-center items-center gap-4 mb-8">
+        {/* Previous button */}
         <button
           onClick={prevSlide}
-          className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12"
+          className="flex items-center justify-center"
           aria-label="Previous slide"
         >
-          <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[var(--black)] text-[var(--background)]">
-            {`<`}
+          <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[var(--black)] text-[var(--background)]">
+            <span className="inline-block transform -translate-y-0.5">←</span>
           </div>
         </button>
-        <button
-          onClick={nextSlide}
-          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12"
-          aria-label="Next slide"
-        >
-          <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[var(--black)] text-[var(--background)]">
-            {`>`}
-          </div>
-        </button>
-
-        {/* Cards container */}
-        <div className="overflow-hidden">
-          <div
-            className="flex transition-transform duration-500 ease-in-out"
-            style={{
-              transform: `translateX(-${
-                currentIndex *
-                (visibleCards === 1 ? 20 / visibleCards : 40 / visibleCards)
-              }%)`,
-              width: `${cards.length * (100 / visibleCards)}%`,
-            }}
-          >
-            {cards.map((card) => (
-              <Card
-                key={card.id}
-                card={card}
-                className={`${visibleCards === 1 ? "w-full mx-auto" : "w-1/2"}`}
-              />
-            ))}
-          </div>
-        </div>
 
         {/* Dots */}
-        <div className="flex justify-center gap-2 mt-8">
+        <div className="flex items-center gap-2">
           {cards.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`w-2 h-2 rounded-full ${
+              className={`${
                 index === currentIndex
-                  ? "bg-[var(--black)]"
-                  : "bg-[var(--light-gray)]"
+                  ? "text-lg text-[var(--black)] flex items-center"
+                  : "w-2 h-2 rounded-full bg-[var(--light-gray)]"
               }`}
               aria-label={`Go to slide ${index + 1}`}
+            >
+              {index === currentIndex ? "❤" : ""}
+            </button>
+          ))}
+        </div>
+
+        {/* Next button */}
+        <button
+          onClick={nextSlide}
+          className="flex items-center justify-center"
+          aria-label="Next slide"
+        >
+          <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[var(--black)] text-[var(--background)]">
+            <span className="inline-block transform -translate-y-0.5">→</span>
+          </div>
+        </button>
+      </div>
+
+      {/* Cards container */}
+      <div className="overflow-hidden">
+        <div
+          className="flex transition-transform duration-500 ease-in-out"
+          style={{
+            transform: `translateX(-${
+              currentIndex *
+              (visibleCards === 1 ? 20 / visibleCards : 40 / visibleCards)
+            }%)`,
+            width: `${cards.length * (100 / visibleCards)}%`,
+          }}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          {cards.map((card) => (
+            <Card
+              key={card.id}
+              card={card}
+              className={`${visibleCards === 1 ? "w-full mx-auto" : "w-1/2"}`}
             />
           ))}
         </div>

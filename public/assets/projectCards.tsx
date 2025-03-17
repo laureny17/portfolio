@@ -12,8 +12,8 @@ export const projectCards: ProjectCard[] = [
     id: 1,
     title: "Phabulous Phishes",
     description:
-      "An LLM-powered educational platform providing users with simulated phishing content to train their phishing detection skills.",
-    image: [],
+      "An LLM-powered educational platform providing users with simulated phishing content to train their phishing detection skills. Don't get (ph/f)ished!",
+    image: ["/assets/PhishDemo.mp4"],
     tags: [
       "JavaScript",
       "TypeScript",
@@ -27,10 +27,10 @@ export const projectCards: ProjectCard[] = [
   },
   {
     id: 2,
-    title: "Massive Intake of Tap: A Water Tour",
+    title: "M(assive) I(ntake) (of) T(ap)",
     description:
-      "A water fountain exploration challenge. Discover and rate fountains around MIT's campus to build your tier list, and compete on a personal leaderboard——because hydration should be fun.",
-    image: ["/placeholder.svg?height=300&width=500"],
+      "A water fountain exploration challenge. Rate fountains around MIT's campus to build your tier list, and compete on a personal leaderboard——because hydration should be fun.",
+    image: ["/assets/WaterTourDemo.mp4"],
     tags: ["Angular", "Node.js", "Express.js", "MongoDB"],
     isComplete: false,
   },
@@ -38,7 +38,7 @@ export const projectCards: ProjectCard[] = [
     id: 3,
     title: "Dam Campus",
     description:
-      "An interactive campus map and social networking fusion website. Navigate the halls of MIT's campus with your selected beaver avatar and click on buildings' buttons to view posts from other students about their experiences there!",
+      "An interactive campus map and social networking fusion website. Navigate the halls of MIT's campus with your selected beaver avatar and view building-specific posts from students about their experiences there.",
     image: ["/placeholder.svg?height=300&width=500"],
     tags: ["React", "Node.js", "Express.js", "MongoDB", "Render"],
     isComplete: true,
@@ -48,14 +48,15 @@ export const projectCards: ProjectCard[] = [
     title: "Desktop Duck",
     description:
       "A small experimental desktop virtual pet app with self-drawn animated assets. The more windows you have open on your screen, the more frantically your duck will move around!",
-    image: ["/assets/DesktopDuck.png", "/assets/Clover.svg"],
+    image: ["/assets/DesktopDuckDemo.mp4"],
     tags: ["JavaScript", "Electron"],
     isComplete: true,
   },
   {
     id: 5,
     title: "This Portfolio",
-    description: "You are here!",
+    description:
+      "You are here! (Note: Feel free to play around and resize this window—the majority of my time spent making this was given to making this website fully dynamic and responsive!)",
     image: [
       "/assets/portfolio1.png",
       "/assets/portfolio2.png",

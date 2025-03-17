@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
 type Card = {
@@ -12,42 +12,154 @@ type Card = {
   isComplete: boolean;
 };
 
-const Card = ({ card }: { card: Card; className?: string }) => {
+const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
   const [imageIndex, setImageIndex] = useState(0);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [mediaWidth, setMediaWidth] = useState(0);
+
+  // detect if the image is a video
+  const isVideo = (src: string | undefined) => {
+    if (!src) return false;
+    return (
+      src.endsWith(".mp4") || src.endsWith(".webm") || src.endsWith(".mov")
+    );
+  };
+
+  // update media width when card size changes
+  useEffect(() => {
+    if (!cardRef.current) return;
+
+    const updateMediaWidth = () => {
+      if (cardRef.current) {
+        // Get the card's content width w/o padding
+        const cardWidth = cardRef.current.clientWidth;
+        const newMediaWidth = Math.floor(cardWidth * 0.8);
+        setMediaWidth(newMediaWidth);
+      }
+    };
+
+    // initial measurement
+    updateMediaWidth();
+
+    // set up resize observer to detect changes in card size
+    const resizeObserver = new ResizeObserver(updateMediaWidth);
+    resizeObserver.observe(cardRef.current);
+
+    return () => {
+      if (cardRef.current) {
+        resizeObserver.unobserve(cardRef.current);
+      }
+    };
+  }, []);
+
+  const nextImage = () => {
+    setImageIndex((prev) => (prev + 1) % card.image.length);
+  };
+
+  const prevImage = () => {
+    setImageIndex((prev) => (prev - 1 + card.image.length) % card.image.length);
+  };
 
   useEffect(() => {
-    if (Array.isArray(card.image)) {
+    if (
+      Array.isArray(card.image) &&
+      card.image.length > 1 &&
+      !isVideo(card.image[imageIndex])
+    ) {
       const interval = setInterval(() => {
-        setImageIndex((prev) => (prev + 1) % card.image.length);
+        nextImage();
       }, 3000);
 
       return () => clearInterval(interval);
     }
-  }, [card.image]);
+  }, [card.image, imageIndex]);
 
   return (
-    <div className="w-full px-3">
-      <div className="rounded-3xl border border-[var(--black)] p-8 sm:p-10 h-150 overflow-scroll bg-white">
+    <div className={`px-2 sm:px-3 ${className}`}>
+      <div
+        ref={cardRef}
+        className="rounded-3xl border border-[var(--black)] p-4 sm:p-6 md:p-8 bg-white flex flex-col"
+      >
         {card.image && (
-          <div className="mb-6 rounded-xl w-[150px] h-[200px] mx-auto items-center flex justify-center">
-            <Image
-              src={card.image[imageIndex] || "/assets/Clover.svg"}
-              alt={card.title}
-              width={300}
-              height={200}
-              className="items-center object-contain transition-transform hover:scale-105 duration-300"
-            />
+          <div className="mb-6 mx-auto flex flex-col items-center justify-center w-full">
+            {/* Media container */}
+            <div
+              className="flex items-center justify-center"
+              style={{
+                width: "100%",
+                maxWidth: mediaWidth > 0 ? `${mediaWidth}px` : "100%",
+              }}
+            >
+              {isVideo(card.image[imageIndex]) ? (
+                <div
+                  className="rounded-md overflow-hidden"
+                  style={{ maxHeight: "200px" }}
+                >
+                  <video
+                    src={card.image[imageIndex]}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className="object-contain max-h-[200px]"
+                  />
+                </div>
+              ) : (
+                <div
+                  className="rounded-md overflow-hidden"
+                  style={{ maxHeight: "200px" }}
+                >
+                  <Image
+                    src={card.image[imageIndex] || "/assets/Clover.svg"}
+                    alt={card.title}
+                    width={mediaWidth || 300}
+                    height={Math.floor((mediaWidth || 300) * 0.6)}
+                    className="object-contain transition-transform hover:scale-105 duration-300 max-h-[200px]"
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Navigation arrows - only show if multiple images */}
+            {card.image.length > 1 && (
+              <div className="w-full flex items-center justify-between mt-2">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    prevImage();
+                  }}
+                  className="text-[var(--black)] text-xl font-bold"
+                  aria-label="Previous image"
+                >
+                  {"←"}
+                </button>
+                <div className="text-xs text-gray-500">
+                  {imageIndex + 1}/{card.image.length}
+                </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    nextImage();
+                  }}
+                  className="text-[var(--black)] text-xl font-bold"
+                  aria-label="Next image"
+                >
+                  {"→"}
+                </button>
+              </div>
+            )}
           </div>
         )}
-        <p className="text-base sm:text-lg md:text-xl lg:text-2xl pb-3 italic">
+
+        <p className="text-lg sm:text-xl md:text-2xl lg:text-2xl pb-3 italic">
           {card.title}
         </p>
-        <p className="text-xs sm:text-sm md:text-sm lg:text-base pb-4">
+        <p className="text-sm sm:text-base md:text-base lg:text-base pb-4">
           {card.description}
         </p>
 
         {/* tags */}
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap gap-2 mt-auto">
           {card.tags.map((tag) => (
             <span
               key={tag}
