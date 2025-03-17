@@ -81,7 +81,6 @@ export default function Home() {
           <Image
             src="/assets/Clover.svg"
             alt="shadow-clover"
-            layout="intrinsic"
             width={cloverSize}
             height={cloverSize}
             priority
@@ -103,7 +102,6 @@ export default function Home() {
           <Image
             src="/assets/Clover.svg"
             alt="clover"
-            layout="intrinsic"
             width={cloverSize}
             height={cloverSize}
             priority

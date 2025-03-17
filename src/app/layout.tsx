@@ -1,3 +1,4 @@
+import type React from "react";
 import "./globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
@@ -8,14 +9,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="overflow-x-hidden">
       <head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
-      <body className="pl-15 pr-15 pt-10 overflow-x-hidden bg-milk">
+      <body className="px-4 sm:px-12 lg:px-15 pt-5 sm:pt-10 overflow-x-hidden overflow-y-auto bg-milk">
         <Header />
         {children}
         <Footer />
