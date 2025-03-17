@@ -39,7 +39,7 @@ export const projectCards: ProjectCard[] = [
     title: "Dam Campus",
     description:
       "An interactive campus map and social networking fusion website. Navigate the halls of MIT's campus with your selected beaver avatar and view building-specific posts from students about their experiences there.",
-    image: ["/placeholder.svg?height=300&width=500"],
+    image: ["/assets/DamCampusDemo.mp4"],
     tags: ["React", "Node.js", "Express.js", "MongoDB", "Render"],
     isComplete: true,
   },
@@ -57,11 +57,7 @@ export const projectCards: ProjectCard[] = [
     title: "This Portfolio",
     description:
       "You are here! (Note: Feel free to play around and resize this window—the majority of my time spent making this was given to making this website fully dynamic and responsive!)",
-    image: [
-      "/assets/portfolio1.png",
-      "/assets/portfolio2.png",
-      "/assets/portfolio3.png",
-    ],
+    image: ["/assets/PortfolioHome.png"],
     tags: ["Typescript", "Next.js", "Tailwind CSS", "Vercel"],
     isComplete: true,
   },
