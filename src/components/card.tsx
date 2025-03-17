@@ -1,5 +1,7 @@
 "use client";
 
+import type React from "react";
+
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 
@@ -16,6 +18,7 @@ const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
   const [imageIndex, setImageIndex] = useState(0);
   const cardRef = useRef<HTMLDivElement>(null);
   const [mediaWidth, setMediaWidth] = useState(0);
+  const [videoFailed, setVideoFailed] = useState<Record<string, boolean>>({});
 
   // detect if the image is a video
   const isVideo = (src: string | undefined) => {
@@ -23,6 +26,13 @@ const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
     return (
       src.endsWith(".mp4") || src.endsWith(".webm") || src.endsWith(".mov")
     );
+  };
+
+  // Get a fallback image for a video (mobile)
+  const getVideoFallback = (videoSrc: string) => {
+    // png version is fallback image
+    const pngVersion = videoSrc.replace(/.mp4$/, ".png");
+    return pngVersion;
   };
 
   // update media width when card size changes
@@ -74,6 +84,35 @@ const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
     }
   }, [card.image, imageIndex]);
 
+  // Handle video error
+  const handleVideoError = (src: string) => {
+    console.log("Video failed to load:", src);
+    setVideoFailed((prev) => ({
+      ...prev,
+      [src]: true,
+    }));
+  };
+
+  // Check if we're on iOS
+  const isIOS =
+    /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+
+  // Handle image error - try PNG if JPG fails
+  const handleImageError = (
+    e: React.SyntheticEvent<HTMLImageElement, Event>,
+    videoSrc: string
+  ) => {
+    const imgElement = e.currentTarget;
+    if (imgElement.src.endsWith(".jpg")) {
+      // If jpg failed, try png
+      const pngVersion = videoSrc.replace(/\.(mp4|webm|mov)$/, ".png");
+      imgElement.src = pngVersion;
+    } else if (imgElement.src.endsWith(".png")) {
+      // If png also failed, use placeholder
+      imgElement.src = "/placeholder.svg?height=200&width=300";
+    }
+  };
+
   return (
     <div className={`px-2 sm:px-3 ${className}`}>
       <div
@@ -90,18 +129,22 @@ const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
                 maxWidth: mediaWidth > 0 ? `${mediaWidth}px` : "100%",
               }}
             >
-              {isVideo(card.image[imageIndex]) ? (
+              {isVideo(card.image[imageIndex]) &&
+              !videoFailed[card.image[imageIndex]] &&
+              !isIOS ? (
                 <div
                   className="rounded-md overflow-hidden"
                   style={{ maxHeight: "200px" }}
                 >
                   <video
                     src={card.image[imageIndex]}
+                    poster={getVideoFallback(card.image[imageIndex])}
                     autoPlay
                     loop
                     muted
                     playsInline
                     className="object-contain max-h-[200px]"
+                    onError={() => handleVideoError(card.image[imageIndex])}
                   />
                 </div>
               ) : (
@@ -110,11 +153,20 @@ const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
                   style={{ maxHeight: "200px" }}
                 >
                   <Image
-                    src={card.image[imageIndex] || "/assets/Clover.svg"}
+                    src={
+                      isVideo(card.image[imageIndex])
+                        ? getVideoFallback(card.image[imageIndex])
+                        : card.image[imageIndex] || "/assets/Clover.svg"
+                    }
                     alt={card.title}
                     width={mediaWidth || 300}
                     height={Math.floor((mediaWidth || 300) * 0.6)}
                     className="object-contain transition-transform hover:scale-105 duration-300 max-h-[200px]"
+                    onError={(e) => {
+                      if (isVideo(card.image[imageIndex])) {
+                        handleImageError(e, card.image[imageIndex]);
+                      }
+                    }}
                   />
                 </div>
               )}
