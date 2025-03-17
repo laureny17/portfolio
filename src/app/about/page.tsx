@@ -122,15 +122,15 @@ export default function About() {
             // className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-2"
             // style={{ fontFamily: "Pecita" }}
           >
-            Frameworks and Platforms
+            Frameworks and Tools
           </p>
           <div className="flex flex-wrap gap-2">
-            {frameworksPlatforms.map((frameworkOrPlatform) => (
+            {frameworksPlatforms.map((frameworkOrTool) => (
               <span
-                key={frameworkOrPlatform}
+                key={frameworkOrTool}
                 className="px-3 py-1 bg-[var(--accent)] text-[var(--black)] rounded-full text-xs sm:text-sm"
               >
-                {frameworkOrPlatform}
+                {frameworkOrTool}
               </span>
             ))}
           </div>

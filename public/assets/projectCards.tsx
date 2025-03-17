@@ -57,7 +57,7 @@ export const projectCards: ProjectCard[] = [
     title: "This Portfolio",
     description:
       "You are here! (Note: Feel free to play around and resize this window—the majority of my time spent making this was given to making this website fully dynamic and responsive!)",
-    image: ["/assets/PortfolioHome.png"],
+    image: ["/assets/PortfolioDemo.mp4"],
     tags: ["Typescript", "Next.js", "Tailwind CSS", "Vercel"],
     isComplete: true,
   },
