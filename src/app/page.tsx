@@ -10,7 +10,6 @@ export default function Home() {
   const [cloverSize, setCloverSize] = useState(600); // Default clover size
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // Mouse position
   const projectsRef = useRef<HTMLDivElement>(null);
-  const [carouselWidth, setCarouselWidth] = useState(1200);
 
   // Track window dimensions for responsive resizing
   useEffect(() => {
@@ -26,9 +25,6 @@ export default function Home() {
       } else {
         setCloverSize(700); // Large screens
       }
-
-      // Account for padding and arrows (40px padding on each side + 20px for arrows)
-      setCarouselWidth(Math.min(window.innerWidth - 120, 1200));
     }
 
     handleResize();

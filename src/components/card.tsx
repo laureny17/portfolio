@@ -114,7 +114,7 @@ const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
   };
 
   return (
-    <div className={`px-2 sm:px-3 ${className}`}>
+    <div className={`px-3 sm:px-4 ${className}`}>
       <div
         ref={cardRef}
         className="rounded-3xl border border-[var(--black)] p-4 sm:p-6 md:p-8 bg-white flex flex-col"
@@ -211,7 +211,7 @@ const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
         </p>
 
         {/* tags */}
-        <div className="flex flex-wrap gap-2 mt-auto">
+        <div className="flex flex-wrap gap-2 mt-auto mb-1">
           {card.tags.map((tag) => (
             <span
               key={tag}

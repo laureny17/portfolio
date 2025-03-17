@@ -80,7 +80,7 @@ const Carousel = ({ cards }: { cards: Card[] }) => {
   }, [nextSlide, prevSlide]);
 
   return (
-    <div className="relative w-full max-w-[95%] mx-auto" ref={carouselRef}>
+    <div className="relative w-full max-w-[95%]" ref={carouselRef}>
       {/* Navigation: Prev button, Dots, Next button - now above the carousel */}
       <div className="flex justify-center items-center gap-4 mb-8">
         {/* Previous button */}
