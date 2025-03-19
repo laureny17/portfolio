@@ -7,7 +7,7 @@
 }
 
 :root {
-  --background: #fdfff5;
+  --background: #fbfcf7;
   --accent: #c3e3a3;
   --light-gray: #d0d1cd;
   --gray: #353634;
@@ -32,7 +32,7 @@ body {
   font-size: 24px;
 }
 
-.bg-milk {
+.bg-off-white {
   background-color: var(--background);
 }
 
