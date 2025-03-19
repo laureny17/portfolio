@@ -54,9 +54,9 @@ export const projectCards: ProjectCard[] = [
   },
   {
     id: 5,
-    title: "This Portfolio",
+    title: "This Portfolio!",
     description:
-      "You are here! (Note: Feel free to play around and resize this window—the majority of my time spent making this was given to making this website fully dynamic and responsive!)",
+      "Ccompatible with mobile and made fully responsive to window resizing with Tailwind CSS.",
     image: ["/assets/PortfolioDemo.mp4"],
     tags: ["Typescript", "Next.js", "Tailwind CSS", "Vercel"],
     isComplete: true,

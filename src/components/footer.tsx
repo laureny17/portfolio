@@ -13,7 +13,7 @@ export default function Footer() {
         </a>
         <span className="text-base sm:text-lg md:text-xl">/</span>
         <a
-          href="https://www.linkedin.com/in/lauren-yoo/"
+          href="https://www.linkedin.com/in/lauren-yoo-454437287/"
           target="_blank"
           rel="noopener noreferrer"
           className="hover:underline hover:underline-offset-4 underline-green text-base sm:text-lg md:text-xl"
