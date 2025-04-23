@@ -7,7 +7,7 @@ import { projectCards } from "../../public/assets/projectCards";
 export default function Home() {
   const [windowWidth, setWindowWidth] = useState(0);
   const [windowHeight, setWindowHeight] = useState(0);
-  const [cloverSize, setCloverSize] = useState(400); // Default clover size
+  const [cloverSize, setCloverSize] = useState(500); // Default clover size
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // Mouse position
   const projectsRef = useRef<HTMLDivElement>(null);
   const [shadowPosition, setShadowPosition] = useState({ x: 0, y: 0 });
@@ -20,11 +20,11 @@ export default function Home() {
 
       // Dynamically adjust clover size based on breakpoints
       if (window.innerWidth < 640) {
-        setCloverSize(500); // Small screens
+        setCloverSize(400); // Small screens
       } else if (window.innerWidth >= 640 && window.innerWidth < 1024) {
-        setCloverSize(600); // Medium screens
+        setCloverSize(500); // Medium screens
       } else {
-        setCloverSize(700); // Large screens
+        setCloverSize(600); // Large screens
       }
     }
 
