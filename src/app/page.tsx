@@ -7,7 +7,7 @@ import { projectCards } from "../../public/assets/projectCards";
 export default function Home() {
   const [windowWidth, setWindowWidth] = useState(0);
   const [windowHeight, setWindowHeight] = useState(0);
-  const [cloverSize, setCloverSize] = useState(600); // Default clover size
+  const [cloverSize, setCloverSize] = useState(400); // Default clover size
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // Mouse position
   const projectsRef = useRef<HTMLDivElement>(null);
   const [shadowPosition, setShadowPosition] = useState({ x: 0, y: 0 });

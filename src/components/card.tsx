@@ -156,7 +156,7 @@ const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
                     src={
                       isVideo(card.image[imageIndex])
                         ? getVideoFallback(card.image[imageIndex])
-                        : card.image[imageIndex] || "/assets/Clover.svg"
+                        : card.image[imageIndex] || "/assets/Star.svg"
                     }
                     alt={card.title}
                     width={mediaWidth || 300}
