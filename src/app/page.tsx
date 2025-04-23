@@ -10,6 +10,7 @@ export default function Home() {
   const [cloverSize, setCloverSize] = useState(600); // Default clover size
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // Mouse position
   const projectsRef = useRef<HTMLDivElement>(null);
+  const [shadowPosition, setShadowPosition] = useState({ x: 0, y: 0 });
 
   // Track window dimensions for responsive resizing
   useEffect(() => {
@@ -38,13 +39,31 @@ export default function Home() {
   };
 
   // Calculate clover's dynamic position (centered horizontally)
-  const cloverLeft = Math.max((windowWidth - cloverSize / 2) / 2, 0);
+  const cloverLeft = Math.max((windowWidth - cloverSize / 4) / 2, 0);
   const cloverTop = windowHeight / 2;
 
   // Calculate shadow offset based on mouse position
-  const shadowOffsetX =
-    (mousePosition.x - (cloverLeft + cloverSize / 2)) * -0.1;
-  const shadowOffsetY = (mousePosition.y - (cloverTop + cloverSize / 2)) * -0.1;
+  useEffect(() => {
+    let animationFrameId: number;
+
+    const updateShadow = () => {
+      const cloverCenterX = cloverLeft + cloverSize / 2;
+      const cloverCenterY = cloverTop - 0.6 * cloverSize + cloverSize / 2;
+
+      const targetX = (mousePosition.x - cloverCenterX) * -0.25;
+      const targetY = (mousePosition.y - cloverCenterY) * -0.25;
+
+      setShadowPosition((prev) => ({
+        x: prev.x + (targetX - prev.x) * 0.1,
+        y: prev.y + (targetY - prev.y) * 0.1,
+      }));
+
+      animationFrameId = requestAnimationFrame(updateShadow);
+    };
+
+    animationFrameId = requestAnimationFrame(updateShadow);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [mousePosition, cloverLeft, cloverTop, cloverSize]);
 
   // Handle hash changes to scroll to Projects
   useEffect(() => {
@@ -60,49 +79,53 @@ export default function Home() {
     >
       {/* Hero Section */}
       <main className="relative w-full h-screen">
-        {/* Shadow Clover */}
-        <div
-          style={{
-            position: "absolute",
-            top: `${cloverTop + shadowOffsetY}px`,
-            left: `${cloverLeft + shadowOffsetX}px`,
-            transform: "translate(0, -60%) rotate(15deg)",
-            width: cloverSize,
-            height: cloverSize,
-            zIndex: -2,
-            filter: "blur(10px)",
-            opacity: 0.5,
-          }}
-        >
-          <Image
-            src="/assets/Clover.svg"
-            alt="shadow-clover"
-            width={cloverSize}
-            height={cloverSize}
-            priority
-          />
-        </div>
+        {windowWidth > 0 && windowHeight > 0 && (
+          <>
+            {/* Shadow Clover */}
+            <div
+              style={{
+                position: "absolute",
+                top: `${cloverTop + shadowPosition.y}px`,
+                left: `${cloverLeft + shadowPosition.x}px`,
+                transform: "translate(0, -60%) rotate(15deg)",
+                width: cloverSize,
+                height: cloverSize,
+                zIndex: -2,
+                filter: "blur(10px)",
+                opacity: 0.5,
+              }}
+            >
+              <Image
+                src="/assets/Star.svg"
+                alt="shadow-clover"
+                width={cloverSize}
+                height={cloverSize}
+                priority
+              />
+            </div>
 
-        {/* Main Clover */}
-        <div
-          style={{
-            position: "absolute",
-            top: `${cloverTop}px`,
-            left: `${cloverLeft}px`,
-            transform: "translate(0, -60%) rotate(15deg)",
-            width: cloverSize,
-            height: cloverSize,
-            zIndex: -1,
-          }}
-        >
-          <Image
-            src="/assets/Clover.svg"
-            alt="clover"
-            width={cloverSize}
-            height={cloverSize}
-            priority
-          />
-        </div>
+            {/* Main Clover */}
+            <div
+              style={{
+                position: "absolute",
+                top: `${cloverTop}px`,
+                left: `${cloverLeft}px`,
+                transform: "translate(0, -60%) rotate(15deg)",
+                width: cloverSize,
+                height: cloverSize,
+                zIndex: -1,
+              }}
+            >
+              <Image
+                src="/assets/Star.svg"
+                alt="clover"
+                width={cloverSize}
+                height={cloverSize}
+                priority
+              />
+            </div>
+          </>
+        )}
 
         {/* Introduction Section */}
         <div className="absolute top-1/3 left-0 sm:left-10 md:left-20 lg:left-30">
