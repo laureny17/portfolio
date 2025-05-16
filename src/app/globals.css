@@ -6,12 +6,20 @@
   src: url("/fonts/Pecita.otf") format("opentype");
 }
 
+/* old colors
+background #f8f7fc
+accent #c3e3a3
+light gray #d0d1cd
+gray #353634
+black #181a17
+*/
+
 :root {
-  --background: #fbfcf7;
-  --accent: #c3e3a3;
-  --light-gray: #d0d1cd;
-  --gray: #353634;
-  --black: #181a17;
+  --background: #fdfcf9;
+  --accent: #a4bdff;
+  --light-gray: #e1e4ec;
+  --gray: #3b3c40;
+  --black: #16181a;
 }
 
 /* @media (prefers-color-scheme: dark) {
