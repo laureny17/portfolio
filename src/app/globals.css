@@ -8,7 +8,7 @@
 
 /*
 new colors to switch to later
-  --background: #fdfcf9;
+  --background: #f8f7fc;
   --accent: #a4bdff;
   --light-gray: #e1e4ec;
   --gray: #3b3c40;
@@ -16,7 +16,7 @@ new colors to switch to later
 */
 
 :root {
-  --background: #f8f7fc;
+  --background: #fefdfb;
   --accent: #c3e3a3;
   --light-gray: #d0d1cd;
   --gray: #353634;
