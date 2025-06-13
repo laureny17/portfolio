@@ -24,7 +24,7 @@ export default function Projects() {
         </div>
 
         {/* Projects Grid */}
-        <div className="w-full">
+        <div className="w-full mb-16">
           <ProjectGrid cards={projectCards} />
         </div>
       </div>
