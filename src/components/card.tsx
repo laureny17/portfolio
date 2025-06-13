@@ -117,7 +117,7 @@ const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
     <div className={`px-3 sm:px-4 ${className}`}>
       <div
         ref={cardRef}
-        className="rounded-3xl border border-[var(--black)] p-4 sm:p-6 md:p-8 bg-white flex flex-col"
+        className="rounded-3xl p-4 sm:p-6 md:p-8 bg-white flex flex-col"
       >
         {card.image && (
           <div className="mb-6 mx-auto flex flex-col items-center justify-center w-full">
@@ -215,7 +215,7 @@ const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
           {card.tags.map((tag) => (
             <span
               key={tag}
-              className="text-xs sm:text-xs md:text-xs lg:text-sm px-2 sm:px-3 py-0.5 sm:py-1 bg-[var(--accent)] text-[var(--black)] rounded-full border-2 border-[var(--accent)] flex items-center"
+              className="text-xs sm:text-xs md:text-xs lg:text-sm px-2 sm:px-3 py-0.5 sm:py-1 bg-[var(--accent)] text-[var(--black)] rounded-full"
             >
               {tag}
             </span>

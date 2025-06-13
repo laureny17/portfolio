@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import Carousel from "@/components/carousel";
+import ProjectGrid from "@/components/project-grid";
 import { projectCards } from "../../public/assets/projectCards";
 
 export default function Home() {
@@ -154,7 +154,7 @@ export default function Home() {
       <section ref={projectsRef} className="w-full pt-15 pb-30" id="projects">
         <div className="w-full px-5">
           <div className="w-full">
-            <Carousel cards={projectCards} />
+            <ProjectGrid cards={projectCards} />
           </div>
         </div>
       </section>

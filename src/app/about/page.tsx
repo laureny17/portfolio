@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function About() {
   // edit later; just put in samples
-  const languages = ["Python", "JavaScript", "TypeScript", "Java", "C"];
+  const languages = ["Python", "TypeScript", "JavaScript", "Java", "C", "C#"];
   const frameworksPlatforms = [
     "React",
     "Next.js",
@@ -15,6 +15,7 @@ export default function About() {
     "MongoDB",
     "Firebase",
     "Figma",
+    "Unity",
   ];
 
   return (
@@ -63,10 +64,21 @@ export default function About() {
             </ul>
           </li>
           <li>
-            I'm a part of the organizing team for HackMIT, one of the largest
-            collegiate hackathons in the nation
+            I'm the current head of the marketing committee within HackMIT's
+            organizing team!
             <ul className="text-xs sm:text-xs md:text-sm lg:text-base list-disc pl-6 space-y-2 pt-3 pb-3">
-              <li>{`I just love to see people have fun! :)`}</li>
+              <li>
+                {`I led the ideation and design of this year's theme, merged and polished all drafts into a single Figma
+              deliverable, and tackled debugging with the DevOps team to smooth the transition from design to `}
+                <a
+                  href="https://hackmit.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-accent underline underline-offset-2 underline-green"
+                >
+                  deployment
+                </a>
+              </li>
             </ul>
           </li>
           <li>
@@ -75,12 +87,8 @@ export default function About() {
               <li>Draw, paint, animate, crochet, embroider, etc.</li>
               <li>Go on hikes with my friends and/or dog</li>
               <li>
-                {`Start working on the newest coding project that has been
-                plaguing my mind `}
-                <em>
-                  {`(this is how this portfolio came to be: six hours of Figma on
-                  a Friday night and nonstop coding over the weekend)`}
-                </em>
+                {`Work on the newest coding project that has been
+                plaguing my mind :D`}
               </li>
             </ul>
           </li>
