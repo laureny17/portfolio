@@ -15,26 +15,10 @@ export default function Header() {
       {/* Navigation */}
       <nav className="flex space-x-3">
         <Link
-          href={pathname === "/" ? "#projects" : "/"}
-          onClick={(e) => {
-            if (pathname === "/") {
-              e.preventDefault();
-              document
-                .getElementById("projects")
-                ?.scrollIntoView({ behavior: "smooth" });
-              window.history.pushState({}, "", "#projects");
-            }
-          }}
+          href="/projects"
           className="hover:underline hover:underline-offset-4 underline-green text-base sm:text-xl md:text-2xl"
         >
           Projects
-        </Link>
-        <span className="text-lg sm:text-xl md:text-2xl">/</span>
-        <Link
-          href="/art"
-          className="hover:underline hover:underline-offset-4 underline-green text-base sm:text-xl md:text-2xl"
-        >
-          Art
         </Link>
         <span className="text-lg sm:text-xl md:text-2xl">/</span>
         <Link

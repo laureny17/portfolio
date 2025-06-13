@@ -1,15 +1,12 @@
 "use client";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
-import ProjectGrid from "@/components/project-grid";
-import { projectCards } from "../../public/assets/projectCards";
 
 export default function Home() {
   const [windowWidth, setWindowWidth] = useState(0);
   const [windowHeight, setWindowHeight] = useState(0);
   const [cloverSize, setCloverSize] = useState(500); // Default clover size
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // Mouse position
-  const projectsRef = useRef<HTMLDivElement>(null);
   const [shadowPosition, setShadowPosition] = useState({ x: 0, y: 0 });
 
   // Track window dimensions for responsive resizing
@@ -64,13 +61,6 @@ export default function Home() {
     animationFrameId = requestAnimationFrame(updateShadow);
     return () => cancelAnimationFrame(animationFrameId);
   }, [mousePosition, cloverLeft, cloverTop, cloverSize]);
-
-  // Handle hash changes to scroll to Projects
-  useEffect(() => {
-    if (window.location.hash === "#projects") {
-      projectsRef.current?.scrollIntoView({ behavior: "smooth" });
-    }
-  }, []);
 
   return (
     <div
@@ -149,15 +139,6 @@ export default function Home() {
           </p>
         </div>
       </main>
-
-      {/* Projects Section */}
-      <section ref={projectsRef} className="w-full pt-15 pb-30" id="projects">
-        <div className="w-full px-5">
-          <div className="w-full">
-            <ProjectGrid cards={projectCards} />
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

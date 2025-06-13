@@ -22,32 +22,32 @@ export default function About() {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20 py-10 px-0 md:px-10">
       {/* left section will have some personal info*/}
       <div className="space-y-6">
-        {/* picture + basic info */}
-        <div className="flex items-start space-x-4">
-          {/* profile pic */}
-          <div className="w-32 h-32 rounded-lg overflow-hidden">
+        {/* GitHub-style profile header */}
+        <div className="flex items-start gap-6">
+          <div className="w-24 h-24 rounded-full overflow-hidden">
             <Image
               src="/assets/ProfilePhoto.jpeg"
               alt="Profile Picture"
-              width={128}
-              height={128}
+              width={96}
+              height={96}
+              className="w-full h-full object-cover"
             />
           </div>
-          {/* name and basic info */}
-          <div className="pl-10">
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl pb-3">
-              ❤︎ She/her
-              <br></br>⚲ New Jersey
+          <div className="flex-1">
+            <div className="flex items-center gap-4 mb-2">
+              <h1 className="text-2xl font-semibold">laureny17</h1>
+              <span className="px-2 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
+                she/her
+              </span>
+            </div>
+            <p className="text-sm text-gray-600 mb-4">
+              CS/Math + Media Studies @ MIT
             </p>
-            <a
-              href="/resume.pdf" // replace later w resume
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm sm:text-base md:text-lg lg:text-xl text-accent underline underline-offset-4 underline-green"
-              // className="text-accent hover:underline hover:underline-offset-4 underline-green"
-            >
-              Resume
-            </a>
+            <div className="flex gap-4 text-sm text-gray-600">
+              <span>📍 New Jersey</span>
+              <span>💻 Full-stack developer</span>
+              <span>🎨 Artist</span>
+            </div>
           </div>
         </div>
 
@@ -97,18 +97,20 @@ export default function About() {
 
       {/* right section */}
       <div className="space-y-10">
-        {/* placeholder, will put handdrawn graphic/animation later */}
-        <div className="w-full h-50 bg-gray-200 rounded-md flex items-center justify-center text-center text-xs sm:text-sm md:text-base lg:text-lg p-5">
-          Animated graphic coming soon ❤︎
+        {/* sky clouds drawing */}
+        <div className="w-full rounded-md overflow-hidden max-h-[350px]">
+          <Image
+            src="/assets/sky clouds.jpg"
+            alt="Sky Clouds Drawing"
+            width={500}
+            height={200}
+            className="w-full h-full object-cover"
+          />
         </div>
 
         {/* languages */}
         <div>
-          <p
-            className="text-base sm:text-lg md:text-xl lg:text-2xl pb-3"
-            // className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-2"
-            // style={{ fontFamily: "Pecita" }}
-          >
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl pb-3">
             Languages
           </p>
           <div className="flex flex-wrap gap-2">
@@ -125,11 +127,7 @@ export default function About() {
 
         {/* frameworks and platforms */}
         <div>
-          <p
-            className="text-base sm:text-lg md:text-xl lg:text-2xl pb-3 pt-5"
-            // className="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-2"
-            // style={{ fontFamily: "Pecita" }}
-          >
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl pb-3 pt-5">
             Frameworks and Tools
           </p>
           <div className="flex flex-wrap gap-2">
