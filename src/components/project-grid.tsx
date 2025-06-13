@@ -15,7 +15,7 @@ export default function ProjectGrid({ cards }: ProjectGridProps) {
   useEffect(() => {
     const updateColumns = () => {
       const newColumns: CardType[][] = [[], [], []];
-      cards.forEach((card, index) => {
+      cards.forEach((card) => {
         // Distribute cards based on their height to create a more balanced layout
         const shortestColumn = newColumns.reduce(
           (shortest, current, i) =>
@@ -31,7 +31,7 @@ export default function ProjectGrid({ cards }: ProjectGridProps) {
   }, [cards]);
 
   return (
-    <div className="relative px-8 sm:px-8 md:px-12 lg:px-12 xl:px-20">
+    <div>
       {/* Dynamic Grid Layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-0 gap-y-6">
         {columns.map((column, colIndex) => (

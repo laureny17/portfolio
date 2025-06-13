@@ -6,11 +6,11 @@ import { projectCards } from "../../../public/assets/projectCards";
 export default function Projects() {
   return (
     <main className="pt-20">
-      <div className="relative px-8 sm:px-8 md:px-12 lg:px-12 xl:px-20">
+      <div className="relative px-0 sm:px-4 md:px-6 lg:px-8 xl:px-10">
         {/* Simple Header */}
         <div className="mb-8">
           <pre
-            className="text-2xl font-light whitespace-pre"
+            className="text-[4vw] md:text-lg lg:text-2xl font-light"
             style={{ fontFamily: "Pecita" }}
           >
             {`⠀⠀⠀⢸⣦⡀⠀⠀⠀⠀⢀⡄

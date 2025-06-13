@@ -17,11 +17,11 @@ export default function Home() {
 
       // Dynamically adjust clover size based on breakpoints
       if (window.innerWidth < 640) {
-        setCloverSize(400); // Small screens
+        setCloverSize(300); // Small screens
       } else if (window.innerWidth >= 640 && window.innerWidth < 1024) {
-        setCloverSize(500); // Medium screens
+        setCloverSize(400); // Medium screens
       } else {
-        setCloverSize(600); // Large screens
+        setCloverSize(500); // Large screens
       }
     }
 

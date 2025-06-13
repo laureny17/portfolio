@@ -35,7 +35,7 @@ export default function About() {
           </div>
           <div className="flex-1">
             <div className="flex items-center gap-4 mb-2">
-              <h1 className="text-2xl font-semibold">laureny17</h1>
+              <h1 className="text-2xl font-semibold">Lauren</h1>
               <span className="px-2 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
                 she/her
               </span>
@@ -43,7 +43,7 @@ export default function About() {
             <p className="text-sm text-gray-600 mb-4">
               CS/Math + Media Studies @ MIT
             </p>
-            <div className="flex gap-4 text-sm text-gray-600">
+            <div className="flex flex-col sm:flex-row gap-1 sm:gap-4 text-sm text-gray-600">
               <span>📍 New Jersey</span>
               <span>💻 Full-stack developer</span>
               <span>🎨 Artist</span>
@@ -64,8 +64,8 @@ export default function About() {
             </ul>
           </li>
           <li>
-            I'm the current head of the marketing committee within HackMIT's
-            organizing team!
+            I&#39;m the current head of the marketing committee within
+            HackMIT&#39;s organizing team!
             <ul className="text-xs sm:text-xs md:text-sm lg:text-base list-disc pl-6 space-y-2 pt-3 pb-3">
               <li>
                 {`I led the ideation and design of this year's theme, merged and polished all drafts into a single Figma
