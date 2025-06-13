@@ -11,6 +11,7 @@
 :root {
   --background: #f6f8fe;
   --accent: #c8d7ff;
+  --accent2: #708fe4;
   --light-gray: #e1e4ec;
   --gray: #3b3c40;
   --black: #191a1d;
@@ -54,4 +55,8 @@ body {
 .underline-green-thick {
   text-decoration-color: var(--accent);
   text-decoration-thickness: 5px;
+}
+
+.hover-body-link:hover {
+  color: var(--accent2);
 }

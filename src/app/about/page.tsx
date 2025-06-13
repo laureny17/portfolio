@@ -74,7 +74,7 @@ export default function About() {
                   href="https://hackmit.org"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-accent underline underline-offset-2 underline-green"
+                  className="text-accent underline underline-offset-2 hover-body-link"
                 >
                   deployment
                 </a>
