@@ -115,10 +115,7 @@ const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
 
   return (
     <div className={`px-3 sm:px-4 ${className}`}>
-      <div
-        ref={cardRef}
-        className="rounded-3xl p-4 sm:p-6 md:p-8 bg-white flex flex-col"
-      >
+      <div ref={cardRef} className="rounded-3xl p-8 bg-white flex flex-col">
         {card.image && (
           <div className="mb-6 mx-auto flex flex-col items-center justify-center w-full">
             {/* Media container */}
@@ -206,7 +203,7 @@ const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
         <p className="text-lg sm:text-xl md:text-2xl lg:text-2xl pb-3 italic">
           {card.title}
         </p>
-        <p className="text-sm sm:text-base md:text-base lg:text-base pb-4">
+        <p className="text-sm sm:text-base md:text-base lg:text-base pb-4  hyphens-auto">
           {card.description}
         </p>
 
