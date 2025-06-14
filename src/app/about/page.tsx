@@ -35,7 +35,7 @@ export default function About() {
           </div>
           <div className="flex-1">
             <div className="flex items-center gap-4 mb-2">
-              <h1 className="text-2xl font-semibold">Lauren</h1>
+              <h1 className="text-2xl">Lauren</h1>
               <span className="px-2 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
                 she/her
               </span>
