@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 export default function Home() {
   const [windowWidth, setWindowWidth] = useState(0);
   const [windowHeight, setWindowHeight] = useState(0);
-  const [cloverSize, setCloverSize] = useState(500); // Default clover size
+  const [iconSize, setIconSize] = useState(500); // Default icon size
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // Mouse position
   const [shadowPosition, setShadowPosition] = useState({ x: 0, y: 0 });
 
@@ -15,13 +15,13 @@ export default function Home() {
       setWindowWidth(window.innerWidth);
       setWindowHeight(window.innerHeight);
 
-      // Dynamically adjust clover size based on breakpoints
+      // Dynamically adjust icon size based on breakpoints
       if (window.innerWidth < 640) {
-        setCloverSize(300); // Small screens
+        setIconSize(300); // Small screens
       } else if (window.innerWidth >= 640 && window.innerWidth < 1024) {
-        setCloverSize(400); // Medium screens
+        setIconSize(400); // Medium screens
       } else {
-        setCloverSize(500); // Large screens
+        setIconSize(500); // Large screens
       }
     }
 
@@ -35,20 +35,20 @@ export default function Home() {
     setMousePosition({ x: e.clientX, y: e.clientY });
   };
 
-  // Calculate clover's dynamic position (centered horizontally)
-  const cloverLeft = Math.max((windowWidth - cloverSize / 4) / 2, 0);
-  const cloverTop = windowHeight / 2;
+  // Calculate icon's dynamic position (centered horizontally)
+  const iconLeft = Math.max((windowWidth - iconSize / 4) / 2, 0);
+  const iconTop = windowHeight / 2;
 
   // Calculate shadow offset based on mouse position
   useEffect(() => {
     let animationFrameId: number;
 
     const updateShadow = () => {
-      const cloverCenterX = cloverLeft + cloverSize / 2;
-      const cloverCenterY = cloverTop - 0.6 * cloverSize + cloverSize / 2;
+      const iconCenterX = iconLeft + iconSize / 2;
+      const iconCenterY = iconTop - 0.6 * iconSize + iconSize / 2;
 
-      const targetX = (mousePosition.x - cloverCenterX) * -0.25;
-      const targetY = (mousePosition.y - cloverCenterY) * -0.25;
+      const targetX = (mousePosition.x - iconCenterX) * -0.25;
+      const targetY = (mousePosition.y - iconCenterY) * -0.25;
 
       setShadowPosition((prev) => ({
         x: prev.x + (targetX - prev.x) * 0.1,
@@ -60,7 +60,7 @@ export default function Home() {
 
     animationFrameId = requestAnimationFrame(updateShadow);
     return () => cancelAnimationFrame(animationFrameId);
-  }, [mousePosition, cloverLeft, cloverTop, cloverSize]);
+  }, [mousePosition, iconLeft, iconTop, iconSize]);
 
   return (
     <div
@@ -70,55 +70,88 @@ export default function Home() {
       {/* Hero Section */}
       <main className="relative w-full h-screen">
         {windowWidth > 0 && windowHeight > 0 && (
-          <>
-            {/* Shadow Clover */}
+          <div
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              zIndex: -1,
+              userSelect: "none",
+              WebkitUserSelect: "none",
+              MozUserSelect: "none",
+              msUserSelect: "none",
+              pointerEvents: "none",
+            }}
+          >
+            {/* Shadow Icon */}
             <div
               style={{
                 position: "absolute",
-                top: `${cloverTop + shadowPosition.y}px`,
-                left: `${cloverLeft + shadowPosition.x}px`,
+                top: `${iconTop + shadowPosition.y}px`,
+                left: `${iconLeft + shadowPosition.x}px`,
                 transform: "translate(0, -60%) rotate(15deg)",
-                width: cloverSize,
-                height: cloverSize,
+                width: iconSize,
+                height: iconSize,
                 zIndex: -2,
                 filter: "blur(10px)",
                 opacity: 0.5,
+                userSelect: "none",
+                WebkitUserSelect: "none",
+                MozUserSelect: "none",
+                msUserSelect: "none",
+                pointerEvents: "none",
+                WebkitTouchCallout: "none",
               }}
             >
               <Image
                 src="/assets/Star.svg"
-                alt="shadow-clover"
-                width={cloverSize}
-                height={cloverSize}
+                alt="shadow-icon"
+                width={iconSize}
+                height={iconSize}
                 priority
+                draggable={false}
+                style={{ userSelect: "none", pointerEvents: "none" }}
               />
             </div>
 
-            {/* Main Clover */}
+            {/* Main Icon */}
             <div
               style={{
                 position: "absolute",
-                top: `${cloverTop}px`,
-                left: `${cloverLeft}px`,
+                top: `${iconTop}px`,
+                left: `${iconLeft}px`,
                 transform: "translate(0, -60%) rotate(15deg)",
-                width: cloverSize,
-                height: cloverSize,
+                width: iconSize,
+                height: iconSize,
                 zIndex: -1,
+                userSelect: "none",
+                WebkitUserSelect: "none",
+                MozUserSelect: "none",
+                msUserSelect: "none",
+                pointerEvents: "none",
+                WebkitTouchCallout: "none",
               }}
             >
               <Image
                 src="/assets/Star.svg"
-                alt="clover"
-                width={cloverSize}
-                height={cloverSize}
+                alt="icon"
+                width={iconSize}
+                height={iconSize}
                 priority
+                draggable={false}
+                style={{ userSelect: "none", pointerEvents: "none" }}
               />
             </div>
-          </>
+          </div>
         )}
 
         {/* Introduction Section */}
-        <div className="absolute top-1/3 left-0 sm:left-10 md:left-20 lg:left-30">
+        <div
+          className="absolute top-1/3 left-0 sm:left-10 md:left-20 lg:left-30"
+          style={{ zIndex: 1 }}
+        >
           <p
             className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl pb-10 sm:pb-10 md:pb-20 lg:pb-25"
             style={{ fontFamily: "Pecita" }}

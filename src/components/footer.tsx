@@ -4,15 +4,6 @@ export default function Footer() {
       {/* Links */}
       <div className="flex items-center space-x-3">
         <a
-          href="mailto:laureny@mit.edu"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:underline hover:underline-offset-4 underline-green text-base sm:text-lg md:text-xl"
-        >
-          Email
-        </a>
-        <span className="text-base sm:text-lg md:text-xl">/</span>
-        <a
           href="https://www.linkedin.com/in/lauren-yoo-454437287/"
           target="_blank"
           rel="noopener noreferrer"
@@ -28,6 +19,10 @@ export default function Footer() {
           className="hover:underline hover:underline-offset-4 underline-green text-base sm:text-lg md:text-xl"
         >
           GitHub
+        </a>
+        <span className="text-base sm:text-lg md:text-xl">/</span>
+        <a className="hover:underline hover:underline-offset-4 underline-green text-base sm:text-lg md:text-xl">
+          laureny at mit dot edu
         </a>
       </div>
 
