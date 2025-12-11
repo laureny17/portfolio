@@ -52,6 +52,7 @@ export const artImages: Record<string, ArtImageData> = {
     id: "sip-vines",
     src: "/assets/art/digital-paintings/portfolio-2023/sip-vines.PNG",
     alt: "SIP Vines",
+    hidden: true,
   },
   "sip-wings": {
     id: "sip-wings",

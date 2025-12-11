@@ -138,10 +138,6 @@ export default function ArtGallery({ sections }: ArtGalleryProps) {
   const getColumnClasses = (imageCount: number) => {
     if (imageCount <= 2) {
       return "columns-1 sm:columns-2";
-    } else if (imageCount === 4) {
-      return "columns-2 sm:columns-2 md:columns-4";
-    } else if (imageCount <= 4) {
-      return "columns-2 sm:columns-2 md:columns-3";
     } else {
       return "columns-2 sm:columns-3 md:columns-4 lg:columns-5";
     }
@@ -168,6 +164,37 @@ export default function ArtGallery({ sections }: ArtGalleryProps) {
             {section.subsections ? (
               <div className="space-y-12">
                 {section.subsections.map((subsection, subsectionIndex) => {
+                  // Special handling for Animation section
+                  if (section.name === "Animation") {
+                    return (
+                      <div key={subsectionIndex} className="space-y-4">
+                        {/* Bullet Points with Links */}
+                        <ul className="text-base sm:text-base md:text-lg lg:text-xl text-gray-600 font-medium list-disc pl-6 space-y-2">
+                          {subsection.images.map((image, imageIndex) => (
+                            <li key={imageIndex}>
+                              <span>
+                                {imageIndex === 0
+                                  ? "17-year-old me calculates the volume of my dog using triple integrals: "
+                                  : "A surprisingly good AI-generated hip-hop song about Stargardt's disease: "}
+                              </span>
+                              {image.link && (
+                                <a
+                                  href={image.link}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-gray-600 underline underline-offset-2 hover-body-link"
+                                >
+                                  {image.link}
+                                </a>
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    );
+                  }
+
+                  // Regular image gallery for other sections
                   const subsectionSequences = getImageSequences(
                     subsection.images
                   );
