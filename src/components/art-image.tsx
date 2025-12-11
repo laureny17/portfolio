@@ -46,24 +46,41 @@ export default function ArtImage({ image }: ArtImageProps) {
         </div>
       ) : (
         <div className={`relative w-full ${bgColor}`}>
-          <Image
-            src={image.src}
-            alt={image.alt}
-            width={800}
-            height={800}
-            quality={75}
-            loading="lazy"
-            className={`w-full h-auto object-contain ${
-              isLoading ? "opacity-0" : "opacity-100"
-            }`}
-            draggable={false}
-            onLoad={() => setIsLoading(false)}
-            onError={() => {
-              setIsLoading(false);
-              setHasError(true);
-            }}
-            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-          />
+          {image.src.includes("animation/") ? (
+            // Use unoptimized img tag for animation images to avoid Next.js optimization issues
+            <img
+              src={image.src}
+              alt={image.alt}
+              className={`w-full h-auto object-contain ${
+                isLoading ? "opacity-0" : "opacity-100"
+              }`}
+              draggable={false}
+              onLoad={() => setIsLoading(false)}
+              onError={() => {
+                setIsLoading(false);
+                setHasError(true);
+              }}
+            />
+          ) : (
+            <Image
+              src={image.src}
+              alt={image.alt}
+              width={800}
+              height={800}
+              quality={75}
+              loading="lazy"
+              className={`w-full h-auto object-contain ${
+                isLoading ? "opacity-0" : "opacity-100"
+              }`}
+              draggable={false}
+              onLoad={() => setIsLoading(false)}
+              onError={() => {
+                setIsLoading(false);
+                setHasError(true);
+              }}
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+            />
+          )}
         </div>
       )}
     </div>
