@@ -66,6 +66,8 @@ export default function ArtImageSequence({
               alt={`${alt} ${index + 1}`}
               width={800}
               height={800}
+              quality={75}
+              loading={index === 0 ? "lazy" : "lazy"}
               className={`w-full h-auto object-contain ${
                 index === currentIndex
                   ? loadedImages.has(image.src)

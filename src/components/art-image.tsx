@@ -42,6 +42,8 @@ export default function ArtImage({ image }: ArtImageProps) {
             alt={image.alt}
             width={800}
             height={800}
+            quality={75}
+            loading="lazy"
             className={`w-full h-auto object-contain ${
               isLoading ? "opacity-0" : "opacity-100"
             }`}
