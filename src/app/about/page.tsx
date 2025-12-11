@@ -20,7 +20,7 @@ export default function About() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20 py-10 px-0 md:px-16 lg:px-20 xl:px-24">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20 py-10 px-0 sm:px-8 md:px-12 lg:px-16 xl:px-20">
       {/* left section will have some personal info*/}
       <div className="space-y-6">
         {/* GitHub-style profile header */}
@@ -84,8 +84,7 @@ export default function About() {
               <li>Draw, paint, animate, crochet, etc.</li>
               <li>Go on hikes with my friends and/or dog</li>
               <li>
-                Work on the newest coding project that has been plaguing my mind
-                :D
+                Work on the newest project that's been plaguing my mind :D
               </li>
             </ul>
           </li>
