@@ -13,6 +13,7 @@ export type ArtImage = {
   src: string;
   alt: string;
   hidden?: boolean;
+  link?: string;
 };
 
 export type ArtSubsection = {
@@ -32,6 +33,7 @@ const toArtImages = (images: ArtImageData[]): ArtImage[] => {
     src: img.src,
     alt: img.alt,
     hidden: img.hidden,
+    link: img.link,
   }));
 };
 
@@ -129,6 +131,15 @@ export const artSections: ArtSection[] = [
             "bp25-table-sign",
           ])
         ),
+      },
+    ],
+  },
+  {
+    name: "Animation",
+    subsections: [
+      {
+        name: "Featuring (1) 17-year-old me finding the volume of my dog using triple integrals and (2) a surprisingly good AI-generated hip-hop song about Stargardt's disease",
+        images: toArtImages(getImagesByIds(["dog-calculus", "stargardt"])),
       },
     ],
   },

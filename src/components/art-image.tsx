@@ -17,10 +17,19 @@ export default function ArtImage({ image }: ArtImageProps) {
     image.src.includes("pixel-fish") || image.src.includes("fish-");
   const bgColor = isFishSprite ? "bg-black" : "bg-white";
 
+  const handleClick = () => {
+    if (image.link) {
+      window.open(image.link, "_blank", "noopener,noreferrer");
+    }
+  };
+
   return (
     <div
-      className={`relative overflow-hidden rounded-lg break-inside-avoid inline-block w-full mb-4 select-none ${bgColor}`}
+      className={`relative overflow-hidden rounded-lg break-inside-avoid inline-block w-full mb-4 select-none ${bgColor} ${
+        image.link ? "cursor-pointer hover:opacity-90 transition-opacity" : ""
+      }`}
       style={{ verticalAlign: "top" }}
+      onClick={handleClick}
     >
       {isLoading && (
         <div

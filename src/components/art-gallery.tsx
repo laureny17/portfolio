@@ -134,71 +134,99 @@ export default function ArtGallery({ sections }: ArtGalleryProps) {
       .join(" ");
   };
 
+  // Helper function to get column classes based on image count
+  const getColumnClasses = (imageCount: number) => {
+    if (imageCount <= 2) {
+      return "columns-1 sm:columns-2";
+    } else if (imageCount === 4) {
+      return "columns-2 sm:columns-2 md:columns-4";
+    } else if (imageCount <= 4) {
+      return "columns-2 sm:columns-2 md:columns-3";
+    } else {
+      return "columns-2 sm:columns-3 md:columns-4 lg:columns-5";
+    }
+  };
+
   return (
     <div className="space-y-16">
-      {sections.map((section, sectionIndex) => (
-        <div key={sectionIndex} className="space-y-8">
-          {/* Section Header */}
-          <div className="border-b border-gray-200 pb-4">
-            <h2 className="text-lg sm:text-lg md:text-xl lg:text-2xl">
-              {formatName(section.name)}
-            </h2>
-          </div>
+      {sections.map((section, sectionIndex) => {
+        // Compute sequences for direct images if they exist
+        const sectionSequences = section.images
+          ? getImageSequences(section.images)
+          : null;
 
-          {/* If section has subsections */}
-          {section.subsections ? (
-            <div className="space-y-12">
-              {section.subsections.map((subsection, subsectionIndex) => (
-                <div key={subsectionIndex} className="space-y-4">
-                  {/* Subsection Header */}
-                  <h3 className="text-base sm:text-base md:text-lg lg:text-xl text-gray-600 font-medium">
-                    {formatName(subsection.name)}
-                  </h3>
-
-                  {/* Masonry Layout */}
-                  <div
-                    className="columns-2 sm:columns-3 md:columns-4 lg:columns-5 gap-4 w-full"
-                    style={{ columnFill: "auto" }}
-                  >
-                    {getImageSequences(subsection.images).map(
-                      (item, itemIndex) =>
-                        Array.isArray(item) ? (
-                          <ArtImageSequence
-                            key={`sequence-${itemIndex}`}
-                            images={item}
-                            alt={formatName(subsection.name)}
-                          />
-                        ) : (
-                          <ArtImage key={itemIndex} image={item} />
-                        )
-                    )}
-                  </div>
-                </div>
-              ))}
+        return (
+          <div key={sectionIndex} className="space-y-8">
+            {/* Section Header */}
+            <div className="border-b border-gray-200 pb-4">
+              <h2 className="text-lg sm:text-lg md:text-xl lg:text-2xl">
+                {formatName(section.name)}
+              </h2>
             </div>
-          ) : (
-            /* If section has direct images */
-            section.images && (
-              <div
-                className="columns-2 sm:columns-3 md:columns-4 lg:columns-5 gap-4 w-full"
-                style={{ columnFill: "auto" }}
-              >
-                {getImageSequences(section.images).map((item, itemIndex) =>
-                  Array.isArray(item) ? (
-                    <ArtImageSequence
-                      key={`sequence-${itemIndex}`}
-                      images={item}
-                      alt={formatName(section.name)}
-                    />
-                  ) : (
-                    <ArtImage key={itemIndex} image={item} />
-                  )
-                )}
+
+            {/* If section has subsections */}
+            {section.subsections ? (
+              <div className="space-y-12">
+                {section.subsections.map((subsection, subsectionIndex) => {
+                  const subsectionSequences = getImageSequences(
+                    subsection.images
+                  );
+                  return (
+                    <div key={subsectionIndex} className="space-y-4">
+                      {/* Subsection Header */}
+                      <h3 className="text-base sm:text-base md:text-lg lg:text-xl text-gray-600 font-medium">
+                        {subsection.name}
+                      </h3>
+
+                      {/* Masonry Layout */}
+                      <div
+                        className={`${getColumnClasses(
+                          subsectionSequences.length
+                        )} gap-4 w-full`}
+                        style={{ columnFill: "auto" }}
+                      >
+                        {subsectionSequences.map((item, itemIndex) =>
+                          Array.isArray(item) ? (
+                            <ArtImageSequence
+                              key={`sequence-${itemIndex}`}
+                              images={item}
+                              alt={formatName(subsection.name)}
+                            />
+                          ) : (
+                            <ArtImage key={itemIndex} image={item} />
+                          )
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-            )
-          )}
-        </div>
-      ))}
+            ) : (
+              /* If section has direct images */
+              sectionSequences && (
+                <div
+                  className={`${getColumnClasses(
+                    sectionSequences.length
+                  )} gap-4 w-full`}
+                  style={{ columnFill: "auto" }}
+                >
+                  {sectionSequences.map((item, itemIndex) =>
+                    Array.isArray(item) ? (
+                      <ArtImageSequence
+                        key={`sequence-${itemIndex}`}
+                        images={item}
+                        alt={formatName(section.name)}
+                      />
+                    ) : (
+                      <ArtImage key={itemIndex} image={item} />
+                    )
+                  )}
+                </div>
+              )
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 }

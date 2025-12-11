@@ -17,6 +17,7 @@ export type ArtImageData = {
   src: string; // Image path
   alt: string; // Alt text
   hidden?: boolean; // Set to true to hide from gallery
+  link?: string; // Optional link URL (e.g., YouTube video)
 };
 
 // All your art images in one place!
@@ -432,6 +433,19 @@ export const artImages: Record<string, ArtImageData> = {
     id: "dog-tote",
     src: "/assets/art/traditional/dog-tote.jpeg",
     alt: "Dog Tote",
+  },
+  // Animation
+  "dog-calculus": {
+    id: "dog-calculus",
+    src: "/assets/art/animation/dog-calculus.png",
+    alt: "Dog Calculus Animation",
+    link: "https://youtu.be/5-UyWwG1TGI",
+  },
+  stargardt: {
+    id: "stargardt",
+    src: "/assets/art/animation/stargardt.png",
+    alt: "Stargardt Animation",
+    link: "https://youtu.be/5ML7prwZ5g4",
   },
 };
 
