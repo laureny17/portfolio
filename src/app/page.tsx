@@ -106,7 +106,7 @@ export default function Home() {
               }}
             >
               <Image
-                src="/assets/Star.svg"
+                src="/assets/Icon.svg"
                 alt="shadow-icon"
                 width={iconSize}
                 height={iconSize}
@@ -135,7 +135,7 @@ export default function Home() {
               }}
             >
               <Image
-                src="/assets/Star.svg"
+                src="/assets/Icon.svg"
                 alt="icon"
                 width={iconSize}
                 height={iconSize}
@@ -149,7 +149,7 @@ export default function Home() {
 
         {/* Introduction Section */}
         <div
-          className="absolute top-1/3 left-0 sm:left-10 md:left-20 lg:left-30"
+          className="absolute top-1/3 left-0 sm:left-16 md:left-24 lg:left-32 xl:left-40"
           style={{ zIndex: 1 }}
         >
           <p
@@ -162,10 +162,10 @@ export default function Home() {
             </span>
             !
           </p>
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl underline underline-offset-4 underline-green pb-4">
+          <p className="text-base sm:text-lg md:text-lg lg:text-lg underline underline-offset-4 underline-green pb-4">
             CS/Math + Media Studies @ MIT
           </p>
-          <p className="text-sm sm:text-base md:text-lg lg:text-xl">
+          <p className="text-base sm:text-lg md:text-lg lg:text-lg">
             {`I'm passionate about building technologies`}
             <br />
             {`that create meaningful experiences!`}

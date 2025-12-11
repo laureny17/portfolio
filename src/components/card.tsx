@@ -153,7 +153,7 @@ const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
                     src={
                       isVideo(card.image[imageIndex])
                         ? getVideoFallback(card.image[imageIndex])
-                        : card.image[imageIndex] || "/assets/Star.svg"
+                        : card.image[imageIndex] || "/assets/Icon.svg"
                     }
                     alt={card.title}
                     width={mediaWidth || 300}
@@ -212,13 +212,13 @@ const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
           {card.tags.map((tag) => (
             <span
               key={tag}
-              className="text-xs sm:text-xs md:text-xs lg:text-sm px-2 sm:px-3 py-0.5 sm:py-1 bg-[var(--accent)] text-[var(--black)] rounded-full"
+              className="text-xs sm:text-xs md:text-xs lg:text-sm px-3 py-0.5 bg-[var(--accent)] text-[var(--black)] rounded-full"
             >
               {tag}
             </span>
           ))}
           {!card.isComplete && (
-            <span className="text-xs sm:text-xs md:text-xs lg:text-sm px-2 sm:px-3 py-0.5 sm:py-1 text-[var(--black)] rounded-full border-2 border-[var(--accent)] flex items-center">
+            <span className="text-xs sm:text-xs md:text-xs lg:text-sm px-3 py-0.5 text-[var(--black)] rounded-full border-2 border-[var(--accent)]">
               WIP
             </span>
           )}
