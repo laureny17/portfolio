@@ -12,6 +12,7 @@ type Card = {
   image: string[];
   tags: string[];
   isComplete: boolean;
+  isTeam?: boolean;
 };
 
 const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
@@ -220,6 +221,11 @@ const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
           {!card.isComplete && (
             <span className="text-xs sm:text-xs md:text-xs lg:text-sm px-3 py-0.5 text-[var(--black)] rounded-full border-2 border-[var(--accent)]">
               WIP
+            </span>
+          )}
+          {card.isTeam && (
+            <span className="text-xs sm:text-xs md:text-xs lg:text-sm px-3 py-0.5 text-[var(--black)] rounded-full border-2 border-[var(--accent)]">
+              Team
             </span>
           )}
         </div>

@@ -5,6 +5,7 @@ type ProjectCard = {
   image: string[];
   tags: string[];
   isComplete: boolean;
+  isTeam?: boolean;
 };
 
 export const projectCards: ProjectCard[] = [
@@ -24,12 +25,13 @@ export const projectCards: ProjectCard[] = [
       "Sequelize",
     ],
     isComplete: true,
+    isTeam: true,
   },
   {
     id: 2,
     title: "M(assive) I(ntake) (of) T(ap)",
     description:
-      "A water fountain exploration challenge. Rate fountains around MIT's campus to build your tier list, and compete on a personal leaderboard——because hydration should be fun.",
+      "A water fountain exploration challenge. Rate fountains around MIT's campus to build your tier list, and compete on a personal leaderboard—because hydration should be fun.",
     image: ["/assets/demos/WaterTourDemo.mp4"],
     tags: ["Angular", "Node.js", "Express.js", "MongoDB"],
     isComplete: false,

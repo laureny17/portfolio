@@ -38,9 +38,14 @@ export default function About() {
           <div className="flex-1">
             <div className="flex items-center gap-4 mb-2">
               <h1 className="text-lg">Lauren</h1>
-              <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
-                she/her
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
+                  she/her
+                </span>
+                <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
+                  2027
+                </span>
+              </div>
             </div>
             <p className="text-sm text-gray-600 mb-2">
               🏛️ CS/Math + Media Studies @ MIT
