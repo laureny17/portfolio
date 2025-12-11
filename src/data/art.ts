@@ -53,11 +53,11 @@ export const artSections: ArtSection[] = [
         "portrait-1",
         "portrait-2",
         // Misc
+        "sky-cotl",
         "bridge-1",
         "bridge-2",
         "bridge-3",
         "bridge-4",
-        "sky-cotl",
       ])
     ),
   },
@@ -94,7 +94,7 @@ export const artSections: ArtSection[] = [
     name: "HackMIT",
     subsections: [
       {
-        name: "HackMIT 2025",
+        name: "HackMIT 2025, Marketing Head",
         images: toArtImages(
           getImagesByIds([
             "hack25-splash-main",
@@ -120,7 +120,7 @@ export const artSections: ArtSection[] = [
         ),
       },
       {
-        name: "Blueprint 2025",
+        name: "Blueprint 2025, Marketing Member",
         images: toArtImages(
           getImagesByIds([
             "bp25-banner",

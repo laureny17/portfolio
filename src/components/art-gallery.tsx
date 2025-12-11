@@ -158,7 +158,7 @@ export default function ArtGallery({ sections }: ArtGalleryProps) {
                   {/* Masonry Layout */}
                   <div
                     className="columns-2 sm:columns-3 md:columns-4 lg:columns-5 gap-4 w-full"
-                    style={{ columnFill: "balance" }}
+                    style={{ columnFill: "auto" }}
                   >
                     {getImageSequences(subsection.images).map(
                       (item, itemIndex) =>
@@ -181,7 +181,7 @@ export default function ArtGallery({ sections }: ArtGalleryProps) {
             section.images && (
               <div
                 className="columns-2 sm:columns-3 md:columns-4 lg:columns-5 gap-4 w-full"
-                style={{ columnFill: "balance" }}
+                style={{ columnFill: "auto" }}
               >
                 {getImageSequences(section.images).map((item, itemIndex) =>
                   Array.isArray(item) ? (
