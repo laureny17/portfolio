@@ -31,7 +31,8 @@ export default function About() {
               alt="Profile Picture"
               width={152}
               height={152}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover select-none"
+              draggable={false}
             />
           </div>
           <div className="flex-1">
@@ -100,7 +101,8 @@ export default function About() {
             alt="Sky Clouds Drawing"
             width={500}
             height={200}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover select-none"
+            draggable={false}
           />
         </div>
 
