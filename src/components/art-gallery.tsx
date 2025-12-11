@@ -140,7 +140,7 @@ export default function ArtGallery({ sections }: ArtGalleryProps) {
         <div key={sectionIndex} className="space-y-8">
           {/* Section Header */}
           <div className="border-b border-gray-200 pb-4">
-            <h2 className="text-base sm:text-base md:text-lg lg:text-xl">
+            <h2 className="text-lg sm:text-lg md:text-xl lg:text-2xl">
               {formatName(section.name)}
             </h2>
           </div>
@@ -151,7 +151,7 @@ export default function ArtGallery({ sections }: ArtGalleryProps) {
               {section.subsections.map((subsection, subsectionIndex) => (
                 <div key={subsectionIndex} className="space-y-4">
                   {/* Subsection Header */}
-                  <h3 className="text-sm sm:text-sm md:text-base lg:text-lg text-gray-600 font-medium">
+                  <h3 className="text-base sm:text-base md:text-lg lg:text-xl text-gray-600 font-medium">
                     {formatName(subsection.name)}
                   </h3>
 
