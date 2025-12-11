@@ -14,12 +14,28 @@ export default function Header() {
 
       {/* Navigation */}
       <nav className="flex space-x-3">
-        <Link
-          href="/projects"
-          className="hover:underline hover:underline-offset-4 underline-green text-lg sm:text-2xl md:text-3xl font-medium"
-        >
-          Projects
-        </Link>
+        {pathname === "/" ? (
+          <a
+            href="#projects"
+            className="hover:underline hover:underline-offset-4 underline-green text-lg sm:text-2xl md:text-3xl font-medium"
+            onClick={(e) => {
+              e.preventDefault();
+              const element = document.getElementById("projects");
+              if (element) {
+                element.scrollIntoView({ behavior: "smooth", block: "start" });
+              }
+            }}
+          >
+            Projects
+          </a>
+        ) : (
+          <Link
+            href="/#projects"
+            className="hover:underline hover:underline-offset-4 underline-green text-lg sm:text-2xl md:text-3xl font-medium"
+          >
+            Projects
+          </Link>
+        )}
         <span className="text-xl sm:text-2xl md:text-3xl font-medium">/</span>
         <Link
           href="/about"

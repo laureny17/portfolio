@@ -33,7 +33,7 @@ export default function ProjectGrid({ cards }: ProjectGridProps) {
   return (
     <div>
       {/* Dynamic Grid Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-0 gap-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-x-6 gap-y-6">
         {columns.map((column, colIndex) => (
           <div key={colIndex} className="flex flex-col gap-6">
             {column.map((card) => (
@@ -56,16 +56,16 @@ export default function ProjectGrid({ cards }: ProjectGridProps) {
           onClick={() => setSelectedCard(null)}
         >
           <div
-            className="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto relative"
             onClick={(e) => e.stopPropagation()}
           >
+            <button
+              className="absolute top-2 right-6 text-2xl hover:opacity-70 transition-opacity z-10"
+              onClick={() => setSelectedCard(null)}
+            >
+              ×
+            </button>
             <div className="p-6">
-              <button
-                className="absolute top-4 right-4 text-2xl hover:opacity-70 transition-opacity"
-                onClick={() => setSelectedCard(null)}
-              >
-                ×
-              </button>
               <Card card={selectedCard} className="!px-0" />
             </div>
           </div>

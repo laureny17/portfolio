@@ -114,7 +114,7 @@ const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
   };
 
   return (
-    <div className={`px-3 sm:px-4 ${className}`}>
+    <div className={className}>
       <div ref={cardRef} className="rounded-3xl p-8 bg-white flex flex-col">
         {card.image && (
           <div className="mb-6 mx-auto flex flex-col items-center justify-center w-full">
