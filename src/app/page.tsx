@@ -204,11 +204,11 @@ export default function Home() {
 
         {/* Introduction Section */}
         <div
-          className="absolute top-1/3 left-0 sm:left-16 md:left-24 lg:left-32 xl:left-40"
+          className="absolute top-[28%] left-0 sm:left-12 md:left-20 lg:left-28 xl:left-36"
           style={{ zIndex: 1 }}
         >
           <p
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl pb-10 sm:pb-10 md:pb-20 lg:pb-25"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl pb-4 sm:pb-6 md:pb-8 lg:pb-10"
             style={{ fontFamily: "Pecita" }}
           >
             {`Hi, I'm `}
