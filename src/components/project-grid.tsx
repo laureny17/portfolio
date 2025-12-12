@@ -59,12 +59,12 @@ export default function ProjectGrid({ cards }: ProjectGridProps) {
             className="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto relative"
             onClick={(e) => e.stopPropagation()}
           >
-            <button
+              <button
               className="absolute top-2 right-6 text-2xl hover:opacity-70 transition-opacity z-10"
-              onClick={() => setSelectedCard(null)}
-            >
-              ×
-            </button>
+                onClick={() => setSelectedCard(null)}
+              >
+                ×
+              </button>
             <div className="p-6">
               <Card card={selectedCard} className="!px-0" />
             </div>

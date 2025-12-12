@@ -47,9 +47,7 @@ export default function About() {
                 </span>
               </div>
             </div>
-            <p className="text-sm text-gray-600 mb-2">
-              🏛️ CS/Math + Media Studies @ MIT
-            </p>
+            <p className="text-sm text-gray-600 mb-2">🏛️ CS + Design @ MIT</p>
             <p className="text-sm text-gray-600 mb-4">📍 New Jersey</p>
           </div>
         </div>

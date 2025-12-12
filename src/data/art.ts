@@ -103,14 +103,13 @@ export const artSections: ArtSection[] = [
             "hack25-splash-tracks",
             "hack25-splash-end",
             "hack25-social-media",
-            "hack25-recruitment",
             "hack25-check-first",
             "hack25-check-second",
             "hack25-check-third",
             "hack25-check-beginner",
-            "hack25-banner-hacker-check-in",
-            "hack25-banner-mentor-sponsor-check-in",
+            "hack25-check-in-banners",
             "hack25-banner-vertical",
+            "hack25-recruitment",
             "hack25-video-cover",
             "hack25-puzzle",
             "hack25-tote-dark",
@@ -136,11 +135,5 @@ export const artSections: ArtSection[] = [
   },
   {
     name: "Animation",
-    subsections: [
-      {
-        name: "Featuring (1) 17-year-old me finding the volume of my dog using triple integrals and (2) a surprisingly good AI-generated hip-hop song about Stargardt's disease",
-        images: toArtImages(getImagesByIds(["dog-calculus", "stargardt"])),
-      },
-    ],
   },
 ];

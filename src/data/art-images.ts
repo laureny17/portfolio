@@ -315,16 +315,12 @@ export const artImages: Record<string, ArtImageData> = {
     id: "hack25-check-beginner",
     src: "/assets/art/hackmit/hack25/check_beginner.png",
     alt: "Hack25 Beginner Check",
+    hidden: true,
   },
-  "hack25-banner-hacker-check-in": {
-    id: "hack25-banner-hacker-check-in",
-    src: "/assets/art/hackmit/hack25/hacker-check-in.png",
-    alt: "Hack25 Hacker Check In Banner",
-  },
-  "hack25-banner-mentor-sponsor-check-in": {
-    id: "hack25-banner-mentor-sponsor-check-in",
-    src: "/assets/art/hackmit/hack25/mentor-sponsor-check-in.png",
-    alt: "Hack25 Mentor Sponsor Check In Banner",
+  "hack25-check-in-banners": {
+    id: "hack25-check-in-banners",
+    src: "/assets/art/hackmit/hack25/check-in-banners.png",
+    alt: "Hack25 Check In Banners",
   },
   "hack25-banner-vertical": {
     id: "hack25-banner-vertical",

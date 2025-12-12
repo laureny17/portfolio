@@ -3,30 +3,56 @@ import type { Card } from "@/components/card";
 export const projects: Card[] = [
   {
     id: 1,
-    title: "Portfolio Website",
+    title: "Phabulous Phishes",
     description:
-      "A personal portfolio website built with Next.js and Tailwind CSS, featuring a clean and modern design.",
-    image: ["/assets/portfolio.png"],
-    tags: ["web", "next.js", "tailwind"],
+      "An LLM-powered educational platform providing users with simulated phishing content to train their phishing detection skills. Don't get (ph/f)ished!",
+    image: ["/assets/demos/PhishDemo.mp4"],
+    tags: [
+      "JavaScript",
+      "TypeScript",
+      "Next.js",
+      "Tailwind CSS",
+      "Node.js",
+      "PostgreSQL",
+      "Sequelize",
+    ],
+    isComplete: true,
+    isTeam: true,
+  },
+  {
+    id: 4,
+    title: "Desktop Duck",
+    description:
+      "A small experimental desktop virtual pet app with self-drawn animated assets. The more windows you have open on your screen, the more frantically your duck will move around!",
+    image: ["/assets/demos/DesktopDuckDemo.mp4"],
+    tags: ["JavaScript", "Electron"],
     isComplete: true,
   },
   {
     id: 2,
-    title: "Game Project",
+    title: "M(assive) I(ntake) (of) T(ap)",
     description:
-      "An interactive game built with Unity, showcasing creative gameplay mechanics and visual design.",
-    image: ["/assets/game.png"],
-    tags: ["game", "unity", "c#"],
-    isComplete: true,
+      "A water fountain exploration challenge. Rate fountains around MIT's campus to build your tier list, and compete on a personal leaderboard—because hydration should be fun.",
+    image: ["/assets/demos/WaterTourDemo.mp4"],
+    tags: ["Angular", "Node.js", "Express.js", "MongoDB"],
+    isComplete: false,
   },
   {
     id: 3,
-    title: "Art Project",
+    title: "Dam Campus",
     description:
-      "A digital art project exploring creative expression through code and visual design.",
-    image: ["/assets/art.png"],
-    tags: ["art", "creative", "digital"],
+      "An interactive campus map and social networking fusion website. Navigate the halls of MIT's campus with your selected beaver avatar and view building-specific posts from students about their experiences there.",
+    image: ["/assets/demos/DamCampusDemo.mp4"],
+    tags: ["React", "Node.js", "Express.js", "MongoDB", "Render"],
     isComplete: true,
   },
-  // Add more projects as needed
+  {
+    id: 5,
+    title: "This Portfolio!",
+    description:
+      "Compatible with mobile and made fully responsive to window resizing with Tailwind CSS.",
+    image: [""],
+    tags: ["Typescript", "Next.js", "Tailwind CSS", "Vercel"],
+    isComplete: true,
+  },
 ];

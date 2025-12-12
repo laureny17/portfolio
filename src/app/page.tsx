@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState, useEffect, useMemo } from "react";
 import ProjectGrid from "@/components/project-grid";
-import { projectCards } from "../components/projectCards";
+import { projects as projectCards } from "../data/projects";
 
 export default function Home() {
   const [windowWidth, setWindowWidth] = useState(0);
@@ -218,7 +218,7 @@ export default function Home() {
             !
           </p>
           <p className="text-base sm:text-lg md:text-lg lg:text-lg underline underline-offset-4 underline-green pb-4">
-            CS/Math + Media Studies @ MIT
+            CS + Design @ MIT
           </p>
           <p className="text-base sm:text-lg md:text-lg lg:text-lg">
             {`I'm passionate about building technologies`}
