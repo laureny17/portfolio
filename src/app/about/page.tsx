@@ -47,8 +47,28 @@ export default function About() {
                 </span>
               </div>
             </div>
-            <p className="text-sm text-gray-600 mb-2">🏛️ CS + Design @ MIT</p>
-            <p className="text-sm text-gray-600 mb-4">📍 New Jersey</p>
+            <p className="text-sm text-gray-600 mb-2 flex items-center gap-2">
+              <Image
+                src="/assets/profile/institution-emoji.webp"
+                alt="Institution"
+                width={20}
+                height={20}
+                className="inline-block -mt-2 select-none"
+                draggable={false}
+              />
+              CS + Design @ MIT
+            </p>
+            <p className="text-sm text-gray-600 mb-4 flex items-center gap-2">
+              <Image
+                src="/assets/profile/pin-emoji.webp"
+                alt="Location"
+                width={20}
+                height={20}
+                className="inline-block -mt-1 select-none"
+                draggable={false}
+              />
+              New Jersey
+            </p>
           </div>
         </div>
 

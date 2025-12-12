@@ -310,6 +310,7 @@ export const artImages: Record<string, ArtImageData> = {
     id: "hack25-check-third",
     src: "/assets/art/hackmit/hack25/check_third_place.png",
     alt: "Hack25 Third Place Check",
+    hidden: true,
   },
   "hack25-check-beginner": {
     id: "hack25-check-beginner",
