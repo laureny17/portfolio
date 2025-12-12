@@ -164,6 +164,17 @@ export default function ArtGallery({ sections }: ArtGalleryProps) {
             {section.name === "Animation" ? (
               <ul className="text-base sm:text-base md:text-lg lg:text-xl text-gray-600 font-medium list-disc pl-6 space-y-2">
                 <li>
+                  <span>A music video explaining Stargardt disease: </span>
+                  <a
+                    href="https://youtu.be/5ML7prwZ5g4"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-600 underline underline-offset-2 hover-body-link"
+                  >
+                    https://youtu.be/5ML7prwZ5g4
+                  </a>
+                </li>
+                <li>
                   <span>
                     17-year-old me calculates the volume of my dog using triple
                     integrals:{" "}
@@ -175,20 +186,6 @@ export default function ArtGallery({ sections }: ArtGalleryProps) {
                     className="text-gray-600 underline underline-offset-2 hover-body-link"
                   >
                     https://youtu.be/5-UyWwG1TGI
-                  </a>
-                </li>
-                <li>
-                  <span>
-                    A surprisingly good AI-generated hip-hop song about
-                    Stargardt's disease:{" "}
-                  </span>
-                  <a
-                    href="https://youtu.be/5ML7prwZ5g4"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-600 underline underline-offset-2 hover-body-link"
-                  >
-                    https://youtu.be/5ML7prwZ5g4
                   </a>
                 </li>
               </ul>

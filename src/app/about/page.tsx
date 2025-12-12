@@ -36,7 +36,7 @@ export default function About() {
             />
           </div>
           <div className="flex-1">
-            <div className="flex items-center gap-4 mb-2">
+            <div className="flex items-center gap-4 mb-6">
               <h1 className="text-lg">Lauren</h1>
               <div className="flex items-center gap-2">
                 <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
@@ -47,7 +47,7 @@ export default function About() {
                 </span>
               </div>
             </div>
-            <p className="text-sm text-gray-600 mb-2 flex items-center gap-2">
+            <p className="text-sm text-gray-600 flex items-center gap-2">
               <Image
                 src="/assets/profile/institution-emoji.webp"
                 alt="Institution"
