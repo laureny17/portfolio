@@ -30,15 +30,26 @@ export default function Header() {
 
   const handleProjectsClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
+
+    // Restore body position immediately so scrolling works
+    document.body.style.overflow = "";
+    document.documentElement.style.overflow = "";
+    document.body.style.position = "";
+    document.body.style.width = "";
+
     setIsMenuOpen(false);
-    if (pathname === "/") {
-      const element = document.getElementById("projects");
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth", block: "start" });
+
+    // Wait for menu animation to complete before scrolling
+    setTimeout(() => {
+      if (pathname === "/") {
+        const element = document.getElementById("projects");
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      } else {
+        window.location.href = "/#projects";
       }
-    } else {
-      window.location.href = "/#projects";
-    }
+    }, 650); // Wait for menu animation (600ms) + small buffer
   };
 
   const handleNavClick = () => {
