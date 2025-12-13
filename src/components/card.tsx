@@ -204,12 +204,12 @@ const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
         <p className="text-lg sm:text-xl md:text-2xl lg:text-2xl pb-3 italic">
           {card.title}
         </p>
-        <p className="text-sm sm:text-base md:text-base lg:text-base pb-4  hyphens-auto">
+        <p className="text-xs sm:text-base md:text-base lg:text-base pb-4 hyphens-auto card-description">
           {card.description}
         </p>
 
         {/* tags */}
-        <div className="flex flex-wrap gap-2 mt-auto mb-1">
+        <div className="hidden min-[320px]:flex flex-wrap gap-2 mt-auto mb-1">
           {card.tags.map((tag) => (
             <span
               key={tag}
@@ -229,6 +229,13 @@ const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
             </span>
           )}
         </div>
+        <p className="flex min-[320px]:hidden text-xs text-gray-600 italic mt-auto mb-1">
+          {[
+            ...card.tags,
+            ...(!card.isComplete ? ["WIP"] : []),
+            ...(card.isTeam ? ["Team"] : []),
+          ].join(", ")}
+        </p>
       </div>
     </div>
   );

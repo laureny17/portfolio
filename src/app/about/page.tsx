@@ -20,25 +20,33 @@ export default function About() {
   ];
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20 py-10 px-0 sm:px-8 md:px-12 lg:px-16 xl:px-20">
+    <div className="grid grid-cols-1 min-[900px]:grid-cols-2 gap-10 lg:gap-20 py-10 px-0 sm:px-8 md:px-12 lg:px-16 xl:px-20">
       {/* left section will have some personal info*/}
       <div className="space-y-6">
         {/* GitHub-style profile header */}
-        <div className="flex items-start gap-6">
-          <div className="w-36 h-36 rounded-lg overflow-hidden">
-            <Image
-              src="/assets/profile/profile-photo.jpeg"
-              alt="Profile Picture"
-              width={152}
-              height={152}
-              className="w-full h-full object-cover select-none"
-              draggable={false}
-            />
+        {/* > 1100px: 2 cols, pfp big, pronouns next to name, institution below name */}
+        {/* 900-1100px: 2 cols, pfp big, pronouns below name, institution below pfp+pronouns */}
+        {/* 430-900px: 1 col, pfp big, pronouns next to name, institution below name */}
+        {/* < 430px: 1 col, pfp small, pronouns below name, institution below pfp+pronouns */}
+
+        {/* Layout for > 1100px: pronouns next to name, institution below name */}
+        <div className="hidden min-[1100px]:flex flex-row items-start gap-6">
+          <div className="flex flex-col items-start gap-6">
+            <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 flex-shrink-0 rounded-lg overflow-hidden">
+              <Image
+                src="/assets/profile/profile-photo.jpeg"
+                alt="Profile Picture"
+                width={152}
+                height={152}
+                className="w-full h-full object-contain select-none"
+                draggable={false}
+              />
+            </div>
           </div>
-          <div className="flex-1">
-            <div className="flex items-center gap-4 mb-6">
+          <div className="flex-shrink-0">
+            <div className="flex flex-row items-center gap-4 mb-6">
               <h1 className="text-lg">Lauren</h1>
-              <div className="flex items-center gap-2">
+              <div className="hidden min-[320px]:flex items-center gap-2">
                 <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
                   she/her
                 </span>
@@ -46,7 +54,180 @@ export default function About() {
                   2027
                 </span>
               </div>
+              <span className="block min-[320px]:hidden text-xs text-gray-600 italic">
+                she/her, 2027
+              </span>
             </div>
+            <div className="space-y-1">
+              <p className="text-sm text-gray-600 mb-2 flex items-center gap-2">
+                <Image
+                  src="/assets/profile/institution-emoji.webp"
+                  alt="Institution"
+                  width={20}
+                  height={20}
+                  className="inline-block -mt-2 select-none"
+                  draggable={false}
+                />
+                CS + Design @ MIT
+              </p>
+              <p className="text-sm text-gray-600 mb-4 flex items-center gap-2">
+                <Image
+                  src="/assets/profile/pin-emoji.webp"
+                  alt="Location"
+                  width={20}
+                  height={20}
+                  className="inline-block -mt-1 select-none"
+                  draggable={false}
+                />
+                New Jersey
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Layout for 430-640px: 1 col, pfp bigger, pronouns next to name, institution below name */}
+        <div className="hidden min-[430px]:flex min-[640px]:hidden flex-col items-start gap-4">
+          <div className="flex flex-row items-start gap-4 w-full">
+            <div className="w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden">
+              <Image
+                src="/assets/profile/profile-photo.jpeg"
+                alt="Profile Picture"
+                width={152}
+                height={152}
+                className="w-full h-full object-contain select-none"
+                draggable={false}
+              />
+            </div>
+            <div className="flex-shrink-0 flex flex-col gap-2">
+              <div className="flex flex-row items-center gap-4">
+                <h1 className="text-lg">Lauren</h1>
+                <div className="hidden min-[320px]:flex items-center gap-2">
+                  <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
+                    she/her
+                  </span>
+                  <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
+                    2027
+                  </span>
+                </div>
+                <span className="block min-[320px]:hidden text-xs text-gray-600 italic">
+                  she/her, 2027
+                </span>
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm text-gray-600 flex items-center gap-2">
+                  <Image
+                    src="/assets/profile/institution-emoji.webp"
+                    alt="Institution"
+                    width={20}
+                    height={20}
+                    className="inline-block -mt-2 select-none"
+                    draggable={false}
+                  />
+                  CS + Design @ MIT
+                </p>
+                <p className="text-sm text-gray-600 flex items-center gap-2">
+                  <Image
+                    src="/assets/profile/pin-emoji.webp"
+                    alt="Location"
+                    width={20}
+                    height={20}
+                    className="inline-block -mt-1 select-none"
+                    draggable={false}
+                  />
+                  New Jersey
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Layout for 640-900px: 1 col, pfp responsive, pronouns next to name, institution below name */}
+        <div className="hidden min-[640px]:flex min-[900px]:hidden flex-col items-start gap-4">
+          <div className="flex flex-row items-start gap-4 w-full">
+            <div className="w-32 h-32 md:w-36 md:h-36 flex-shrink-0 rounded-lg overflow-hidden">
+              <Image
+                src="/assets/profile/profile-photo.jpeg"
+                alt="Profile Picture"
+                width={152}
+                height={152}
+                className="w-full h-full object-contain select-none"
+                draggable={false}
+              />
+            </div>
+            <div className="flex-shrink-0 flex flex-col gap-2">
+              <div className="flex flex-row items-center gap-4">
+                <h1 className="text-lg">Lauren</h1>
+                <div className="hidden min-[320px]:flex items-center gap-2">
+                  <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
+                    she/her
+                  </span>
+                  <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
+                    2027
+                  </span>
+                </div>
+                <span className="block min-[320px]:hidden text-xs text-gray-600 italic">
+                  she/her, 2027
+                </span>
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm text-gray-600 flex items-center gap-2">
+                  <Image
+                    src="/assets/profile/institution-emoji.webp"
+                    alt="Institution"
+                    width={20}
+                    height={20}
+                    className="inline-block -mt-2 select-none"
+                    draggable={false}
+                  />
+                  CS + Design @ MIT
+                </p>
+                <p className="text-sm text-gray-600 flex items-center gap-2">
+                  <Image
+                    src="/assets/profile/pin-emoji.webp"
+                    alt="Location"
+                    width={20}
+                    height={20}
+                    className="inline-block -mt-1 select-none"
+                    draggable={false}
+                  />
+                  New Jersey
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Layout for 900-1100px: 2 cols, pfp big, pronouns below name, institution below pfp+pronouns */}
+        <div className="hidden min-[900px]:flex min-[1100px]:hidden flex-col items-start gap-4">
+          <div className="flex flex-row items-start gap-4 w-full">
+            <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 flex-shrink-0 rounded-lg overflow-hidden">
+              <Image
+                src="/assets/profile/profile-photo.jpeg"
+                alt="Profile Picture"
+                width={152}
+                height={152}
+                className="w-full h-full object-contain select-none"
+                draggable={false}
+              />
+            </div>
+            <div className="flex-shrink-0">
+              <div className="flex flex-col gap-2">
+                <h1 className="text-lg">Lauren</h1>
+                <div className="hidden min-[320px]:flex items-center gap-2">
+                  <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
+                    she/her
+                  </span>
+                  <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
+                    2027
+                  </span>
+                </div>
+                <span className="block min-[320px]:hidden text-xs text-gray-600 italic">
+                  she/her, 2027
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="space-y-1">
             <p className="text-sm text-gray-600 flex items-center gap-2">
               <Image
                 src="/assets/profile/institution-emoji.webp"
@@ -58,7 +239,63 @@ export default function About() {
               />
               CS + Design @ MIT
             </p>
-            <p className="text-sm text-gray-600 mb-4 flex items-center gap-2">
+            <p className="text-sm text-gray-600 flex items-center gap-2">
+              <Image
+                src="/assets/profile/pin-emoji.webp"
+                alt="Location"
+                width={20}
+                height={20}
+                className="inline-block -mt-1 select-none"
+                draggable={false}
+              />
+              New Jersey
+            </p>
+          </div>
+        </div>
+
+        {/* Layout for < 430px: 1 col, pfp bigger, pronouns below name, institution below pfp+pronouns */}
+        <div className="flex min-[430px]:hidden flex-col items-start gap-4">
+          <div className="flex flex-row items-start gap-4 w-full">
+            <div className="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden">
+              <Image
+                src="/assets/profile/profile-photo.jpeg"
+                alt="Profile Picture"
+                width={152}
+                height={152}
+                className="w-full h-full object-contain select-none"
+                draggable={false}
+              />
+            </div>
+            <div className="flex-shrink-0">
+              <div className="flex flex-col gap-2">
+                <h1 className="text-lg">Lauren</h1>
+                <div className="hidden min-[320px]:flex items-center gap-2">
+                  <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
+                    she/her
+                  </span>
+                  <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
+                    2027
+                  </span>
+                </div>
+                <span className="block min-[320px]:hidden text-xs text-gray-600 italic">
+                  she/her, 2027
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="space-y-1">
+            <p className="text-sm text-gray-600 flex items-center gap-2">
+              <Image
+                src="/assets/profile/institution-emoji.webp"
+                alt="Institution"
+                width={20}
+                height={20}
+                className="inline-block -mt-2 select-none"
+                draggable={false}
+              />
+              CS + Design @ MIT
+            </p>
+            <p className="text-sm text-gray-600 flex items-center gap-2">
               <Image
                 src="/assets/profile/pin-emoji.webp"
                 alt="Location"
@@ -132,7 +369,7 @@ export default function About() {
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl pb-3">
             Languages
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div className="hidden min-[320px]:flex flex-wrap gap-2">
             {languages.map((language) => (
               <span
                 key={language}
@@ -142,6 +379,9 @@ export default function About() {
               </span>
             ))}
           </div>
+          <p className="block min-[320px]:hidden text-xs text-gray-600 italic">
+            {languages.join(", ")}
+          </p>
         </div>
 
         {/* frameworks and platforms */}
@@ -149,7 +389,7 @@ export default function About() {
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl pb-3 pt-5">
             Frameworks and Tools
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div className="hidden min-[320px]:flex flex-wrap gap-2">
             {frameworksPlatforms.map((frameworkOrTool) => (
               <span
                 key={frameworkOrTool}
@@ -159,6 +399,9 @@ export default function About() {
               </span>
             ))}
           </div>
+          <p className="block min-[320px]:hidden text-xs text-gray-600 italic">
+            {frameworksPlatforms.join(", ")}
+          </p>
         </div>
       </div>
     </div>

@@ -40,8 +40,7 @@ export default function ArtImageSequence({
   return (
     <div
       ref={containerRef}
-      className={`relative overflow-hidden rounded-lg break-inside-avoid inline-block w-full mb-4 select-none ${bgColor}`}
-      style={{ verticalAlign: "top" }}
+      className={`relative overflow-hidden rounded-lg break-inside-avoid block mb-4 select-none ${bgColor}`}
       onMouseMove={handleMouseMove}
     >
       {isLoading && (

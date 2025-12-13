@@ -204,7 +204,7 @@ export default function Home() {
 
         {/* Introduction Section */}
         <div
-          className="absolute top-[28%] left-0 sm:left-12 md:left-20 lg:left-28 xl:left-36"
+          className="absolute top-[28%] left-0 md:left-8 lg:left-12 xl:left-20 2xl:left-28"
           style={{ zIndex: 1 }}
         >
           <p
@@ -220,9 +220,9 @@ export default function Home() {
           <p className="text-base sm:text-lg md:text-lg lg:text-lg underline underline-offset-4 underline-green pb-4">
             CS + Design @ MIT
           </p>
-          <p className="text-base sm:text-lg md:text-lg lg:text-lg">
-            {`I'm passionate about building technologies`}
-            <br />
+          <p className="text-xs sm:text-lg md:text-lg lg:text-lg max-w-[280px] sm:max-w-none">
+            {`I'm passionate about building technologies `}
+            <br className="hidden sm:block" />
             {`that create meaningful experiences!`}
           </p>
         </div>
@@ -232,13 +232,13 @@ export default function Home() {
       <section id="projects" className="pt-20 pb-20">
         <div className="relative px-0 sm:px-8 md:px-12 lg:px-16 xl:px-20">
           {/* Section Header and Filters */}
-          <div className="mb-8 flex flex-row justify-between items-start gap-6 sm:gap-8">
+          <div className="mb-8 flex flex-col sm:flex-row sm:justify-between items-start gap-4 sm:gap-6 sm:gap-8">
             {/* Header */}
             <div>
-              <div className="text-lg md:text-xl lg:text-2xl">
+              <div className="text-base md:text-xl lg:text-2xl">
                 Here are some projects I've worked on!
               </div>
-              <p className="text-sm sm:text-sm md:text-base lg:text-lg text-gray-600 font-medium mt-2">
+              <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 font-medium mt-2">
                 Click on a project card to learn more.
               </p>
             </div>
