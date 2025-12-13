@@ -25,7 +25,7 @@ export default function ArtImage({ image }: ArtImageProps) {
 
   return (
     <div
-      className={`relative overflow-hidden rounded-lg break-inside-avoid block mb-4 select-none ${bgColor} ${
+      className={`relative overflow-hidden rounded-lg block w-full select-none ${bgColor} ${
         image.link ? "cursor-pointer hover:opacity-90 transition-opacity" : ""
       }`}
       onClick={handleClick}

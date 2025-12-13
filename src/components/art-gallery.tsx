@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Masonry from "react-masonry-css";
 import ArtImage from "./art-image";
 import ArtImageSequence from "./art-image-sequence";
 import type { ArtSection, ArtImage as ArtImageType } from "@/data/art";
@@ -147,40 +148,16 @@ export default function ArtGallery({ sections }: ArtGalleryProps) {
   };
 
   // Helper function to get column count based on screen size
-  const getColumnCount = (imageCount: number, width: number) => {
+  const getColumnCount = (imageCount: number) => {
     if (imageCount <= 1) return 1;
     if (imageCount === 2) return 2;
-    if (width >= 1024) return 5; // lg
-    if (width >= 768) return 4; // md
-    if (width >= 640) return 3; // sm
+
+    if (windowWidth === 0) return 2; // SSR/default
+
+    if (windowWidth >= 1024) return 5; // lg+
+    if (windowWidth >= 768) return 4; // md
+    if (windowWidth >= 640) return 3; // sm
     return 2; // mobile
-  };
-
-  // Helper function to get column classes and styles based on image count
-  const getColumnConfig = (imageCount: number) => {
-    const columnCount =
-      windowWidth > 0
-        ? getColumnCount(imageCount, windowWidth)
-        : imageCount <= 1
-        ? 1
-        : 2;
-
-    if (imageCount <= 1) {
-      return {
-        classes: "columns-1",
-        style: { columnCount: 1 },
-      };
-    } else if (imageCount === 2) {
-      return {
-        classes: "columns-2 sm:columns-2",
-        style: { columnCount: 2 },
-      };
-    } else {
-      return {
-        classes: "columns-2 sm:columns-3 md:columns-4 lg:columns-5",
-        style: { columnCount },
-      };
-    }
   };
 
   return (
@@ -195,9 +172,7 @@ export default function ArtGallery({ sections }: ArtGalleryProps) {
           <div key={sectionIndex} className="space-y-8">
             {/* Section Header */}
             <div className="border-b border-gray-200 pb-4">
-              <h2 className="text-lg sm:text-lg md:text-xl lg:text-2xl">
-                {formatName(section.name)}
-              </h2>
+              <h2 className="art-section-header">{formatName(section.name)}</h2>
             </div>
 
             {/* Special handling for Animation section */}
@@ -239,86 +214,55 @@ export default function ArtGallery({ sections }: ArtGalleryProps) {
                   return (
                     <div key={subsectionIndex} className="space-y-4">
                       {/* Subsection Header */}
-                      <h3 className="text-base sm:text-base md:text-lg lg:text-xl text-gray-600 font-medium">
+                      <h3 className="art-subsection-header text-gray-600 font-medium">
                         {subsection.name}
                       </h3>
 
                       {/* Masonry Layout */}
-                      {(() => {
-                        const config = getColumnConfig(
+                      <Masonry
+                        breakpointCols={getColumnCount(
                           subsectionSequences.length
-                        );
-                        const cols = Math.max(2, config.style.columnCount || 2);
-                        return (
-                          <div
-                            className="w-full"
-                            style={
-                              {
-                                "--column-count": cols,
-                                columnCount: `var(--column-count, ${cols})`,
-                                WebkitColumnCount: cols,
-                                MozColumnCount: cols,
-                                columnGap: "1rem",
-                                columnFill: "auto",
-                                display: "block",
-                              } as React.CSSProperties & {
-                                "--column-count": number;
-                              }
-                            }
-                          >
-                            {subsectionSequences.map((item, itemIndex) =>
-                              Array.isArray(item) ? (
-                                <ArtImageSequence
-                                  key={`sequence-${itemIndex}`}
-                                  images={item}
-                                  alt={formatName(subsection.name)}
-                                />
-                              ) : (
-                                <ArtImage key={itemIndex} image={item} />
-                              )
-                            )}
-                          </div>
-                        );
-                      })()}
+                        )}
+                        className="masonry-grid"
+                        columnClassName="masonry-grid_column"
+                      >
+                        {subsectionSequences.map((item, itemIndex) =>
+                          Array.isArray(item) ? (
+                            <ArtImageSequence
+                              key={`sequence-${itemIndex}`}
+                              images={item}
+                              alt={formatName(subsection.name)}
+                            />
+                          ) : (
+                            <ArtImage key={itemIndex} image={item} />
+                          )
+                        )}
+                      </Masonry>
                     </div>
                   );
                 })}
               </div>
             ) : (
               /* If section has direct images */
-              sectionSequences &&
-              (() => {
-                const config = getColumnConfig(sectionSequences.length);
-                const cols = Math.max(2, config.style.columnCount || 2);
-                return (
-                  <div
-                    className="w-full"
-                    style={
-                      {
-                        "--column-count": cols,
-                        columnCount: `var(--column-count, ${cols})`,
-                        WebkitColumnCount: cols,
-                        MozColumnCount: cols,
-                        columnGap: "1rem",
-                        columnFill: "auto",
-                        display: "block",
-                      } as React.CSSProperties & { "--column-count": number }
-                    }
-                  >
-                    {sectionSequences.map((item, itemIndex) =>
-                      Array.isArray(item) ? (
-                        <ArtImageSequence
-                          key={`sequence-${itemIndex}`}
-                          images={item}
-                          alt={formatName(section.name)}
-                        />
-                      ) : (
-                        <ArtImage key={itemIndex} image={item} />
-                      )
-                    )}
-                  </div>
-                );
-              })()
+              sectionSequences && (
+                <Masonry
+                  breakpointCols={getColumnCount(sectionSequences.length)}
+                  className="masonry-grid"
+                  columnClassName="masonry-grid_column"
+                >
+                  {sectionSequences.map((item, itemIndex) =>
+                    Array.isArray(item) ? (
+                      <ArtImageSequence
+                        key={`sequence-${itemIndex}`}
+                        images={item}
+                        alt={formatName(section.name)}
+                      />
+                    ) : (
+                      <ArtImage key={itemIndex} image={item} />
+                    )
+                  )}
+                </Masonry>
+              )
             )}
           </div>
         );

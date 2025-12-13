@@ -40,7 +40,7 @@ export default function ArtImageSequence({
   return (
     <div
       ref={containerRef}
-      className={`relative overflow-hidden rounded-lg break-inside-avoid block mb-4 select-none ${bgColor}`}
+      className={`relative overflow-hidden rounded-lg block w-full select-none ${bgColor}`}
       onMouseMove={handleMouseMove}
     >
       {isLoading && (
