@@ -1,6 +1,10 @@
 module.exports = {
   theme: {
     extend: {
+      screens: {
+        xs: "320px",
+        "sm-custom": "430px",
+      },
       colors: {
         background: "var(--background)",
         black: "var(--black)",

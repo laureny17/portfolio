@@ -204,7 +204,7 @@ export default function Home() {
 
         {/* Introduction Section */}
         <div
-          className="absolute top-[28%] left-0 md:left-8 lg:left-12 xl:left-20 2xl:left-28"
+          className="absolute top-[28%] left-0 md:left-8 lg:left-12 xl:left-28 2xl:left-36"
           style={{ zIndex: 1 }}
         >
           <p
@@ -220,7 +220,7 @@ export default function Home() {
           <p className="text-base sm:text-lg md:text-lg lg:text-lg underline underline-offset-4 underline-green pb-4">
             CS + Design @ MIT
           </p>
-          <p className="text-xs sm:text-lg md:text-lg lg:text-lg max-w-[280px] sm:max-w-none">
+          <p className="text-xs max-w-[280px] sm:max-w-none">
             {`I'm passionate about building technologies `}
             <br className="hidden sm:block" />
             {`that create meaningful experiences!`}

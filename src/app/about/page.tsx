@@ -310,7 +310,7 @@ export default function About() {
         </div>
 
         {/* fun facts */}
-        <ul className="text-sm sm:text-sm md:text-base lg:text-lg list-disc pl-6 space-y-2">
+        <ul className="text-xs min-[430px]:text-sm sm:text-sm md:text-base lg:text-lg list-disc pl-6 space-y-2">
           <li>
             {`My greatest career motivation is to work for sociocultural impact; in particular, I'm passionate about education, accessibility, and purpose-driven game design`}
           </li>
@@ -324,7 +324,7 @@ export default function About() {
                   href="https://hackmit.org"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-accent underline underline-offset-2 hover-body-link"
+                  className="text-xs min-[430px]:text-sm text-accent underline underline-offset-2 hover-body-link"
                 >
                   deployment
                 </a>

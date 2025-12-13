@@ -79,6 +79,29 @@ header span {
   font-weight: 400 !important;
 }
 
+/* Footer text sizes - override global text size rules with responsive sizes */
+/* Below 320px: small (text-xs = 1.5rem) */
+footer a,
+footer span {
+  font-size: 1.5rem !important; /* text-xs - small for < 320px */
+}
+
+/* 320px+: medium (text-sm = 1.75rem) */
+@media (min-width: 320px) {
+  footer a,
+  footer span {
+    font-size: 1.75rem !important; /* text-sm - medium at 320px+ */
+  }
+}
+
+/* 430px+: matches header at mobile (text-lg = 2.25rem) - MAX SIZE */
+@media (min-width: 430px) {
+  footer a,
+  footer span {
+    font-size: 2.25rem !important; /* text-lg - matches header at 430px+, stays this size for all larger screens */
+  }
+}
+
 /* Override for elements that explicitly use Pecita */
 [style*='fontFamily: "Pecita"'],
 [style*='font-family: "Pecita"'] {

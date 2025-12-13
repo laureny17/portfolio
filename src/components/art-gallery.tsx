@@ -202,7 +202,7 @@ export default function ArtGallery({ sections }: ArtGalleryProps) {
 
             {/* Special handling for Animation section */}
             {section.name === "Animation" ? (
-              <ul className="text-base sm:text-base md:text-lg lg:text-xl text-gray-600 font-medium list-disc pl-6 space-y-2">
+              <ul className="text-xs sm:text-xs md:text-sm lg:text-base text-gray-600 font-medium list-disc pl-6 space-y-2">
                 <li>
                   <span>A music video explaining Stargardt disease: </span>
                   <a

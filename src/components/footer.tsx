@@ -7,25 +7,25 @@ export default function Footer() {
           href="mailto:laureny@mit.edu"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:underline hover:underline-offset-4 underline-green text-lg sm:text-xl md:text-2xl font-medium"
+          className="hover:underline hover:underline-offset-4 underline-green font-medium"
         >
           Email
         </a>
-        <span className="text-lg sm:text-xl md:text-2xl font-medium">/</span>
+        <span className="font-medium">/</span>
         <a
           href="https://www.linkedin.com/in/lauren-yoo-454437287/"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:underline hover:underline-offset-4 underline-green text-lg sm:text-xl md:text-2xl font-medium"
+          className="hover:underline hover:underline-offset-4 underline-green font-medium"
         >
           LinkedIn
         </a>
-        <span className="text-lg sm:text-xl md:text-2xl font-medium">/</span>
+        <span className="font-medium">/</span>
         <a
           href="https://github.com/laureny17"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:underline hover:underline-offset-4 underline-green text-lg sm:text-xl md:text-2xl font-medium"
+          className="hover:underline hover:underline-offset-4 underline-green font-medium"
         >
           GitHub
         </a>
