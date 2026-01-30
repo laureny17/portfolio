@@ -67,15 +67,10 @@ export const artImages: Record<string, ArtImageData> = {
   },
 
   // Digital Paintings - Self Portraits
-  "portrait-1": {
-    id: "portrait-1",
-    src: "/assets/art/digital-paintings/self-portraits/portrait-1.PNG",
-    alt: "Portrait 1",
-  },
-  "portrait-2": {
-    id: "portrait-2",
-    src: "/assets/art/digital-paintings/self-portraits/portrait-2.PNG",
-    alt: "Portrait 2",
+  portrait: {
+    id: "portrait",
+    src: "/assets/art/digital-paintings/misc/portrait.PNG",
+    alt: "Portrait",
   },
 
   // Digital Paintings - Misc
@@ -315,23 +310,23 @@ export const artImages: Record<string, ArtImageData> = {
   },
   "hack25-check-first": {
     id: "hack25-check-first",
-    src: "/assets/art/hackmit/hack25/check_first_place.png",
+    src: "/assets/art/hackmit/hack25/check-first-place.png",
     alt: "Hack25 First Place Check",
   },
   "hack25-check-second": {
     id: "hack25-check-second",
-    src: "/assets/art/hackmit/hack25/check_second_place.png",
+    src: "/assets/art/hackmit/hack25/check-second-place.png",
     alt: "Hack25 Second Place Check",
   },
   "hack25-check-third": {
     id: "hack25-check-third",
-    src: "/assets/art/hackmit/hack25/check_third_place.png",
+    src: "/assets/art/hackmit/hack25/check-third-place.png",
     alt: "Hack25 Third Place Check",
     hidden: true,
   },
   "hack25-check-beginner": {
     id: "hack25-check-beginner",
-    src: "/assets/art/hackmit/hack25/check_beginner.png",
+    src: "/assets/art/hackmit/hack25/check-beginner.png",
     alt: "Hack25 Beginner Check",
     hidden: true,
   },
@@ -424,7 +419,7 @@ export const artImages: Record<string, ArtImageData> = {
   },
   tree: {
     id: "tree",
-    src: "/assets/art/sketches/tree.jpeg",
+    src: "/assets/art/digital-paintings/misc/tree.jpeg",
     alt: "Tree",
   },
 

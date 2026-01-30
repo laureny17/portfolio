@@ -52,10 +52,10 @@ export const artSections: ArtSection[] = [
         "sip-wings",
         "sip-woods",
         // Self Portraits
-        "portrait-1",
-        "portrait-2",
+        "portrait",
         // Misc
         "sky-cotl",
+        "tree",
         "bridge-1",
         "bridge-2",
         "bridge-3",
@@ -76,7 +76,6 @@ export const artSections: ArtSection[] = [
         "sketch-dog",
         "tori-floor",
         "tori-sleep",
-        "tree",
       ])
     ),
   },
