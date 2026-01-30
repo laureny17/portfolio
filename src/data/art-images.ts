@@ -260,6 +260,23 @@ export const artImages: Record<string, ArtImageData> = {
     alt: "BP25 Table Sign",
   },
 
+  // HackMIT - BP26
+  "bp26-about-layout": {
+    id: "bp26-about-layout",
+    src: "/assets/art/hackmit/bp26/bp26-about-layout.png",
+    alt: "BP26 About Layout",
+  },
+  "bp26-crewneck-blue": {
+    id: "bp26-crewneck-blue",
+    src: "/assets/art/hackmit/bp26/bp26-crewneck-blue.png",
+    alt: "BP26 Crewneck Blue",
+  },
+  "bp26-crewneck-tan": {
+    id: "bp26-crewneck-tan",
+    src: "/assets/art/hackmit/bp26/bp26-crewneck-tan.png",
+    alt: "BP26 Crewneck Tan",
+  },
+
   // HackMIT - Hack25
   "hack25-puzzle": {
     id: "hack25-puzzle",
@@ -318,10 +335,15 @@ export const artImages: Record<string, ArtImageData> = {
     alt: "Hack25 Beginner Check",
     hidden: true,
   },
-  "hack25-check-in-banners": {
-    id: "hack25-check-in-banners",
-    src: "/assets/art/hackmit/hack25/check-in-banners.png",
-    alt: "Hack25 Check In Banners",
+  "hack25-hacker-check-in": {
+    id: "hack25-hacker-check-in",
+    src: "/assets/art/hackmit/hack25/hacker-check-in.png",
+    alt: "Hack25 Hacker Check In",
+  },
+  "hack25-mentor-sponsor-check-in": {
+    id: "hack25-mentor-sponsor-check-in",
+    src: "/assets/art/hackmit/hack25/mentor-sponsor-check-in.png",
+    alt: "Hack25 Mentor Sponsor Check In",
   },
   "hack25-banner-vertical": {
     id: "hack25-banner-vertical",

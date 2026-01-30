@@ -147,6 +147,14 @@ export default function ArtGallery({ sections }: ArtGalleryProps) {
       .join(" ");
   };
 
+  const toSectionId = (name: string) => {
+    return name
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .trim()
+      .replace(/\s+/g, "-");
+  };
+
   // Helper function to get column count based on screen size
   const getColumnCount = (imageCount: number) => {
     if (imageCount <= 1) return 1;
@@ -169,7 +177,11 @@ export default function ArtGallery({ sections }: ArtGalleryProps) {
           : null;
 
         return (
-          <div key={sectionIndex} className="space-y-8">
+          <div
+            key={sectionIndex}
+            id={toSectionId(section.name)}
+            className="space-y-8"
+          >
             {/* Section Header */}
             <div className="border-b border-gray-200 pb-4">
               <h2 className="art-section-header">{formatName(section.name)}</h2>

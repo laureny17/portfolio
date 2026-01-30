@@ -107,7 +107,8 @@ export const artSections: ArtSection[] = [
             "hack25-check-second",
             "hack25-check-third",
             "hack25-check-beginner",
-            "hack25-check-in-banners",
+            "hack25-hacker-check-in",
+            "hack25-mentor-sponsor-check-in",
             "hack25-banner-vertical",
             "hack25-recruitment",
             "hack25-video-cover",
@@ -121,13 +122,23 @@ export const artSections: ArtSection[] = [
         ),
       },
       {
-        name: "Blueprint 2025, Marketing Member",
+        name: "Blueprint 2025, Marketing",
         images: toArtImages(
           getImagesByIds([
             "bp25-banner",
             "bp25-fb",
             "bp25-logo",
             "bp25-table-sign",
+          ])
+        ),
+      },
+      {
+        name: "Blueprint 2026, Marketing",
+        images: toArtImages(
+          getImagesByIds([
+            "bp26-about-layout",
+            "bp26-crewneck-blue",
+            "bp26-crewneck-tan",
           ])
         ),
       },
