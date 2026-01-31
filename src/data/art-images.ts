@@ -288,6 +288,51 @@ export const artImages: Record<string, ArtImageData> = {
     src: "/assets/art/hackmit/hack25/hack25-recruitment.png",
     alt: "Hack25 Recruitment",
   },
+  "hack26-prospectus-01": {
+    id: "hack26-prospectus-01",
+    src: "/assets/art/hackmit/hack25/hack26-prospectus-01.png",
+    alt: "Hack26 Prospectus 01",
+  },
+  "hack26-prospectus-02": {
+    id: "hack26-prospectus-02",
+    src: "/assets/art/hackmit/hack25/hack26-prospectus-02.png",
+    alt: "Hack26 Prospectus 02",
+  },
+  "hack26-prospectus-03": {
+    id: "hack26-prospectus-03",
+    src: "/assets/art/hackmit/hack25/hack26-prospectus-03.png",
+    alt: "Hack26 Prospectus 03",
+  },
+  "hack26-prospectus-04": {
+    id: "hack26-prospectus-04",
+    src: "/assets/art/hackmit/hack25/hack26-prospectus-04.png",
+    alt: "Hack26 Prospectus 04",
+  },
+  "hack26-prospectus-05": {
+    id: "hack26-prospectus-05",
+    src: "/assets/art/hackmit/hack25/hack26-prospectus-05.png",
+    alt: "Hack26 Prospectus 05",
+  },
+  "hack26-prospectus-06": {
+    id: "hack26-prospectus-06",
+    src: "/assets/art/hackmit/hack25/hack26-prospectus-06.png",
+    alt: "Hack26 Prospectus 06",
+  },
+  "hack26-prospectus-07": {
+    id: "hack26-prospectus-07",
+    src: "/assets/art/hackmit/hack25/hack26-prospectus-07.png",
+    alt: "Hack26 Prospectus 07",
+  },
+  "hack26-prospectus-08": {
+    id: "hack26-prospectus-08",
+    src: "/assets/art/hackmit/hack25/hack26-prospectus-08.png",
+    alt: "Hack26 Prospectus 08",
+  },
+  "hack26-prospectus-09": {
+    id: "hack26-prospectus-09",
+    src: "/assets/art/hackmit/hack25/hack26-prospectus-09.png",
+    alt: "Hack26 Prospectus 09",
+  },
   "hack25-tote-light": {
     id: "hack25-tote-light",
     src: "/assets/art/hackmit/hack25/tote-light.jpeg",

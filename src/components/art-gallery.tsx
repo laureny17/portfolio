@@ -124,6 +124,17 @@ const getImageSequences = (
   };
 
   addSequenceByFilenames([
+    "hack26-prospectus-01.png",
+    "hack26-prospectus-02.png",
+    "hack26-prospectus-03.png",
+    "hack26-prospectus-04.png",
+    "hack26-prospectus-05.png",
+    "hack26-prospectus-06.png",
+    "hack26-prospectus-07.png",
+    "hack26-prospectus-08.png",
+    "hack26-prospectus-09.png",
+  ]);
+  addSequenceByFilenames([
     "bp26-crewneck-blue.png",
     "bp26-crewneck-tan.png",
   ]);

@@ -95,6 +95,15 @@ export const artSections: ArtSection[] = [
         name: "HackMIT 2025, Marketing Head",
         images: toArtImages(
           getImagesByIds([
+            "hack26-prospectus-01",
+            "hack26-prospectus-02",
+            "hack26-prospectus-03",
+            "hack26-prospectus-04",
+            "hack26-prospectus-05",
+            "hack26-prospectus-06",
+            "hack26-prospectus-07",
+            "hack26-prospectus-08",
+            "hack26-prospectus-09",
             "hack25-splash-main",
             "hack25-splash-tracks",
             "hack25-splash-end",
