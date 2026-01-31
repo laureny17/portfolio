@@ -191,6 +191,22 @@ input[type="checkbox"]:checked::after {
   font-weight: 400;
 }
 
+@keyframes star-spin-pause {
+  0% {
+    transform: rotate(0deg);
+  }
+  30% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.star-spin-pause {
+  animation: star-spin-pause 1.4s linear infinite;
+}
+
 /* Art Gallery Section Headers - Always mobile size */
 /* Using higher specificity to override global text size rules */
 div h2.art-section-header,

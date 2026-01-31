@@ -24,7 +24,11 @@ export default function ArtImageSequence({
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
+  const [modalLoadedImages, setModalLoadedImages] = useState<Set<string>>(
+    new Set()
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalLoading, setIsModalLoading] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const modalImageRef = useRef<HTMLDivElement>(null);
 
@@ -66,6 +70,7 @@ export default function ArtImageSequence({
   const handleClick = () => {
     if (enableModal) {
       setModalIndex(currentIndex);
+      setIsModalLoading(true);
       setIsModalOpen(true);
     }
   };
@@ -85,6 +90,13 @@ export default function ArtImageSequence({
     }
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isModalOpen]);
+
+  useEffect(() => {
+    if (!isModalOpen) return;
+    const src = images[modalIndex]?.src;
+    if (!src) return;
+    setIsModalLoading(!modalLoadedImages.has(src));
+  }, [isModalOpen, modalIndex, images, modalLoadedImages]);
 
   return (
     <div
@@ -179,37 +191,56 @@ export default function ArtImageSequence({
           )}
         </div>
       )}
-      {isModalOpen && (
+      <div
+        className={`fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 transition-opacity duration-200 ${
+          isModalOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+        onClick={handleBackdropClick}
+        onMouseDown={handleBackdropClick}
+        onPointerDown={handleBackdropClick}
+        onPointerUp={handleBackdropClick}
+        onMouseMove={(e) => e.stopPropagation()}
+        onPointerMove={(e) => e.stopPropagation()}
+      >
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4"
-          onClick={handleBackdropClick}
-          onMouseDown={handleBackdropClick}
-          onPointerDown={handleBackdropClick}
-          onPointerUp={handleBackdropClick}
-          onMouseMove={(e) => e.stopPropagation()}
-          onPointerMove={(e) => e.stopPropagation()}
+          ref={modalImageRef}
+          className="relative max-h-[90vh] max-w-[90vw] overflow-hidden rounded-lg"
+          onClick={(e) => e.stopPropagation()}
+          onMouseDown={(e) => e.stopPropagation()}
+          onPointerDown={(e) => e.stopPropagation()}
+          onMouseMove={handleModalMouseMove}
+          onPointerMove={(e) => handleModalMouseMove(e as React.MouseEvent<HTMLDivElement>)}
         >
-          <div
-            ref={modalImageRef}
-            className="max-h-[90vh] max-w-[90vw] overflow-hidden rounded-lg"
+          {isModalLoading && (
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <img
+                src="/assets/Star.svg"
+                alt="Loading"
+                className="h-16 w-16 star-spin-pause"
+                aria-hidden="true"
+              />
+            </div>
+          )}
+          <img
+            src={images[modalIndex]?.src}
+            alt={`${alt} ${modalIndex + 1}`}
+            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg"
+            draggable={false}
+            loading="eager"
             onClick={(e) => e.stopPropagation()}
-            onMouseDown={(e) => e.stopPropagation()}
             onPointerDown={(e) => e.stopPropagation()}
-            onMouseMove={handleModalMouseMove}
-            onPointerMove={(e) => handleModalMouseMove(e as React.MouseEvent<HTMLDivElement>)}
-          >
-            <img
-              src={images[modalIndex]?.src}
-              alt={`${alt} ${modalIndex + 1}`}
-              className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg"
-              draggable={false}
-              loading="eager"
-              onClick={(e) => e.stopPropagation()}
-              onPointerDown={(e) => e.stopPropagation()}
-            />
-          </div>
+            onLoad={() => {
+              const src = images[modalIndex]?.src;
+              if (!src) return;
+              setModalLoadedImages((prev) => new Set([...prev, src]));
+              setIsModalLoading(false);
+            }}
+            onError={() => setIsModalLoading(false)}
+          />
         </div>
-      )}
+      </div>
     </div>
   );
 }
