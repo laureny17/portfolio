@@ -4,10 +4,8 @@
 // Ccentral control center for all art images!
 //
 // HOW TO USE:
-// 1. To HIDE an image: Set `hidden: true`
-// 2. To SHOW an image: Set `hidden: false` or remove the property
-// 3. To ADD a new image: Add it to this registry with a unique ID
-// 4. To REMOVE an image: Set `hidden: true` or delete the entry
+// 1. To ADD a new image: Add it to this registry with a unique ID
+// 2. To REMOVE an image: Delete the entry
 //
 // Then reference images by their ID in art.ts
 // ============================================
@@ -16,7 +14,6 @@ export type ArtImageData = {
   id: string; // Unique identifier
   src: string; // Image path
   alt: string; // Alt text
-  hidden?: boolean; // Set to true to hide from gallery
   link?: string; // Optional link URL (e.g., YouTube video)
 };
 
@@ -52,13 +49,11 @@ export const artImages: Record<string, ArtImageData> = {
     id: "sip-vines",
     src: "/assets/art/digital-paintings/portfolio-2023/sip-vines.PNG",
     alt: "SIP Vines",
-    hidden: true,
   },
   "sip-wings": {
     id: "sip-wings",
     src: "/assets/art/digital-paintings/portfolio-2023/sip-wings.PNG",
     alt: "SIP Wings",
-    hidden: true,
   },
   "sip-woods": {
     id: "sip-woods",
@@ -322,13 +317,11 @@ export const artImages: Record<string, ArtImageData> = {
     id: "hack25-check-third",
     src: "/assets/art/hackmit/hack25/check-third-place.png",
     alt: "Hack25 Third Place Check",
-    hidden: true,
   },
   "hack25-check-beginner": {
     id: "hack25-check-beginner",
     src: "/assets/art/hackmit/hack25/check-beginner.png",
     alt: "Hack25 Beginner Check",
-    hidden: true,
   },
   "hack25-hacker-check-in": {
     id: "hack25-hacker-check-in",
@@ -464,13 +457,12 @@ export const artImages: Record<string, ArtImageData> = {
   },
 };
 
-// Helper function to get images by IDs (filters out hidden ones)
+// Helper function to get images by IDs
 export const getImagesByIds = (ids: string[]): ArtImageData[] => {
-  return ids.map((id) => artImages[id]).filter((img) => img && !img.hidden);
+  return ids.map((id) => artImages[id]).filter((img) => Boolean(img));
 };
 
 // Helper function to get a single image by ID
 export const getImageById = (id: string): ArtImageData | undefined => {
-  const img = artImages[id];
-  return img && !img.hidden ? img : undefined;
+  return artImages[id];
 };

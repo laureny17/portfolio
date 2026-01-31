@@ -12,7 +12,6 @@ import { getImagesByIds, type ArtImageData } from "./art-images";
 export type ArtImage = {
   src: string;
   alt: string;
-  hidden?: boolean;
   link?: string;
 };
 
@@ -32,7 +31,6 @@ const toArtImages = (images: ArtImageData[]): ArtImage[] => {
   return images.map((img) => ({
     src: img.src,
     alt: img.alt,
-    hidden: img.hidden,
     link: img.link,
   }));
 };

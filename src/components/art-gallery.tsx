@@ -10,22 +10,15 @@ type ArtGalleryProps = {
   sections: ArtSection[];
 };
 
-// Helper function to filter out hidden images
-const filterVisibleImages = (images: ArtImageType[]): ArtImageType[] => {
-  return images.filter((img) => !img.hidden);
-};
-
 // Helper function to identify image sequences
 const getImageSequences = (
   images: ArtImageType[]
 ): (ArtImageType | ArtImageType[])[] => {
-  // Filter out hidden images first
-  const visibleImages = filterVisibleImages(images);
   const sequences: (ArtImageType | ArtImageType[])[] = [];
   const processed = new Set<string>();
 
   // Extract bridge images
-  const bridgeImages = visibleImages
+  const bridgeImages = images
     .filter((img) => /bridge-\d+\.(PNG|png)/i.test(img.src))
     .sort((a, b) => {
       const numA = parseInt(a.src.match(/bridge-(\d+)/i)?.[1] || "0");
@@ -38,7 +31,7 @@ const getImageSequences = (
   }
 
   // Extract beaver icons
-  const beaverIcons = visibleImages
+  const beaverIcons = images
     .filter(
       (img) =>
         img.src.includes("beaver-icons/beaver-") &&
@@ -68,7 +61,7 @@ const getImageSequences = (
   }
 
   // Extract beaver sprites
-  const beaverSprites = visibleImages
+  const beaverSprites = images
     .filter(
       (img) =>
         img.src.includes("beaver-sprites/sprites-") &&
@@ -97,7 +90,7 @@ const getImageSequences = (
   }
 
   // Extract pixel fish
-  const fishImages = visibleImages
+  const fishImages = images
     .filter(
       (img) =>
         img.src.includes("pixel-fish/fish-") &&
@@ -118,8 +111,51 @@ const getImageSequences = (
     fishImages.forEach((img) => processed.add(img.src));
   }
 
+  const addSequenceByFilenames = (filenames: string[]) => {
+    const sequence = filenames
+      .map((filename) =>
+        images.find((img) => img.src.includes(filename))
+      )
+      .filter((img): img is ArtImageType => Boolean(img));
+    if (sequence.length === filenames.length) {
+      sequences.push(sequence);
+      sequence.forEach((img) => processed.add(img.src));
+    }
+  };
+
+  addSequenceByFilenames([
+    "bp26-crewneck-blue.png",
+    "bp26-crewneck-tan.png",
+  ]);
+  addSequenceByFilenames([
+    "check-first-place.png",
+    "check-second-place.png",
+    "check-third-place.png",
+    "check-beginner.png",
+  ]);
+  addSequenceByFilenames([
+    "hack-vertical.png",
+    "hacker-check-in.png",
+    "mentor-sponsor-check-in.png",
+  ]);
+  addSequenceByFilenames([
+    "splash-main.png",
+    "splash-tracks.png",
+    "splash-end.png",
+  ]);
+  addSequenceByFilenames(["tote-dark.jpeg", "tote-light.jpeg"]);
+  addSequenceByFilenames([
+    "hack25-playing-cards-1.jpeg",
+    "hack25-playing-cards-2.jpeg",
+  ]);
+  addSequenceByFilenames([
+    "greek-corinthian.PNG",
+    "greek-ionic.PNG",
+    "greek-doric.PNG",
+  ]);
+
   // Add remaining images as singles
-  visibleImages.forEach((image) => {
+  images.forEach((image) => {
     if (!processed.has(image.src)) {
       sequences.push(image);
     }
