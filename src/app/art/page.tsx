@@ -6,11 +6,10 @@ import { artSections } from "@/data/art";
 export default function Art() {
   return (
     <main className="pt-10 pb-20">
-      <div className="relative px-0 sm:px-8 md:px-12 lg:px-16 xl:px-20">
+      <div className="relative px-0">
         {/* Gallery */}
         <ArtGallery sections={artSections} />
       </div>
     </main>
   );
 }
-

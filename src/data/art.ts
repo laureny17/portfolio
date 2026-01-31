@@ -51,9 +51,8 @@ export const artSections: ArtSection[] = [
         "sip-vines",
         "sip-wings",
         "sip-woods",
-        // Self Portraits
-        "portrait",
         // Misc
+        "portrait",
         "sky-cotl",
         "tree",
         "bridge-1",
