@@ -102,8 +102,8 @@ export default function ArtImage({
             <Image
               src={image.src}
               alt={image.alt}
-              width={800}
-              height={800}
+              width={600}
+              height={600}
               loading={priority ? "eager" : "lazy"}
               priority={priority}
               className={`w-full h-auto object-contain ${

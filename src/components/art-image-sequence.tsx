@@ -155,8 +155,8 @@ export default function ArtImageSequence({
                 key={image.src}
                 src={image.src}
                 alt={`${alt} ${index + 1}`}
-                width={800}
-                height={800}
+                width={600}
+                height={600}
                 loading={priority && index === 0 ? "eager" : "lazy"}
                 priority={priority && index === 0}
                 className={`w-full h-auto object-contain ${
