@@ -162,10 +162,9 @@ export default function ArtGallery({ sections }: ArtGalleryProps) {
 
     if (windowWidth === 0) return 2; // SSR/default
 
-    if (windowWidth >= 1024) return 5; // lg+
-    if (windowWidth >= 768) return 4; // md
-    if (windowWidth >= 640) return 3; // sm
-    return 2; // mobile
+    if (windowWidth >= 1024) return 4; // lg+
+    if (windowWidth >= 768) return 3; // md
+    return 2; // sm + mobile
   };
 
   return (
