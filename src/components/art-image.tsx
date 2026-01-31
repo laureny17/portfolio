@@ -26,9 +26,7 @@ export default function ArtImage({
   const isFishSprite =
     image.src.includes("pixel-fish") || image.src.includes("fish-");
   const bgColor = isFishSprite ? "bg-black" : "bg-white";
-  const useNativeImg =
-    image.src.includes("/assets/art/hackmit/hack25/") ||
-    image.src.includes("animation/");
+  const useNativeImg = image.src.includes("animation/");
 
   const handleClick = () => {
     if (image.link) {
@@ -62,7 +60,7 @@ export default function ArtImage({
       className={`relative overflow-hidden rounded-lg block w-full select-none ${bgColor} ${
         image.link ? "cursor-pointer hover:opacity-90 transition-opacity" : "cursor-pointer"
       } ${
-        !isModalOpen ? "hover:scale-105 transition-transform duration-200" : ""
+        !isModalOpen ? "hover:scale-102 transition-transform duration-200" : ""
       }`}
       onClick={handleClick}
     >
@@ -106,6 +104,7 @@ export default function ArtImage({
               alt={image.alt}
               width={800}
               height={800}
+              loading={priority ? "eager" : "lazy"}
               priority={priority}
               className={`w-full h-auto object-contain ${
                 isLoading ? "opacity-0" : "opacity-100"

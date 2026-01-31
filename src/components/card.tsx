@@ -159,7 +159,7 @@ const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
                     alt={card.title}
                     width={mediaWidth || 300}
                     height={Math.floor((mediaWidth || 300) * 0.6)}
-                    className="object-contain transition-transform hover:scale-105 duration-300 max-h-[200px]"
+                    className="object-contain transition-transform hover:scale-102 duration-300 max-h-[200px]"
                     onError={(e) => {
                       if (isVideo(card.image[imageIndex])) {
                         handleImageError(e, card.image[imageIndex]);

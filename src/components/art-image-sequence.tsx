@@ -37,11 +37,7 @@ export default function ArtImageSequence({
     images.length > 0 &&
     (images[0].src.includes("pixel-fish") || images[0].src.includes("fish-"));
   const bgColor = isFishSprite ? "bg-black" : "bg-white";
-  const useNativeImg = images.some(
-    (img) =>
-      img.src.includes("/assets/art/hackmit/hack25/") ||
-      img.src.includes("animation/")
-  );
+  const useNativeImg = images.some((img) => img.src.includes("animation/"));
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (isModalOpen || !containerRef.current || images.length <= 1) return;
@@ -102,7 +98,7 @@ export default function ArtImageSequence({
     <div
       ref={containerRef}
       className={`relative overflow-hidden rounded-lg block w-full select-none ${bgColor} cursor-pointer ${
-        !isModalOpen ? "hover:scale-105 transition-transform duration-200" : ""
+        !isModalOpen ? "hover:scale-102 transition-transform duration-200" : ""
       }`}
       onMouseMove={handleMouseMove}
       onClick={handleClick}
@@ -161,6 +157,7 @@ export default function ArtImageSequence({
                 alt={`${alt} ${index + 1}`}
                 width={800}
                 height={800}
+                loading={priority && index === 0 ? "eager" : "lazy"}
                 priority={priority && index === 0}
                 className={`w-full h-auto object-contain ${
                   index === currentIndex
