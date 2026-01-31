@@ -25,6 +25,7 @@ export default function ArtImageSequence({
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const modalImageRef = useRef<HTMLDivElement>(null);
 
   // Check if this is a fish sprite sequence (needs black background)
   const isFishSprite =
@@ -36,13 +37,23 @@ export default function ArtImageSequence({
       img.src.includes("/assets/art/hackmit/hack25/") ||
       img.src.includes("animation/")
   );
-  const thumbnailQuality = 40;
-  const fullQuality = 90;
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!containerRef.current || images.length <= 1) return;
+    if (isModalOpen || !containerRef.current || images.length <= 1) return;
 
     const rect = containerRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const percentage = Math.max(0, Math.min(1, x / rect.width));
+    const newIndex = Math.floor(percentage * images.length);
+    const clampedIndex = Math.min(newIndex, images.length - 1);
+
+    setCurrentIndex(clampedIndex);
+  };
+
+  const handleModalMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isModalOpen || !modalImageRef.current || images.length <= 1) return;
+
+    const rect = modalImageRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const percentage = Math.max(0, Math.min(1, x / rect.width));
     const newIndex = Math.floor(percentage * images.length);
@@ -55,6 +66,10 @@ export default function ArtImageSequence({
     if (enableModal) {
       setIsModalOpen(true);
     }
+  };
+
+  const handleBackdropClick = () => {
+    setIsModalOpen(false);
   };
 
   useEffect(() => {
@@ -130,7 +145,6 @@ export default function ArtImageSequence({
                 alt={`${alt} ${index + 1}`}
                 width={800}
                 height={800}
-                quality={thumbnailQuality}
                 loading={priority && index === 0 ? undefined : "lazy"}
                 priority={priority && index === 0}
                 className={`w-full h-auto object-contain ${
@@ -166,32 +180,31 @@ export default function ArtImageSequence({
       {isModalOpen && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4"
-          onClick={() => setIsModalOpen(false)}
+          onClick={handleBackdropClick}
+          onMouseDown={handleBackdropClick}
+          onPointerDown={handleBackdropClick}
+          onPointerUp={handleBackdropClick}
+          onMouseMove={(e) => e.stopPropagation()}
+          onPointerMove={(e) => e.stopPropagation()}
         >
           <div
-            className="max-h-[90vh] max-w-[90vw]"
+            ref={modalImageRef}
+            className="max-h-[90vh] max-w-[90vw] overflow-hidden rounded-lg"
             onClick={(e) => e.stopPropagation()}
+            onMouseDown={(e) => e.stopPropagation()}
+            onPointerDown={(e) => e.stopPropagation()}
+            onMouseMove={handleModalMouseMove}
+            onPointerMove={(e) => handleModalMouseMove(e as React.MouseEvent<HTMLDivElement>)}
           >
-            {useNativeImg ? (
-              <img
-                src={images[currentIndex]?.src}
-                alt={`${alt} ${currentIndex + 1}`}
-                className="max-h-[90vh] max-w-[90vw] object-contain"
-                draggable={false}
-                loading="eager"
-              />
-            ) : (
-              <Image
-                src={images[currentIndex]?.src}
-                alt={`${alt} ${currentIndex + 1}`}
-                width={1600}
-                height={1600}
-                quality={fullQuality}
-                priority
-                className="max-h-[90vh] max-w-[90vw] object-contain"
-                sizes="90vw"
-              />
-            )}
+            <img
+              src={images[currentIndex]?.src}
+              alt={`${alt} ${currentIndex + 1}`}
+              className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg"
+              draggable={false}
+              loading="eager"
+              onClick={(e) => e.stopPropagation()}
+              onPointerDown={(e) => e.stopPropagation()}
+            />
           </div>
         </div>
       )}

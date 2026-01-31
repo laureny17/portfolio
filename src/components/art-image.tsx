@@ -28,8 +28,6 @@ export default function ArtImage({
   const useNativeImg =
     image.src.includes("/assets/art/hackmit/hack25/") ||
     image.src.includes("animation/");
-  const thumbnailQuality = 40;
-  const fullQuality = 90;
 
   const handleClick = () => {
     if (image.link) {
@@ -39,6 +37,10 @@ export default function ArtImage({
     if (enableModal) {
       setIsModalOpen(true);
     }
+  };
+
+  const handleBackdropClick = () => {
+    setIsModalOpen(false);
   };
 
   useEffect(() => {
@@ -100,7 +102,6 @@ export default function ArtImage({
               alt={image.alt}
               width={800}
               height={800}
-              quality={thumbnailQuality}
               loading={priority ? undefined : "lazy"}
               priority={priority}
               className={`w-full h-auto object-contain ${
@@ -123,32 +124,23 @@ export default function ArtImage({
       {isModalOpen && !image.link && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4"
-          onClick={() => setIsModalOpen(false)}
+          onClick={handleBackdropClick}
+          onMouseDown={handleBackdropClick}
+          onPointerDown={handleBackdropClick}
+          onPointerUp={handleBackdropClick}
         >
           <div
-            className="max-h-[90vh] max-w-[90vw]"
-            onClick={(e) => e.stopPropagation()}
+            className="max-h-[90vh] max-w-[90vw] overflow-hidden rounded-lg"
           >
-            {useNativeImg ? (
-              <img
-                src={image.src}
-                alt={image.alt}
-                className="max-h-[90vh] max-w-[90vw] object-contain"
-                draggable={false}
-                loading="eager"
-              />
-            ) : (
-              <Image
-                src={image.src}
-                alt={image.alt}
-                width={1600}
-                height={1600}
-                quality={fullQuality}
-                priority
-                className="max-h-[90vh] max-w-[90vw] object-contain"
-                sizes="90vw"
-              />
-            )}
+            <img
+              src={image.src}
+              alt={image.alt}
+              className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg"
+              draggable={false}
+              loading="eager"
+              onClick={(e) => e.stopPropagation()}
+              onPointerDown={(e) => e.stopPropagation()}
+            />
           </div>
         </div>
       )}
