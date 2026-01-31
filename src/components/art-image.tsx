@@ -104,7 +104,6 @@ export default function ArtImage({
               alt={image.alt}
               width={800}
               height={800}
-              loading={priority ? undefined : "lazy"}
               priority={priority}
               className={`w-full h-auto object-contain ${
                 isLoading ? "opacity-0" : "opacity-100"
@@ -136,7 +135,7 @@ export default function ArtImage({
       >
         <div className="relative max-h-[90vh] max-w-[90vw] overflow-hidden rounded-lg">
           {isModalLoading && (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
               <svg
                 className="h-16 w-16 star-spin-pause"
                 viewBox="0 0 473 466"
@@ -156,7 +155,7 @@ export default function ArtImage({
           <img
             src={image.src}
             alt={image.alt}
-            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg"
+            className="relative max-h-[90vh] max-w-[90vw] object-contain rounded-lg z-20"
             draggable={false}
             loading="eager"
             onClick={(e) => e.stopPropagation()}

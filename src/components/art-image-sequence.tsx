@@ -159,7 +159,6 @@ export default function ArtImageSequence({
                 alt={`${alt} ${index + 1}`}
                 width={800}
                 height={800}
-                loading={priority && index === 0 ? undefined : "lazy"}
                 priority={priority && index === 0}
                 className={`w-full h-auto object-contain ${
                   index === currentIndex
@@ -214,7 +213,7 @@ export default function ArtImageSequence({
           onPointerMove={(e) => handleModalMouseMove(e as React.MouseEvent<HTMLDivElement>)}
         >
           {isModalLoading && (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
               <svg
                 className="h-16 w-16 star-spin-pause"
                 viewBox="0 0 473 466"
@@ -234,7 +233,7 @@ export default function ArtImageSequence({
           <img
             src={images[modalIndex]?.src}
             alt={`${alt} ${modalIndex + 1}`}
-            className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg"
+            className="relative max-h-[90vh] max-w-[90vw] object-contain rounded-lg z-20"
             draggable={false}
             loading="eager"
             onClick={(e) => e.stopPropagation()}
