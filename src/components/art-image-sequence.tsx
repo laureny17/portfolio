@@ -20,6 +20,7 @@ export default function ArtImageSequence({
   enableModal = true,
 }: ArtImageSequenceProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [modalIndex, setModalIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [loadedImages, setLoadedImages] = useState<Set<string>>(new Set());
@@ -59,11 +60,12 @@ export default function ArtImageSequence({
     const newIndex = Math.floor(percentage * images.length);
     const clampedIndex = Math.min(newIndex, images.length - 1);
 
-    setCurrentIndex(clampedIndex);
+    setModalIndex(clampedIndex);
   };
 
   const handleClick = () => {
     if (enableModal) {
+      setModalIndex(currentIndex);
       setIsModalOpen(true);
     }
   };
@@ -197,8 +199,8 @@ export default function ArtImageSequence({
             onPointerMove={(e) => handleModalMouseMove(e as React.MouseEvent<HTMLDivElement>)}
           >
             <img
-              src={images[currentIndex]?.src}
-              alt={`${alt} ${currentIndex + 1}`}
+              src={images[modalIndex]?.src}
+              alt={`${alt} ${modalIndex + 1}`}
               className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg"
               draggable={false}
               loading="eager"
