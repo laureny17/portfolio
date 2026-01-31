@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Masonry from "react-masonry-css";
 import ArtImage from "./art-image";
 import ArtImageSequence from "./art-image-sequence";
@@ -16,112 +16,47 @@ const getImageSequences = (
 ): (ArtImageType | ArtImageType[])[] => {
   const sequences: (ArtImageType | ArtImageType[])[] = [];
   const processed = new Set<string>();
-
-  // Extract bridge images
-  const bridgeImages = images
-    .filter((img) => /bridge-\d+\.(PNG|png)/i.test(img.src))
-    .sort((a, b) => {
-      const numA = parseInt(a.src.match(/bridge-(\d+)/i)?.[1] || "0");
-      const numB = parseInt(b.src.match(/bridge-(\d+)/i)?.[1] || "0");
-      return numA - numB;
-    });
-  if (bridgeImages.length >= 4) {
-    sequences.push(bridgeImages);
-    bridgeImages.forEach((img) => processed.add(img.src));
-  }
-
-  // Extract beaver icons
-  const beaverIcons = images
-    .filter(
-      (img) =>
-        img.src.includes("beaver-icons/beaver-") &&
-        /beaver-(cool|warm)-(bow|glasses|normal|shades)\.(PNG|png)/i.test(
-          img.src
-        )
-    )
-    .sort((a, b) => {
-      // Sort by cool/warm, then by type
-      const aMatch = a.src.match(
-        /beaver-(cool|warm)-(bow|glasses|normal|shades)/i
-      );
-      const bMatch = b.src.match(
-        /beaver-(cool|warm)-(bow|glasses|normal|shades)/i
-      );
-      if (!aMatch || !bMatch) return 0;
-      const order = ["cool", "warm"];
-      const typeOrder = ["normal", "glasses", "shades", "bow"];
-      const aTemp = order.indexOf(aMatch[1]);
-      const bTemp = order.indexOf(bMatch[1]);
-      if (aTemp !== bTemp) return aTemp - bTemp;
-      return typeOrder.indexOf(aMatch[2]) - typeOrder.indexOf(bMatch[2]);
-    });
-  if (beaverIcons.length >= 8) {
-    sequences.push(beaverIcons);
-    beaverIcons.forEach((img) => processed.add(img.src));
-  }
-
-  // Extract beaver sprites
-  const beaverSprites = images
-    .filter(
-      (img) =>
-        img.src.includes("beaver-sprites/sprites-") &&
-        /sprites-(cool|warm)-(bow|glasses|normal|shades)\.(PNG|png)/i.test(
-          img.src
-        )
-    )
-    .sort((a, b) => {
-      const aMatch = a.src.match(
-        /sprites-(cool|warm)-(bow|glasses|normal|shades)/i
-      );
-      const bMatch = b.src.match(
-        /sprites-(cool|warm)-(bow|glasses|normal|shades)/i
-      );
-      if (!aMatch || !bMatch) return 0;
-      const order = ["cool", "warm"];
-      const typeOrder = ["normal", "glasses", "shades", "bow"];
-      const aTemp = order.indexOf(aMatch[1]);
-      const bTemp = order.indexOf(bMatch[1]);
-      if (aTemp !== bTemp) return aTemp - bTemp;
-      return typeOrder.indexOf(aMatch[2]) - typeOrder.indexOf(bMatch[2]);
-    });
-  if (beaverSprites.length >= 8) {
-    sequences.push(beaverSprites);
-    beaverSprites.forEach((img) => processed.add(img.src));
-  }
-
-  // Extract pixel fish
-  const fishImages = images
-    .filter(
-      (img) =>
-        img.src.includes("pixel-fish/fish-") &&
-        /fish-(annoyed|normal|sleep)-\d+\.(PNG|png)/i.test(img.src)
-    )
-    .sort((a, b) => {
-      const aMatch = a.src.match(/fish-(annoyed|normal|sleep)-(\d+)/i);
-      const bMatch = b.src.match(/fish-(annoyed|normal|sleep)-(\d+)/i);
-      if (!aMatch || !bMatch) return 0;
-      const typeOrder = ["normal", "annoyed", "sleep"];
-      const aType = typeOrder.indexOf(aMatch[1]);
-      const bType = typeOrder.indexOf(bMatch[1]);
-      if (aType !== bType) return aType - bType;
-      return parseInt(aMatch[2]) - parseInt(bMatch[2]);
-    });
-  if (fishImages.length >= 6) {
-    sequences.push(fishImages);
-    fishImages.forEach((img) => processed.add(img.src));
-  }
+  const sequenceMap = new Map<string, ArtImageType[]>();
 
   const addSequenceByFilenames = (filenames: string[]) => {
     const sequence = filenames
-      .map((filename) =>
-        images.find((img) => img.src.includes(filename))
-      )
+      .map((filename) => images.find((img) => img.src.includes(filename)))
       .filter((img): img is ArtImageType => Boolean(img));
     if (sequence.length === filenames.length) {
-      sequences.push(sequence);
-      sequence.forEach((img) => processed.add(img.src));
+      sequence.forEach((img) => sequenceMap.set(img.src, sequence));
     }
   };
+
+  addSequenceByFilenames(["bridge-1.PNG", "bridge-2.PNG", "bridge-3.PNG", "bridge-4.PNG"]);
+
+  // addSequenceByFilenames([
+  //   "beaver-icons/beaver-cool-normal.PNG",
+  //   "beaver-icons/beaver-cool-glasses.PNG",
+  //   "beaver-icons/beaver-cool-shades.PNG",
+  //   "beaver-icons/beaver-cool-bow.PNG",
+  //   "beaver-icons/beaver-warm-normal.PNG",
+  //   "beaver-icons/beaver-warm-glasses.PNG",
+  //   "beaver-icons/beaver-warm-shades.PNG",
+  //   "beaver-icons/beaver-warm-bow.PNG",
+  // ]);
+  // addSequenceByFilenames([
+  //   "beaver-sprites/sprites-cool-normal.PNG",
+  //   "beaver-sprites/sprites-cool-glasses.PNG",
+  //   "beaver-sprites/sprites-cool-shades.PNG",
+  //   "beaver-sprites/sprites-cool-bow.PNG",
+  //   "beaver-sprites/sprites-warm-normal.PNG",
+  //   "beaver-sprites/sprites-warm-glasses.PNG",
+  //   "beaver-sprites/sprites-warm-shades.PNG",
+  //   "beaver-sprites/sprites-warm-bow.PNG",
+  // ]);
+  // addSequenceByFilenames([
+  //   "pixel-fish/fish-normal-1.PNG",
+  //   "pixel-fish/fish-normal-2.PNG",
+  //   "pixel-fish/fish-annoyed-1.PNG",
+  //   "pixel-fish/fish-annoyed-2.PNG",
+  //   "pixel-fish/fish-sleep-1.PNG",
+  //   "pixel-fish/fish-sleep-2.PNG",
+  // ]);
 
   addSequenceByFilenames([
     "hack26-prospectus-01.png",
@@ -154,7 +89,7 @@ const getImageSequences = (
     "splash-tracks.png",
     "splash-end.png",
   ]);
-  addSequenceByFilenames(["tote-dark.jpeg", "tote-light.jpeg"]);
+  addSequenceByFilenames(["tote-light.jpeg", "tote-dark.jpeg"]);
   addSequenceByFilenames([
     "hack25-playing-cards-1.jpeg",
     "hack25-playing-cards-2.jpeg",
@@ -165,11 +100,16 @@ const getImageSequences = (
     "greek-doric.PNG",
   ]);
 
-  // Add remaining images as singles
   images.forEach((image) => {
-    if (!processed.has(image.src)) {
-      sequences.push(image);
+    if (processed.has(image.src)) return;
+    const sequence = sequenceMap.get(image.src);
+    if (sequence) {
+      sequences.push(sequence);
+      sequence.forEach((img) => processed.add(img.src));
+      return;
     }
+    sequences.push(image);
+    processed.add(image.src);
   });
 
   return sequences;

@@ -1,27 +1,57 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ArtImage as ArtImageType } from "@/data/art";
 
 type ArtImageProps = {
   image: ArtImageType;
+  priority?: boolean;
+  onLoadComplete?: () => void;
+  enableModal?: boolean;
 };
 
-export default function ArtImage({ image }: ArtImageProps) {
+export default function ArtImage({
+  image,
+  priority = false,
+  onLoadComplete,
+  enableModal = true,
+}: ArtImageProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Check if this is a fish sprite (needs black background)
   const isFishSprite =
     image.src.includes("pixel-fish") || image.src.includes("fish-");
   const bgColor = isFishSprite ? "bg-black" : "bg-white";
+  const useNativeImg =
+    image.src.includes("/assets/art/hackmit/hack25/") ||
+    image.src.includes("animation/");
+  const thumbnailQuality = 40;
+  const fullQuality = 90;
 
   const handleClick = () => {
     if (image.link) {
       window.open(image.link, "_blank", "noopener,noreferrer");
+      return;
+    }
+    if (enableModal) {
+      setIsModalOpen(true);
     }
   };
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsModalOpen(false);
+      }
+    };
+    if (isModalOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isModalOpen]);
 
   return (
     <div
@@ -45,8 +75,8 @@ export default function ArtImage({ image }: ArtImageProps) {
         </div>
       ) : (
         <div className={`relative w-full ${bgColor}`}>
-          {image.src.includes("animation/") ? (
-            // Use unoptimized img tag for animation images to avoid Next.js optimization issues
+          {useNativeImg ? (
+            // Use unoptimized img tag for animation/HackMIT images to avoid Next.js optimization issues
             <img
               src={image.src}
               alt={image.alt}
@@ -54,7 +84,11 @@ export default function ArtImage({ image }: ArtImageProps) {
                 isLoading ? "opacity-0" : "opacity-100"
               }`}
               draggable={false}
-              onLoad={() => setIsLoading(false)}
+              loading={priority ? "eager" : "lazy"}
+              onLoad={() => {
+                setIsLoading(false);
+                onLoadComplete?.();
+              }}
               onError={() => {
                 setIsLoading(false);
                 setHasError(true);
@@ -66,13 +100,17 @@ export default function ArtImage({ image }: ArtImageProps) {
               alt={image.alt}
               width={800}
               height={800}
-              quality={75}
-              loading="lazy"
+              quality={thumbnailQuality}
+              loading={priority ? undefined : "lazy"}
+              priority={priority}
               className={`w-full h-auto object-contain ${
                 isLoading ? "opacity-0" : "opacity-100"
               }`}
               draggable={false}
-              onLoad={() => setIsLoading(false)}
+              onLoad={() => {
+                setIsLoading(false);
+                onLoadComplete?.();
+              }}
               onError={() => {
                 setIsLoading(false);
                 setHasError(true);
@@ -80,6 +118,38 @@ export default function ArtImage({ image }: ArtImageProps) {
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
             />
           )}
+        </div>
+      )}
+      {isModalOpen && !image.link && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4"
+          onClick={() => setIsModalOpen(false)}
+        >
+          <div
+            className="max-h-[90vh] max-w-[90vw]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {useNativeImg ? (
+              <img
+                src={image.src}
+                alt={image.alt}
+                className="max-h-[90vh] max-w-[90vw] object-contain"
+                draggable={false}
+                loading="eager"
+              />
+            ) : (
+              <Image
+                src={image.src}
+                alt={image.alt}
+                width={1600}
+                height={1600}
+                quality={fullQuality}
+                priority
+                className="max-h-[90vh] max-w-[90vw] object-contain"
+                sizes="90vw"
+              />
+            )}
+          </div>
         </div>
       )}
     </div>
