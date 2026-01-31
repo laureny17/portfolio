@@ -101,7 +101,9 @@ export default function ArtImageSequence({
   return (
     <div
       ref={containerRef}
-      className={`relative overflow-hidden rounded-lg block w-full select-none ${bgColor}`}
+      className={`relative overflow-hidden rounded-lg block w-full select-none ${bgColor} cursor-pointer ${
+        !isModalOpen ? "hover:scale-105 transition-transform duration-200" : ""
+      }`}
       onMouseMove={handleMouseMove}
       onClick={handleClick}
     >

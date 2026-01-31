@@ -60,7 +60,9 @@ export default function ArtImage({
   return (
     <div
       className={`relative overflow-hidden rounded-lg block w-full select-none ${bgColor} ${
-        image.link ? "cursor-pointer hover:opacity-90 transition-opacity" : ""
+        image.link ? "cursor-pointer hover:opacity-90 transition-opacity" : "cursor-pointer"
+      } ${
+        !isModalOpen ? "hover:scale-105 transition-transform duration-200" : ""
       }`}
       onClick={handleClick}
     >
