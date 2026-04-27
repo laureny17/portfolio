@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState, useEffect, useMemo } from "react";
 import ProjectGrid from "@/components/project-grid";
-import { projects as projectCards } from "../data/projects";
+import { hiddenProjectIds, projects as projectCards } from "../data/projects";
 
 export default function Home() {
   const [windowWidth, setWindowWidth] = useState(0);
@@ -11,7 +11,7 @@ export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 }); // Mouse position
   const [shadowPosition, setShadowPosition] = useState({ x: 0, y: 0 });
   const [selectedTechnologies, setSelectedTechnologies] = useState<Set<string>>(
-    new Set()
+    new Set(),
   );
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -40,6 +40,10 @@ export default function Home() {
   // Filter projects based on selected technologies
   const filteredProjects = useMemo(() => {
     return projectCards.filter((card) => {
+      if (hiddenProjectIds.has(card.id)) {
+        return false;
+      }
+
       // Filter by technology - show if project has at least one selected technology
       if (selectedTechnologies.size > 0) {
         return card.tags.some((tag) => selectedTechnologies.has(tag));
@@ -235,12 +239,25 @@ export default function Home() {
           <div className="mb-8 flex flex-col sm:flex-row sm:justify-between items-start gap-4 sm:gap-6 sm:gap-8">
             {/* Header */}
             <div>
-              <div className="text-base md:text-xl lg:text-2xl">
-                Here are some projects I've worked on!
-              </div>
-              <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 font-medium mt-2">
-                Click on a project card to learn more.
-              </p>
+              {filteredProjects.length > 0 ? (
+                <>
+                  <div className="text-base md:text-xl lg:text-2xl">
+                    Here are some projects I&apos;ve worked on!
+                  </div>
+                  <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 font-medium mt-2">
+                    Click on a project card to learn more.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <div className="text-base md:text-xl lg:text-2xl">
+                    I&apos;m reworking this portfolio right now.
+                  </div>
+                  <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 font-medium mt-2">
+                    Check back soon for the next version.
+                  </p>
+                </>
+              )}
             </div>
 
             {/* Filters */}
@@ -287,7 +304,9 @@ export default function Home() {
 
           {/* Projects Grid */}
           <div className="w-full mb-16">
-            <ProjectGrid cards={filteredProjects} />
+            {filteredProjects.length > 0 ? (
+              <ProjectGrid cards={filteredProjects} />
+            ) : null}
           </div>
         </div>
       </section>

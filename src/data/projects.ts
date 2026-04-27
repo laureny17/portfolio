@@ -1,5 +1,7 @@
 import type { Card } from "@/components/card";
 
+export const hiddenProjectIds = new Set<number>([1, 2, 3, 4, 5]);
+
 export const projects: Card[] = [
   {
     id: 1,
