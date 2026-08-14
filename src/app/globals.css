@@ -131,6 +131,16 @@ footer span {
   line-height: 1 !important;
 }
 
+/* Tighter line-height for project card titles, so wrapped titles don't get huge gaps */
+.card-title {
+  line-height: 1 !important;
+}
+
+/* Tighter line-height for the "why this link isn't available" popup */
+.icon-tooltip {
+  line-height: 1.15 !important;
+}
+
 /* Fix vertical alignment for rounded badge/button elements */
 .rounded-full {
   line-height: 1 !important;
