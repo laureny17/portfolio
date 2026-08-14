@@ -19,6 +19,63 @@ export type ArtImageData = {
 
 // All your art images in one place!
 export const artImages: Record<string, ArtImageData> = {
+  // 21T.121, Spring 2026
+  "s26-bag": {
+    id: "s26-bag",
+    src: "/assets/art/21T.121-S26/bag.jpeg",
+    alt: "Bag",
+  },
+  "s26-bp-setup": {
+    id: "s26-bp-setup",
+    src: "/assets/art/21T.121-S26/bp-setup.jpeg",
+    alt: "BP Setup",
+  },
+  "s26-jug": {
+    id: "s26-jug",
+    src: "/assets/art/21T.121-S26/jug.jpeg",
+    alt: "Jug",
+  },
+  "s26-model-1": {
+    id: "s26-model-1",
+    src: "/assets/art/21T.121-S26/model-1.jpeg",
+    alt: "Model 1",
+  },
+  "s26-model-2a": {
+    id: "s26-model-2a",
+    src: "/assets/art/21T.121-S26/model-2a.jpeg",
+    alt: "Model 2a",
+  },
+  "s26-model-2b": {
+    id: "s26-model-2b",
+    src: "/assets/art/21T.121-S26/model-2b.jpeg",
+    alt: "Model 2b",
+  },
+  "s26-perfumes": {
+    id: "s26-perfumes",
+    src: "/assets/art/21T.121-S26/perfumes.jpeg",
+    alt: "Perfumes",
+  },
+  "s26-replica": {
+    id: "s26-replica",
+    src: "/assets/art/21T.121-S26/replica.jpeg",
+    alt: "Replica",
+  },
+  "s26-scarf": {
+    id: "s26-scarf",
+    src: "/assets/art/21T.121-S26/scarf.jpeg",
+    alt: "Scarf",
+  },
+  "s26-skelly": {
+    id: "s26-skelly",
+    src: "/assets/art/21T.121-S26/skelly.jpeg",
+    alt: "Skelly",
+  },
+  "s26-zeus": {
+    id: "s26-zeus",
+    src: "/assets/art/21T.121-S26/zeus.jpeg",
+    alt: "Zeus",
+  },
+
   // Digital Paintings - Portfolio 2023
   "sip-clouds": {
     id: "sip-clouds",
@@ -45,187 +102,22 @@ export const artImages: Record<string, ArtImageData> = {
     src: "/assets/art/digital-paintings/portfolio-2023/sip-swirl.PNG",
     alt: "SIP Swirl",
   },
-  "sip-vines": {
-    id: "sip-vines",
-    src: "/assets/art/digital-paintings/portfolio-2023/sip-vines.PNG",
-    alt: "SIP Vines",
-  },
-  "sip-wings": {
-    id: "sip-wings",
-    src: "/assets/art/digital-paintings/portfolio-2023/sip-wings.PNG",
-    alt: "SIP Wings",
-  },
   "sip-woods": {
     id: "sip-woods",
     src: "/assets/art/digital-paintings/portfolio-2023/sip-woods.PNG",
     alt: "SIP Woods",
   },
 
-  // Digital Paintings - Self Portraits
-  portrait: {
-    id: "portrait",
-    src: "/assets/art/digital-paintings/misc/portrait.PNG",
-    alt: "Portrait",
-  },
-
   // Digital Paintings - Misc
-  "bridge-1": {
-    id: "bridge-1",
-    src: "/assets/art/digital-paintings/misc/bridge-1.PNG",
-    alt: "Bridge 1",
-  },
-  "bridge-2": {
-    id: "bridge-2",
-    src: "/assets/art/digital-paintings/misc/bridge-2.PNG",
-    alt: "Bridge 2",
-  },
-  "bridge-3": {
-    id: "bridge-3",
-    src: "/assets/art/digital-paintings/misc/bridge-3.PNG",
-    alt: "Bridge 3",
-  },
-  "bridge-4": {
-    id: "bridge-4",
-    src: "/assets/art/digital-paintings/misc/bridge-4.PNG",
-    alt: "Bridge 4",
-  },
   "sky-cotl": {
     id: "sky-cotl",
     src: "/assets/art/digital-paintings/misc/sky-cotl.PNG",
     alt: "Sky COTL",
   },
-
-  // Games - Dam Campus - Beaver Icons
-  "beaver-cool-bow": {
-    id: "beaver-cool-bow",
-    src: "/assets/art/games/beaver-icons/beaver-cool-bow.PNG",
-    alt: "Beaver Cool Bow",
-  },
-  "beaver-cool-glasses": {
-    id: "beaver-cool-glasses",
-    src: "/assets/art/games/beaver-icons/beaver-cool-glasses.PNG",
-    alt: "Beaver Cool Glasses",
-  },
-  "beaver-cool-normal": {
-    id: "beaver-cool-normal",
-    src: "/assets/art/games/beaver-icons/beaver-cool-normal.PNG",
-    alt: "Beaver Cool Normal",
-  },
-  "beaver-cool-shades": {
-    id: "beaver-cool-shades",
-    src: "/assets/art/games/beaver-icons/beaver-cool-shades.PNG",
-    alt: "Beaver Cool Shades",
-  },
-  "beaver-warm-bow": {
-    id: "beaver-warm-bow",
-    src: "/assets/art/games/beaver-icons/beaver-warm-bow.PNG",
-    alt: "Beaver Warm Bow",
-  },
-  "beaver-warm-glasses": {
-    id: "beaver-warm-glasses",
-    src: "/assets/art/games/beaver-icons/beaver-warm-glasses.PNG",
-    alt: "Beaver Warm Glasses",
-  },
-  "beaver-warm-normal": {
-    id: "beaver-warm-normal",
-    src: "/assets/art/games/beaver-icons/beaver-warm-normal.PNG",
-    alt: "Beaver Warm Normal",
-  },
-  "beaver-warm-shades": {
-    id: "beaver-warm-shades",
-    src: "/assets/art/games/beaver-icons/beaver-warm-shades.PNG",
-    alt: "Beaver Warm Shades",
-  },
-
-  // Games - Dam Campus - Beaver Misc
-  "campus-bg": {
-    id: "campus-bg",
-    src: "/assets/art/games/beaver-misc/campus-bg.PNG",
-    alt: "Campus Background",
-  },
-  log: {
-    id: "log",
-    src: "/assets/art/games/beaver-misc/log.PNG",
-    alt: "Log",
-  },
-  "pressure-plate": {
-    id: "pressure-plate",
-    src: "/assets/art/games/beaver-misc/pressure-plate.PNG",
-    alt: "Pressure Plate",
-  },
-
-  // Games - Dam Campus - Beaver Sprites
-  "sprites-cool-bow": {
-    id: "sprites-cool-bow",
-    src: "/assets/art/games/beaver-sprites/sprites-cool-bow.PNG",
-    alt: "Sprites Cool Bow",
-  },
-  "sprites-cool-glasses": {
-    id: "sprites-cool-glasses",
-    src: "/assets/art/games/beaver-sprites/sprites-cool-glasses.PNG",
-    alt: "Sprites Cool Glasses",
-  },
-  "sprites-cool-normal": {
-    id: "sprites-cool-normal",
-    src: "/assets/art/games/beaver-sprites/sprites-cool-normal.PNG",
-    alt: "Sprites Cool Normal",
-  },
-  "sprites-cool-shades": {
-    id: "sprites-cool-shades",
-    src: "/assets/art/games/beaver-sprites/sprites-cool-shades.PNG",
-    alt: "Sprites Cool Shades",
-  },
-  "sprites-warm-bow": {
-    id: "sprites-warm-bow",
-    src: "/assets/art/games/beaver-sprites/sprites-warm-bow.PNG",
-    alt: "Sprites Warm Bow",
-  },
-  "sprites-warm-glasses": {
-    id: "sprites-warm-glasses",
-    src: "/assets/art/games/beaver-sprites/sprites-warm-glasses.PNG",
-    alt: "Sprites Warm Glasses",
-  },
-  "sprites-warm-normal": {
-    id: "sprites-warm-normal",
-    src: "/assets/art/games/beaver-sprites/sprites-warm-normal.PNG",
-    alt: "Sprites Warm Normal",
-  },
-  "sprites-warm-shades": {
-    id: "sprites-warm-shades",
-    src: "/assets/art/games/beaver-sprites/sprites-warm-shades.PNG",
-    alt: "Sprites Warm Shades",
-  },
-
-  // Games - Phabulous Phishes
-  "fish-annoyed-1": {
-    id: "fish-annoyed-1",
-    src: "/assets/art/games/pixel-fish/fish-annoyed-1.PNG",
-    alt: "Fish Annoyed 1",
-  },
-  "fish-annoyed-2": {
-    id: "fish-annoyed-2",
-    src: "/assets/art/games/pixel-fish/fish-annoyed-2.PNG",
-    alt: "Fish Annoyed 2",
-  },
-  "fish-normal-1": {
-    id: "fish-normal-1",
-    src: "/assets/art/games/pixel-fish/fish-normal-1.PNG",
-    alt: "Fish Normal 1",
-  },
-  "fish-normal-2": {
-    id: "fish-normal-2",
-    src: "/assets/art/games/pixel-fish/fish-normal-2.PNG",
-    alt: "Fish Normal 2",
-  },
-  "fish-sleep-1": {
-    id: "fish-sleep-1",
-    src: "/assets/art/games/pixel-fish/fish-sleep-1.PNG",
-    alt: "Fish Sleep 1",
-  },
-  "fish-sleep-2": {
-    id: "fish-sleep-2",
-    src: "/assets/art/games/pixel-fish/fish-sleep-2.PNG",
-    alt: "Fish Sleep 2",
+  "arcane-style-study": {
+    id: "arcane-style-study",
+    src: "/assets/art/digital-paintings/misc/arcane-style-study.jpg",
+    alt: "Arcane Style Study",
   },
 
   // HackMIT - BP25
@@ -248,6 +140,13 @@ export const artImages: Record<string, ArtImageData> = {
     id: "bp25-table-sign",
     src: "/assets/art/hackmit/bp25/bp25-table-sign.PNG",
     alt: "BP25 Table Sign",
+  },
+
+  // HackMIT - Hack26
+  "hack26-tote": {
+    id: "hack26-tote",
+    src: "/assets/art/hackmit/hack26/hack26-tote.webp",
+    alt: "Hack26 Tote",
   },
 
   // HackMIT - BP26
@@ -455,10 +354,15 @@ export const artImages: Record<string, ArtImageData> = {
     src: "/assets/art/sketches/tori-sleep.jpg",
     alt: "Tori Sleep",
   },
-  tree: {
-    id: "tree",
-    src: "/assets/art/digital-paintings/misc/tree.jpeg",
-    alt: "Tree",
+  jinx: {
+    id: "jinx",
+    src: "/assets/art/sketches/jinx.jpg",
+    alt: "Jinx",
+  },
+  "pin-girl": {
+    id: "pin-girl",
+    src: "/assets/art/sketches/pin-girl.jpg",
+    alt: "Pin Girl",
   },
 
   // Traditional

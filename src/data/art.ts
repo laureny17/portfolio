@@ -37,6 +37,24 @@ const toArtImages = (images: ArtImageData[]): ArtImage[] => {
 
 export const artSections: ArtSection[] = [
   {
+    name: "21T.121, Spring 2026",
+    images: toArtImages(
+      getImagesByIds([
+        "s26-bag",
+        "s26-bp-setup",
+        "s26-jug",
+        "s26-model-1",
+        "s26-model-2a",
+        "s26-model-2b",
+        "s26-perfumes",
+        "s26-replica",
+        "s26-scarf",
+        "s26-skelly",
+        "s26-zeus",
+      ])
+    ),
+  },
+  {
     name: "Digital Paintings",
     images: toArtImages(
       getImagesByIds([
@@ -46,17 +64,10 @@ export const artSections: ArtSection[] = [
         "sip-lake",
         "sip-sunset",
         "sip-swirl",
-        "sip-vines",
-        "sip-wings",
         "sip-woods",
         // Misc
-        "portrait",
         "sky-cotl",
-        "tree",
-        "bridge-1",
-        "bridge-2",
-        "bridge-3",
-        "bridge-4",
+        "arcane-style-study",
       ])
     ),
   },
@@ -73,6 +84,8 @@ export const artSections: ArtSection[] = [
         "greek-ionic",
         "sketch-cat",
         "tori-sleep",
+        "jinx",
+        "pin-girl",
       ])
     ),
   },
@@ -89,7 +102,7 @@ export const artSections: ArtSection[] = [
     ),
   },
   {
-    name: "HackMIT",
+    name: "HackMIT Marketing",
     subsections: [
       {
         name: "HackMIT 2025, Marketing Head",
@@ -127,7 +140,11 @@ export const artSections: ArtSection[] = [
         ),
       },
       {
-        name: "Blueprint 2025, Marketing",
+        name: "HackMIT 2026",
+        images: toArtImages(getImagesByIds(["hack26-tote"])),
+      },
+      {
+        name: "Blueprint 2025",
         images: toArtImages(
           getImagesByIds([
             "bp25-fb",
@@ -138,7 +155,7 @@ export const artSections: ArtSection[] = [
         ),
       },
       {
-        name: "Blueprint 2026, Marketing",
+        name: "Blueprint 2026",
         images: toArtImages(
           getImagesByIds([
             "bp26-about-layout",

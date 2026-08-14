@@ -27,37 +27,6 @@ const getImageSequences = (
     }
   };
 
-  addSequenceByFilenames(["bridge-1.PNG", "bridge-2.PNG", "bridge-3.PNG", "bridge-4.PNG"]);
-
-  // addSequenceByFilenames([
-  //   "beaver-icons/beaver-cool-normal.PNG",
-  //   "beaver-icons/beaver-cool-glasses.PNG",
-  //   "beaver-icons/beaver-cool-shades.PNG",
-  //   "beaver-icons/beaver-cool-bow.PNG",
-  //   "beaver-icons/beaver-warm-normal.PNG",
-  //   "beaver-icons/beaver-warm-glasses.PNG",
-  //   "beaver-icons/beaver-warm-shades.PNG",
-  //   "beaver-icons/beaver-warm-bow.PNG",
-  // ]);
-  // addSequenceByFilenames([
-  //   "beaver-sprites/sprites-cool-normal.PNG",
-  //   "beaver-sprites/sprites-cool-glasses.PNG",
-  //   "beaver-sprites/sprites-cool-shades.PNG",
-  //   "beaver-sprites/sprites-cool-bow.PNG",
-  //   "beaver-sprites/sprites-warm-normal.PNG",
-  //   "beaver-sprites/sprites-warm-glasses.PNG",
-  //   "beaver-sprites/sprites-warm-shades.PNG",
-  //   "beaver-sprites/sprites-warm-bow.PNG",
-  // ]);
-  // addSequenceByFilenames([
-  //   "pixel-fish/fish-normal-1.PNG",
-  //   "pixel-fish/fish-normal-2.PNG",
-  //   "pixel-fish/fish-annoyed-1.PNG",
-  //   "pixel-fish/fish-annoyed-2.PNG",
-  //   "pixel-fish/fish-sleep-1.PNG",
-  //   "pixel-fish/fish-sleep-2.PNG",
-  // ]);
-
   addSequenceByFilenames([
     "hack26-prospectus-01.png",
     "hack26-prospectus-02.png",
@@ -144,8 +113,7 @@ export default function ArtGallery({ sections }: ArtGalleryProps) {
 
   // Helper function to get column count based on screen size
   const getColumnCount = (imageCount: number) => {
-    if (imageCount <= 1) return 1;
-    if (imageCount === 2) return 2;
+    if (imageCount <= 2) return 2;
 
     if (windowWidth === 0) return 2; // SSR/default
 

@@ -230,19 +230,15 @@ h3.art-subsection-header {
 .masonry-grid {
   display: flex;
   width: 100%;
-  gap: 1rem;
+  margin-left: -1rem;
 }
 
 .masonry-grid_column {
-  padding-left: 0;
+  padding-left: 1rem;
   background-clip: padding-box;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  flex: 1 1 0;
 }
 
 .masonry-grid_column > div {
-  margin-bottom: 0;
+  margin-bottom: 1rem;
   width: 100%;
 }
