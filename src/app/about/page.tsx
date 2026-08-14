@@ -1,23 +1,60 @@
 "use client";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function About() {
-  const languages = ["Python", "TypeScript", "JavaScript", "Java", "C", "C#"];
-  const frameworksPlatforms = [
-    "React",
-    "Next.js",
-    "Vue.js",
-    "Angular",
-    "Tailwind CSS",
-    "Node.js",
-    "Express.js",
-    "Django",
-    "Flask",
-    "MongoDB",
-    "Firebase",
-    "Figma",
-    "Unity",
+  const skillCategories = [
+    {
+      title: "Languages",
+      items: ["Python", "TypeScript", "JavaScript", "Java", "C#", "C", "Assembly"],
+    },
+    {
+      title: "Frameworks & Libraries",
+      items: [
+        "React",
+        "Next.js",
+        "TanStack Query",
+        "Node.js",
+        "Express",
+        "Fastify",
+        "Django",
+        "Flask",
+        "React Native",
+        "Tailwind",
+        "Three.js",
+        "OpenCV",
+        "Electron",
+      ],
+    },
+    {
+      title: "Data, Cloud, & DevOps",
+      items: [
+        "SQL",
+        "PostgreSQL",
+        "MongoDB",
+        "Supabase",
+        "Firebase",
+        "Apache Spark (SparkSQL)",
+        "Presto/Trino",
+        "Apache Airflow",
+        "Thrift",
+        "AWS",
+        "Docker",
+        "Git",
+      ],
+    },
+    {
+      title: "Design & Creative Tools",
+      items: [
+        "Figma",
+        "Adobe Illustrator",
+        "Adobe After Effects",
+        "Adobe Animate",
+        "Unity 3D",
+      ],
+    },
   ];
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   return (
     <div className="grid grid-cols-1 min-[900px]:grid-cols-2 gap-10 lg:gap-20 py-10 px-0 sm:px-8 md:px-12 lg:px-16 xl:px-20">
@@ -347,44 +384,57 @@ export default function About() {
           />
         </div>
 
-        {/* languages */}
+        {/* technical skills */}
         <div>
-          <p className="text-base sm:text-lg md:text-xl lg:text-2xl pb-3">
-            Languages
-          </p>
-          <div className="hidden min-[320px]:flex flex-wrap gap-2">
-            {languages.map((language) => (
-              <span
-                key={language}
-                className="px-3 py-0.5 bg-[var(--accent)] text-[var(--black)] rounded-full text-xs sm:text-sm"
-              >
-                {language}
-              </span>
-            ))}
-          </div>
-          <p className="block min-[320px]:hidden text-xs text-gray-600 italic">
-            {languages.join(", ")}
-          </p>
-        </div>
-
-        {/* frameworks and platforms */}
-        <div>
-          <p className="text-base sm:text-lg md:text-xl lg:text-2xl pb-3 pt-5">
-            Frameworks and Tools
-          </p>
-          <div className="hidden min-[320px]:flex flex-wrap gap-2">
-            {frameworksPlatforms.map((frameworkOrTool) => (
-              <span
-                key={frameworkOrTool}
-                className="px-3 py-0.5 bg-[var(--accent)] text-[var(--black)] rounded-full text-xs sm:text-sm"
-              >
-                {frameworkOrTool}
-              </span>
-            ))}
-          </div>
-          <p className="block min-[320px]:hidden text-xs text-gray-600 italic">
-            {frameworksPlatforms.join(", ")}
-          </p>
+          {skillCategories.map((category) => {
+            const isOpen = activeCategory === category.title;
+            return (
+              <div key={category.title} className="border-b border-gray-200">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setActiveCategory(isOpen ? null : category.title)
+                  }
+                  aria-expanded={isOpen}
+                  className="w-full flex items-center justify-between gap-4 pt-2 pb-0.5 text-left text-base sm:text-lg md:text-xl lg:text-2xl cursor-pointer"
+                >
+                  <span>{category.title}</span>
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.25"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className={`w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 transition-transform duration-300 ${
+                      isOpen ? "rotate-180" : ""
+                    }`}
+                    aria-hidden="true"
+                  >
+                    <path d="M4 9 L12 14 L20 9" />
+                  </svg>
+                </button>
+                <div
+                  className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
+                    isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <div className="flex flex-wrap gap-2 pb-4">
+                      {category.items.map((item) => (
+                        <span
+                          key={item}
+                          className="px-3 py-0.5 bg-[var(--accent)] text-[var(--black)] rounded-full text-xs sm:text-sm"
+                        >
+                          {item}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
