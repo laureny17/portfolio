@@ -2,7 +2,7 @@ export default function Footer() {
   return (
     <footer className="flex flex-col space-y-3 py-5">
       {/* Links */}
-      <div className="flex items-center space-x-3 pb-10">
+      <div className="flex items-center justify-center sm:justify-start space-x-3 pb-10">
         <a
           href="mailto:laureny@mit.edu"
           target="_blank"
