@@ -320,7 +320,7 @@ export default function About() {
           <li>
             In my free time, I like to...
             <ul className="text-xs sm:text-xs md:text-sm lg:text-base list-disc pl-6 space-y-2 pt-3 pb-3">
-              <li>Draw, paint, animate, crochet, etc.</li>
+              <li>Draw, paint, animate, etc.</li>
               <li>Run (!!!)</li>
               <li>
                 Cross off more books from my reading list (my fav recs: <em>A Thousand Splendid Suns</em>, <em>Everything I Know about Love</em>, <em>Crying in H Mart</em>)
