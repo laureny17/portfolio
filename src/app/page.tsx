@@ -54,7 +54,15 @@ export default function Home() {
 
   // Track window dimensions for responsive resizing
   useEffect(() => {
+    let lastWidth = window.innerWidth;
+
     function handleResize() {
+      // On mobile, scrolling shows/hides the browser chrome, which changes
+      // innerHeight (and fires resize) without the width actually changing.
+      // Only react to genuine width changes so the star doesn't jump on scroll.
+      if (window.innerWidth === lastWidth) return;
+      lastWidth = window.innerWidth;
+
       setWindowWidth(window.innerWidth);
       setWindowHeight(window.innerHeight);
 
@@ -69,7 +77,17 @@ export default function Home() {
       }
     }
 
-    handleResize();
+    // initial measurement (always runs, unlike handleResize above)
+    setWindowWidth(window.innerWidth);
+    setWindowHeight(window.innerHeight);
+    if (window.innerWidth < 640) {
+      setIconSize(Math.round(window.innerWidth * 0.85));
+    } else if (window.innerWidth >= 640 && window.innerWidth < 1024) {
+      setIconSize(400);
+    } else {
+      setIconSize(500);
+    }
+
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -84,7 +102,7 @@ export default function Home() {
   const iconLeft = isMobile
     ? windowWidth * 0.15 // mobile: less inset, so more of the bigger star stays on-screen
     : Math.max((windowWidth - iconSize / 4) / 2, 0);
-  const iconTop = windowHeight / 2;
+  const iconTop = isMobile ? windowHeight * 0.4 : windowHeight / 2;
 
   // Calculate shadow offset based on mouse position
   useEffect(() => {
@@ -131,7 +149,7 @@ export default function Home() {
       onMouseMove={handleMouseMove}
     >
       {/* Hero Section */}
-      <main className="relative w-full h-screen">
+      <main className="relative w-full h-[55vh] sm:h-screen">
         {windowWidth > 0 && windowHeight > 0 && (
           <div
             style={{
@@ -252,7 +270,7 @@ export default function Home() {
 
         {/* Introduction Section */}
         <div
-          className="absolute top-[13%] sm:top-[28%] left-0 md:left-8 lg:left-12 xl:left-28 2xl:left-36"
+          className="absolute top-[30%] sm:top-[28%] left-0 md:left-8 lg:left-12 xl:left-28 2xl:left-36"
           style={{ zIndex: 1 }}
         >
           <p
