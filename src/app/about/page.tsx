@@ -83,7 +83,7 @@ export default function About() {
           <div className="flex-shrink-0">
             <div className="flex flex-row items-center gap-4 mb-6">
               <h1 className="text-lg">Lauren</h1>
-              <div className="hidden min-[320px]:flex items-center gap-2">
+              <div className="hidden min-[320px]:flex items-center gap-2 -translate-y-0.5">
                 <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
                   she/her
                 </span>
@@ -95,8 +95,8 @@ export default function About() {
                 she/her, 2027
               </span>
             </div>
-            <div className="space-y-1">
-              <p className="text-sm text-gray-600 mb-2 flex items-center gap-2">
+            <div className="space-y-1 pt-3">
+              <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
                 <Image
                   src="/assets/profile/institution-emoji.webp"
                   alt="Institution"
@@ -107,7 +107,7 @@ export default function About() {
                 />
                 CS + Design @ MIT
               </p>
-              <p className="text-sm text-gray-600 mb-4 flex items-center gap-2">
+              <p className="text-sm text-gray-600 mb-4 profile-meta-line flex items-center gap-2">
                 <Image
                   src="/assets/profile/pin-emoji.webp"
                   alt="Location"
@@ -138,7 +138,7 @@ export default function About() {
             <div className="flex-shrink-0 flex flex-col gap-2">
               <div className="flex flex-row items-center gap-4">
                 <h1 className="text-lg">Lauren</h1>
-                <div className="hidden min-[320px]:flex items-center gap-2">
+                <div className="hidden min-[320px]:flex items-center gap-2 -translate-y-0.5">
                   <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
                     she/her
                   </span>
@@ -150,8 +150,8 @@ export default function About() {
                   she/her, 2027
                 </span>
               </div>
-              <div className="space-y-1">
-                <p className="text-sm text-gray-600 flex items-center gap-2">
+              <div className="space-y-1 mt-1">
+                <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
                   <Image
                     src="/assets/profile/institution-emoji.webp"
                     alt="Institution"
@@ -162,7 +162,7 @@ export default function About() {
                   />
                   CS + Design @ MIT
                 </p>
-                <p className="text-sm text-gray-600 flex items-center gap-2">
+                <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
                   <Image
                     src="/assets/profile/pin-emoji.webp"
                     alt="Location"
@@ -194,7 +194,7 @@ export default function About() {
             <div className="flex-shrink-0 flex flex-col gap-2">
               <div className="flex flex-row items-center gap-4">
                 <h1 className="text-lg">Lauren</h1>
-                <div className="hidden min-[320px]:flex items-center gap-2">
+                <div className="hidden min-[320px]:flex items-center gap-2 -translate-y-0.5">
                   <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
                     she/her
                   </span>
@@ -206,8 +206,8 @@ export default function About() {
                   she/her, 2027
                 </span>
               </div>
-              <div className="space-y-1">
-                <p className="text-sm text-gray-600 flex items-center gap-2">
+              <div className="space-y-1 mt-1">
+                <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
                   <Image
                     src="/assets/profile/institution-emoji.webp"
                     alt="Institution"
@@ -218,7 +218,7 @@ export default function About() {
                   />
                   CS + Design @ MIT
                 </p>
-                <p className="text-sm text-gray-600 flex items-center gap-2">
+                <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
                   <Image
                     src="/assets/profile/pin-emoji.webp"
                     alt="Location"
@@ -250,7 +250,7 @@ export default function About() {
             <div className="flex-shrink-0">
               <div className="flex flex-col gap-2">
                 <h1 className="text-lg">Lauren</h1>
-                <div className="hidden min-[320px]:flex items-center gap-2">
+                <div className="hidden min-[320px]:flex items-center gap-2 -translate-y-0.5">
                   <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
                     she/her
                   </span>
@@ -264,8 +264,8 @@ export default function About() {
               </div>
             </div>
           </div>
-          <div className="space-y-1">
-            <p className="text-sm text-gray-600 flex items-center gap-2">
+          <div className="space-y-1 mt-1">
+            <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
               <Image
                 src="/assets/profile/institution-emoji.webp"
                 alt="Institution"
@@ -276,7 +276,7 @@ export default function About() {
               />
               CS + Design @ MIT
             </p>
-            <p className="text-sm text-gray-600 flex items-center gap-2">
+            <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
               <Image
                 src="/assets/profile/pin-emoji.webp"
                 alt="Location"
@@ -306,7 +306,7 @@ export default function About() {
             <div className="flex-shrink-0">
               <div className="flex flex-col gap-2">
                 <h1 className="text-lg">Lauren</h1>
-                <div className="hidden min-[320px]:flex items-center gap-2">
+                <div className="hidden min-[320px]:flex items-center gap-2 -translate-y-0.5">
                   <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
                     she/her
                   </span>
@@ -320,8 +320,8 @@ export default function About() {
               </div>
             </div>
           </div>
-          <div className="space-y-1">
-            <p className="text-sm text-gray-600 flex items-center gap-2">
+          <div className="space-y-1 mt-1">
+            <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
               <Image
                 src="/assets/profile/institution-emoji.webp"
                 alt="Institution"
@@ -332,7 +332,7 @@ export default function About() {
               />
               CS + Design @ MIT
             </p>
-            <p className="text-sm text-gray-600 flex items-center gap-2">
+            <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
               <Image
                 src="/assets/profile/pin-emoji.webp"
                 alt="Location"

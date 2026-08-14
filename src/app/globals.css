@@ -126,6 +126,11 @@ footer span {
   color: var(--accent2);
 }
 
+/* Tighter line-height for the institution/location meta lines on the About page */
+.profile-meta-line {
+  line-height: 1 !important;
+}
+
 /* Fix vertical alignment for rounded badge/button elements */
 .rounded-full {
   line-height: 1 !important;
