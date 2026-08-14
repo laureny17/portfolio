@@ -312,35 +312,18 @@ export default function About() {
         {/* fun facts */}
         <ul className="text-xs min-[430px]:text-sm sm:text-sm md:text-base lg:text-lg list-disc pl-6 space-y-2">
           <li>
-            {`My greatest career motivation is to work for sociocultural impact; in particular, I'm passionate about education, accessibility, and purpose-driven game design`}
+            {`I like to build for sociocultural impact :) I'm passionate about education, accessibility, and purpose-driven game design!`}
           </li>
           <li>
-            I'm a member of both the Marketing and DevOps committees within
-            HackMIT's organizing team, and was Marketing Head in 2025
-            <ul className="text-xs sm:text-xs md:text-sm lg:text-base list-disc pl-6 space-y-2 pt-3 pb-3">
-              <li>
-                {`I directed theme ideation, tackled debugging with the DevOps team to smooth the transition from design to `}
-                <a
-                  href="https://hackmit.org"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs min-[430px]:text-sm text-accent underline underline-offset-2 hover-body-link"
-                >
-                  deployment
-                </a>
-                {`, and led the design and production of merch, posters, banners, social media, and all venue decorations`}
-              </li>
-            </ul>
+            I've been a member of HackMIT's organizing team since 2024. I'm currently on both the Marketing (design) and DevOps committees!
           </li>
           <li>
             In my free time, I like to...
             <ul className="text-xs sm:text-xs md:text-sm lg:text-base list-disc pl-6 space-y-2 pt-3 pb-3">
               <li>Draw, paint, animate, crochet, etc.</li>
+              <li>Run (!!!)</li>
               <li>
-                Cross off more books from my reading list (on a related note,{" "}
-                <em>A Thousand Splendid Suns</em> has been my favorite book for
-                almost 10 years now and I will never stop recommending it to
-                anyone I can at any given opportunity)
+                Cross off more books from my reading list (my fav recs: <em>A Thousand Splendid Suns</em>, <em>Everything I Know about Love</em>, <em>Crying in H Mart</em>)
               </li>
               <li>
                 Work on the newest project that's been plaguing my mind :D
