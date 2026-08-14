@@ -43,13 +43,13 @@ export const artSections: ArtSection[] = [
         "s26-bag",
         "s26-bp-setup",
         "s26-jug",
-        "s26-model-1",
+        "s26-skelly",
         "s26-model-2a",
         "s26-model-2b",
         "s26-perfumes",
         "s26-replica",
         "s26-scarf",
-        "s26-skelly",
+        "s26-model-1",
         "s26-zeus",
       ])
     ),
@@ -58,6 +58,7 @@ export const artSections: ArtSection[] = [
     name: "Digital Paintings",
     images: toArtImages(
       getImagesByIds([
+        "arcane-style-study",
         // Portfolio 2023
         "sip-clouds",
         "sip-field",
@@ -67,7 +68,6 @@ export const artSections: ArtSection[] = [
         "sip-woods",
         // Misc
         "sky-cotl",
-        "arcane-style-study",
       ])
     ),
   },
