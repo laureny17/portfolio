@@ -225,9 +225,7 @@ export default function Home() {
             CS + Design @ MIT
           </p>
           <p className="text-xs max-w-[280px] sm:max-w-none">
-            {`I'm passionate about building technologies `}
-            <br className="hidden sm:block" />
-            {`that create meaningful experiences!`}
+            {`I'm passionate about building meaningful experiences!`}
           </p>
         </div>
       </main>
