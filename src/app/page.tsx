@@ -60,7 +60,8 @@ export default function Home() {
 
       // Dynamically adjust icon size based on breakpoints
       if (window.innerWidth < 640) {
-        setIconSize(300); // Small screens
+        // Mobile: scale with screen width instead of a fixed size
+        setIconSize(Math.round(window.innerWidth * 0.85));
       } else if (window.innerWidth >= 640 && window.innerWidth < 1024) {
         setIconSize(400); // Medium screens
       } else {
@@ -79,7 +80,10 @@ export default function Home() {
   };
 
   // Calculate icon's dynamic position (centered horizontally)
-  const iconLeft = Math.max((windowWidth - iconSize / 4) / 2, 0);
+  const isMobile = windowWidth > 0 && windowWidth < 640;
+  const iconLeft = isMobile
+    ? windowWidth * 0.15 // mobile: less inset, so more of the bigger star stays on-screen
+    : Math.max((windowWidth - iconSize / 4) / 2, 0);
   const iconTop = windowHeight / 2;
 
   // Calculate shadow offset based on mouse position
@@ -144,75 +148,115 @@ export default function Home() {
               pointerEvents: "none",
             }}
           >
-            {/* Shadow Icon */}
-            <div
-              style={{
-                position: "absolute",
-                top: `${iconTop + shadowPosition.y}px`,
-                left: `${iconLeft + shadowPosition.x}px`,
-                transform: "translate(0, -60%) rotate(15deg)",
-                width: iconSize,
-                height: iconSize,
-                zIndex: -2,
-                filter: "blur(10px)",
-                opacity: 0.5,
-                userSelect: "none",
-                WebkitUserSelect: "none",
-                MozUserSelect: "none",
-                msUserSelect: "none",
-                pointerEvents: "none",
-                WebkitTouchCallout: "none",
-              }}
-            >
-              <Image
-                src="/assets/Icon.svg"
-                alt="shadow-icon"
-                width={iconSize}
-                height={iconSize}
-                priority
-                draggable={false}
-                style={{ userSelect: "none", pointerEvents: "none" }}
-              />
-            </div>
+            {isMobile ? (
+              /* Mobile: single blurred star, immune to user input, ambient-floating on its own */
+              <div
+                style={{
+                  position: "absolute",
+                  top: `${iconTop}px`,
+                  left: `${iconLeft}px`,
+                  transform: "translate(0, -60%) rotate(15deg)",
+                  width: iconSize,
+                  height: iconSize,
+                  zIndex: -1,
+                  userSelect: "none",
+                  WebkitUserSelect: "none",
+                  MozUserSelect: "none",
+                  msUserSelect: "none",
+                  pointerEvents: "none",
+                  WebkitTouchCallout: "none",
+                }}
+              >
+                <div className="ambient-float-star">
+                  <Image
+                    src="/assets/Icon.svg"
+                    alt="icon"
+                    width={iconSize}
+                    height={iconSize}
+                    priority
+                    draggable={false}
+                    style={{
+                      filter: "blur(10px)",
+                      opacity: 0.5,
+                      userSelect: "none",
+                      pointerEvents: "none",
+                    }}
+                  />
+                </div>
+              </div>
+            ) : (
+              <>
+                {/* Shadow Icon */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: `${iconTop + shadowPosition.y}px`,
+                    left: `${iconLeft + shadowPosition.x}px`,
+                    transform: "translate(0, -60%) rotate(15deg)",
+                    width: iconSize,
+                    height: iconSize,
+                    zIndex: -2,
+                    filter: "blur(10px)",
+                    opacity: 0.5,
+                    userSelect: "none",
+                    WebkitUserSelect: "none",
+                    MozUserSelect: "none",
+                    msUserSelect: "none",
+                    pointerEvents: "none",
+                    WebkitTouchCallout: "none",
+                  }}
+                >
+                  <Image
+                    src="/assets/Icon.svg"
+                    alt="shadow-icon"
+                    width={iconSize}
+                    height={iconSize}
+                    priority
+                    draggable={false}
+                    style={{ userSelect: "none", pointerEvents: "none" }}
+                  />
+                </div>
 
-            {/* Main Icon */}
-            <div
-              style={{
-                position: "absolute",
-                top: `${iconTop}px`,
-                left: `${iconLeft}px`,
-                transform: "translate(0, -60%) rotate(15deg)",
-                width: iconSize,
-                height: iconSize,
-                zIndex: -1,
-                userSelect: "none",
-                WebkitUserSelect: "none",
-                MozUserSelect: "none",
-                msUserSelect: "none",
-                pointerEvents: "none",
-                WebkitTouchCallout: "none",
-              }}
-            >
-              <Image
-                src="/assets/Icon.svg"
-                alt="icon"
-                width={iconSize}
-                height={iconSize}
-                priority
-                draggable={false}
-                style={{ userSelect: "none", pointerEvents: "none" }}
-              />
-            </div>
+                {/* Main Icon */}
+                <div
+                  style={{
+                    position: "absolute",
+                    top: `${iconTop}px`,
+                    left: `${iconLeft}px`,
+                    transform: "translate(0, -60%) rotate(15deg)",
+                    width: iconSize,
+                    height: iconSize,
+                    zIndex: -1,
+                    userSelect: "none",
+                    WebkitUserSelect: "none",
+                    MozUserSelect: "none",
+                    msUserSelect: "none",
+                    pointerEvents: "none",
+                    WebkitTouchCallout: "none",
+                  }}
+                >
+                  <Image
+                    src="/assets/Icon.svg"
+                    alt="icon"
+                    width={iconSize}
+                    height={iconSize}
+                    priority
+                    draggable={false}
+                    style={{ userSelect: "none", pointerEvents: "none" }}
+                  />
+                </div>
+              </>
+            )}
           </div>
         )}
 
         {/* Introduction Section */}
         <div
-          className="absolute top-[28%] left-0 md:left-8 lg:left-12 xl:left-28 2xl:left-36"
+          className="absolute top-[13%] sm:top-[28%] left-0 md:left-8 lg:left-12 xl:left-28 2xl:left-36"
           style={{ zIndex: 1 }}
         >
           <p
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl pb-4 sm:pb-6 md:pb-8 lg:pb-10"
+            className="hero-title text-5xl sm:text-6xl md:text-7xl lg:text-8xl pb-4 sm:pb-6 md:pb-8 lg:pb-10 whitespace-nowrap"
             style={{ fontFamily: "Pecita" }}
           >
             {`Hi, I'm `}
@@ -221,7 +265,7 @@ export default function Home() {
             </span>
             !
           </p>
-          <p className="text-base sm:text-lg md:text-lg lg:text-lg underline underline-offset-4 underline-green pb-4">
+          <p className="hero-subtitle text-base sm:text-lg md:text-lg lg:text-lg underline underline-offset-4 underline-green pb-4">
             CS + Design @ MIT
           </p>
           <p className="text-xs max-w-[280px] sm:max-w-none">
