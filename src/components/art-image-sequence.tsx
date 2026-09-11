@@ -212,7 +212,7 @@ export default function ArtImageSequence({
           onPointerMove={(e) => handleModalMouseMove(e as React.MouseEvent<HTMLDivElement>)}
         >
           {isModalLoading && (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
               <svg
                 className="h-16 w-16 star-spin-pause"
                 viewBox="0 0 473 466"
@@ -232,7 +232,9 @@ export default function ArtImageSequence({
           <img
             src={images[modalIndex]?.src}
             alt={`${alt} ${modalIndex + 1}`}
-            className="relative max-h-[90vh] max-w-[90vw] object-contain rounded-lg z-20"
+            className={`relative max-h-[90vh] max-w-[90vw] object-contain rounded-lg z-10 ${
+              isModalLoading ? "opacity-0" : "opacity-100"
+            }`}
             draggable={false}
             loading="eager"
             onClick={(e) => e.stopPropagation()}

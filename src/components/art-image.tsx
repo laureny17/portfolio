@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ArtImage as ArtImageType } from "@/data/art";
 
 type ArtImageProps = {
@@ -21,6 +21,7 @@ export default function ArtImage({
   const [hasError, setHasError] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalLoading, setIsModalLoading] = useState(false);
+  const modalImgRef = useRef<HTMLImageElement>(null);
 
   // Check if this is a fish sprite (needs black background)
   const isFishSprite =
@@ -34,7 +35,7 @@ export default function ArtImage({
       return;
     }
     if (enableModal) {
-      setIsModalLoading(true);
+      setIsModalLoading(!modalImgRef.current?.complete);
       setIsModalOpen(true);
     }
   };
@@ -136,7 +137,7 @@ export default function ArtImage({
       >
         <div className="relative max-h-[90vh] max-w-[90vw] overflow-hidden rounded-lg">
           {isModalLoading && (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
               <svg
                 className="h-16 w-16 star-spin-pause"
                 viewBox="0 0 473 466"
@@ -154,9 +155,12 @@ export default function ArtImage({
             </div>
           )}
           <img
+            ref={modalImgRef}
             src={image.src}
             alt={image.alt}
-            className="relative max-h-[90vh] max-w-[90vw] object-contain rounded-lg z-20"
+            className={`relative max-h-[90vh] max-w-[90vw] object-contain rounded-lg z-10 ${
+              isModalLoading ? "opacity-0" : "opacity-100"
+            }`}
             draggable={false}
             loading="eager"
             onClick={(e) => e.stopPropagation()}
