@@ -253,10 +253,7 @@ const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
               {isVideo(card.image[imageIndex]) &&
               !videoFailed[card.image[imageIndex]] &&
               !isIOS ? (
-                <div
-                  className="rounded-md overflow-hidden"
-                  style={{ maxHeight: "200px" }}
-                >
+                <div className="rounded-md overflow-hidden w-full aspect-[16/9]">
                   <video
                     src={card.image[imageIndex]}
                     poster={getVideoFallback(card.image[imageIndex])}
@@ -264,7 +261,7 @@ const Card = ({ card, className = "" }: { card: Card; className?: string }) => {
                     loop
                     muted
                     playsInline
-                    className="object-contain max-h-[200px]"
+                    className="w-full h-full object-contain"
                     onError={() => handleVideoError(card.image[imageIndex])}
                   />
                 </div>
