@@ -349,10 +349,7 @@ export default function About() {
         {/* fun facts */}
         <ul className="text-xs min-[430px]:text-sm sm:text-sm md:text-base lg:text-lg list-disc pl-6 space-y-2">
           <li>
-            {`I like to build for sociocultural impact :) I'm passionate about education, accessibility, and purpose-driven game design!`}
-          </li>
-          <li>
-            I've been a member of HackMIT's organizing team since 2024. I'm currently on both the Marketing (design) and DevOps committees!
+            {`I like building for social impact :) Particularly excited by computer networks + IoT, game dev / digital media, education, and universal design!`}
           </li>
           <li>
             In my free time, I like to...
