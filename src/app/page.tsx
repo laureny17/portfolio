@@ -231,7 +231,7 @@ export default function Home() {
             !
           </p>
           <p className="hero-subtitle text-base sm:text-lg md:text-lg lg:text-lg underline underline-offset-4 underline-green pb-4">
-            CS + Design @ MIT
+            CS @ MIT
           </p>
           <p className="text-xs max-w-[280px] sm:max-w-none">
             {`I'm passionate about building meaningful experiences!`}

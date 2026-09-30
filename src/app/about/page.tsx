@@ -105,7 +105,7 @@ export default function About() {
                   className="inline-block -mt-2 select-none"
                   draggable={false}
                 />
-                CS + Design @ MIT
+                CS @ MIT
               </p>
               <p className="text-sm text-gray-600 mb-4 profile-meta-line flex items-center gap-2">
                 <Image
@@ -160,7 +160,7 @@ export default function About() {
                     className="inline-block -mt-2 select-none"
                     draggable={false}
                   />
-                  CS + Design @ MIT
+                  CS @ MIT
                 </p>
                 <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
                   <Image
@@ -216,7 +216,7 @@ export default function About() {
                     className="inline-block -mt-2 select-none"
                     draggable={false}
                   />
-                  CS + Design @ MIT
+                  CS @ MIT
                 </p>
                 <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
                   <Image
@@ -274,7 +274,7 @@ export default function About() {
                 className="inline-block -mt-2 select-none"
                 draggable={false}
               />
-              CS + Design @ MIT
+              CS @ MIT
             </p>
             <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
               <Image
@@ -330,7 +330,7 @@ export default function About() {
                 className="inline-block -mt-2 select-none"
                 draggable={false}
               />
-              CS + Design @ MIT
+              CS @ MIT
             </p>
             <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
               <Image
