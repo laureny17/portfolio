@@ -1,31 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CSSProperties } from "react";
-import HeroStar from "@/components/hero-star";
 
 const delay = (i: number) => ({ "--i": i }) as CSSProperties;
 
 export default function Home() {
   return (
     <main className="col flex flex-col gap-8">
-      <section className="flex items-center justify-between gap-6">
-        <div className="reveal flex items-center gap-4" style={delay(0)}>
-          <Image
-            src="/assets/profile/profile-photo.jpeg"
-            alt="Lauren"
-            width={112}
-            height={112}
-            className="w-14 h-14 rounded-full object-cover select-none"
-            draggable={false}
-            priority
-          />
-          <div className="flex flex-col">
-            <span>Lauren Yoo</span>
-            <span className="muted">she/her</span>
-          </div>
-        </div>
-        <div className="shrink-0 -my-8 -mr-4 sm:-mr-2 scale-[0.7] sm:scale-[0.85] origin-right">
-          <HeroStar />
+      <section className="reveal flex items-center gap-4" style={delay(0)}>
+        <Image
+          src="/assets/profile/profile-photo.jpeg"
+          alt="Lauren"
+          width={112}
+          height={112}
+          className="w-14 h-14 rounded-full object-cover select-none"
+          draggable={false}
+          priority
+        />
+        <div className="flex flex-col">
+          <span>Lauren Yoo</span>
+          <span className="muted">she/her</span>
         </div>
       </section>
 

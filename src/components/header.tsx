@@ -16,10 +16,10 @@ export default function Header() {
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
-    <header className="col flex items-baseline justify-between pb-16 sm:pb-24">
+    <header className="col flex items-center justify-between pb-16 sm:pb-24">
       <Link href="/" className="group flex items-center gap-1.5" aria-label="Lauren Yoo, home">
-        <WatercolorStar size={18} seed={2} className="nav-star -translate-y-px" />
-        <span className="serif italic text-[17px] leading-none">Lauren Yoo</span>
+        <WatercolorStar size={18} seed={2} className="nav-star" />
+        <span>Lauren Yoo</span>
       </Link>
 
       <nav className="flex gap-4">

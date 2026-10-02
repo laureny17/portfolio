@@ -36,11 +36,6 @@ body {
   background: color-mix(in oklab, var(--wash) 55%, transparent);
 }
 
-.serif {
-  font-family: var(--font-serif), Georgia, serif;
-  font-weight: 400;
-}
-
 .muted {
   color: var(--muted);
 }
@@ -162,24 +157,6 @@ body {
 
 .fade-media[data-loaded="true"] {
   opacity: 1;
-}
-
-/* Gentle drift for the hero star */
-@keyframes drift {
-  0%,
-  100% {
-    transform: translate(0, 0) rotate(12deg);
-  }
-  33% {
-    transform: translate(3px, -5px) rotate(15deg);
-  }
-  66% {
-    transform: translate(-3px, 2px) rotate(10deg);
-  }
-}
-
-.drift {
-  animation: drift 14s ease-in-out infinite;
 }
 
 /* Little star in the nav: one slow turn on hover */
