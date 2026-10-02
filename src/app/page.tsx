@@ -6,24 +6,24 @@ const delay = (i: number) => ({ "--i": i }) as CSSProperties;
 
 export default function Home() {
   return (
-    <main className="col flex flex-col gap-8">
-      <section className="reveal flex items-center gap-4" style={delay(0)}>
+    <main className="col flex items-start gap-5 sm:gap-6">
+      <figure
+        className="reveal shrink-0 flex flex-col items-center gap-1.5"
+        style={delay(0)}
+      >
         <Image
           src="/assets/profile/profile-photo.jpeg"
           alt="Lauren"
-          width={112}
-          height={112}
-          className="w-14 h-14 rounded-full object-cover select-none"
+          width={176}
+          height={176}
+          className="w-[72px] h-[72px] sm:w-[88px] sm:h-[88px] rounded-full object-cover select-none"
           draggable={false}
           priority
         />
-        <div className="flex flex-col">
-          <span>Lauren Yoo</span>
-          <span className="muted">she/her</span>
-        </div>
-      </section>
+        <figcaption className="muted text-[13px]">she/her</figcaption>
+      </figure>
 
-      <section className="flex flex-col gap-4">
+      <section className="flex flex-col gap-4 min-w-0">
         <p className="reveal" style={delay(1)}>
           Hi, I&apos;m Lauren! I&apos;m a senior at MIT studying computer
           science, passionate about building meaningful experiences. I&apos;m
