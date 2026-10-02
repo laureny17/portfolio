@@ -104,7 +104,7 @@ export default function ArtImageSequence({
   return (
     <div
       ref={containerRef}
-      className={`relative overflow-hidden rounded-lg block w-full select-none ${bgColor} cursor-pointer hover:scale-102 transition-transform duration-200`}
+      className={`relative overflow-hidden rounded-[3px] block w-full select-none ${bgColor} cursor-pointer transition-opacity duration-300 hover:opacity-90`}
       onMouseMove={handleMouseMove}
       onClick={handleClick}
     >
@@ -112,14 +112,14 @@ export default function ArtImageSequence({
         <div
           className={`absolute inset-0 flex items-center justify-center min-h-[200px] z-10 ${bgColor}`}
         >
-          <div className="w-8 h-8 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
+          <div className="absolute inset-0 bg-[#f6f6f7] animate-pulse" />
         </div>
       )}
       {hasError ? (
         <div
-          className={`flex items-center justify-center text-gray-400 min-h-[200px] ${bgColor}`}
+          className={`flex items-center justify-center text-[var(--muted)] min-h-[200px] ${bgColor}`}
         >
-          <span className="text-sm">Failed to load</span>
+          <span>failed to load</span>
         </div>
       ) : (
         <div className={`relative w-full ${bgColor}`}>
@@ -129,7 +129,7 @@ export default function ArtImageSequence({
                 key={image.src}
                 src={image.src}
                 alt={`${alt} ${index + 1}`}
-                className={`w-full h-auto object-contain ${
+                className={`w-full h-auto object-contain transition-opacity duration-300 ${
                   index === currentIndex
                     ? loadedImages.has(image.src)
                       ? "opacity-100"
@@ -164,7 +164,7 @@ export default function ArtImageSequence({
                 height={600}
                 loading={priority && index === 0 ? "eager" : "lazy"}
                 priority={priority && index === 0}
-                className={`w-full h-auto object-contain ${
+                className={`w-full h-auto object-contain transition-opacity duration-300 ${
                   index === currentIndex
                     ? loadedImages.has(image.src)
                       ? "opacity-100"
@@ -197,7 +197,7 @@ export default function ArtImageSequence({
       {mounted &&
         createPortal(
           <div
-            className={`fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 transition-opacity duration-200 ${
+            className={`fixed inset-0 z-50 flex items-center justify-center bg-white/95 px-4 transition-opacity duration-300 ${
               isModalOpen
                 ? "opacity-100 pointer-events-auto"
                 : "opacity-0 pointer-events-none"
@@ -208,7 +208,7 @@ export default function ArtImageSequence({
           >
             <div
               ref={modalImageRef}
-              className="relative max-h-[90vh] max-w-[90vw] overflow-hidden rounded-lg"
+              className="relative max-h-[90vh] max-w-[90vw] overflow-hidden rounded-[3px]"
               onClick={(e) => e.stopPropagation()}
               onMouseDown={(e) => e.stopPropagation()}
               onPointerDown={(e) => e.stopPropagation()}
@@ -236,7 +236,7 @@ export default function ArtImageSequence({
               <img
                 src={images[modalIndex]?.src}
                 alt={`${alt} ${modalIndex + 1}`}
-                className={`relative max-h-[90vh] max-w-[90vw] object-contain rounded-lg z-10 ${
+                className={`relative max-h-[90vh] max-w-[90vw] object-contain rounded-[3px] z-10 ${
                   isModalLoading ? "opacity-0" : "opacity-100"
                 }`}
                 draggable={false}

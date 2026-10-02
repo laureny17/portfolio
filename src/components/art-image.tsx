@@ -65,23 +65,23 @@ export default function ArtImage({
 
   return (
     <div
-      className={`relative overflow-hidden rounded-lg block w-full select-none ${bgColor} ${
+      className={`relative overflow-hidden rounded-[3px] block w-full select-none ${bgColor} ${
         image.link ? "cursor-pointer hover:opacity-90 transition-opacity" : "cursor-pointer"
-      } hover:scale-102 transition-transform duration-200`}
+      } transition-opacity duration-300 hover:opacity-90`}
       onClick={handleClick}
     >
       {isLoading && (
         <div
           className={`absolute inset-0 flex items-center justify-center min-h-[200px] z-10 ${bgColor}`}
         >
-          <div className="w-8 h-8 border-2 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
+          <div className="absolute inset-0 bg-[#f6f6f7] animate-pulse" />
         </div>
       )}
       {hasError ? (
         <div
-          className={`flex items-center justify-center text-gray-400 min-h-[200px] ${bgColor}`}
+          className={`flex items-center justify-center text-[var(--muted)] min-h-[200px] ${bgColor}`}
         >
-          <span className="text-sm">Failed to load</span>
+          <span>failed to load</span>
         </div>
       ) : (
         <div className={`relative w-full ${bgColor}`}>
@@ -90,7 +90,7 @@ export default function ArtImage({
             <img
               src={image.src}
               alt={image.alt}
-              className={`w-full h-auto object-contain ${
+              className={`w-full h-auto object-contain transition-opacity duration-700 ${
                 isLoading ? "opacity-0" : "opacity-100"
               }`}
               draggable={false}
@@ -112,7 +112,7 @@ export default function ArtImage({
               height={600}
               loading={priority ? "eager" : "lazy"}
               priority={priority}
-              className={`w-full h-auto object-contain ${
+              className={`w-full h-auto object-contain transition-opacity duration-700 ${
                 isLoading ? "opacity-0" : "opacity-100"
               }`}
               draggable={false}
@@ -132,14 +132,14 @@ export default function ArtImage({
       {mounted &&
         createPortal(
           <div
-            className={`fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4 transition-opacity duration-200 ${
+            className={`fixed inset-0 z-50 flex items-center justify-center bg-white/95 px-4 transition-opacity duration-300 ${
               isModalOpen && !image.link
                 ? "opacity-100 pointer-events-auto"
                 : "opacity-0 pointer-events-none"
             }`}
             onClick={handleBackdropClick}
           >
-            <div className="relative max-h-[90vh] max-w-[90vw] overflow-hidden rounded-lg">
+            <div className="relative max-h-[90vh] max-w-[90vw] overflow-hidden rounded-[3px]">
               {isModalLoading && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
                   <svg
@@ -162,7 +162,7 @@ export default function ArtImage({
                 ref={modalImgRef}
                 src={image.src}
                 alt={image.alt}
-                className={`relative max-h-[90vh] max-w-[90vw] object-contain rounded-lg z-10 ${
+                className={`relative max-h-[90vh] max-w-[90vw] object-contain rounded-[3px] z-10 ${
                   isModalLoading ? "opacity-0" : "opacity-100"
                 }`}
                 draggable={false}

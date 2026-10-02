@@ -84,7 +84,12 @@ const getImageSequences = (
   return sequences;
 };
 
-export default function ArtGallery({ sections }: ArtGalleryProps) {
+type ArtSectionGalleryProps = {
+  section: ArtSection;
+};
+
+/** One art section's images (or its subsections), as masonry columns. */
+export default function ArtSectionGallery({ section }: ArtSectionGalleryProps) {
   const [windowWidth, setWindowWidth] = useState(0);
 
   useEffect(() => {
@@ -96,143 +101,80 @@ export default function ArtGallery({ sections }: ArtGalleryProps) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const formatName = (name: string) => {
-    return name
-      .split("-")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-  };
-
-  const toSectionId = (name: string) => {
-    return name
-      .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, "")
-      .trim()
-      .replace(/\s+/g, "-");
-  };
-
-  // Helper function to get column count based on screen size
-  const getColumnCount = (imageCount: number) => {
-    if (imageCount <= 2) return 2;
-
+  const getColumnCount = (itemCount: number) => {
+    if (itemCount <= 2) return 2;
     if (windowWidth === 0) return 2; // SSR/default
-
-    if (windowWidth >= 1024) return 4; // lg+
-    if (windowWidth >= 768) return 3; // md
-    return 2; // sm + mobile
+    if (windowWidth >= 768) return 3;
+    return 2;
   };
 
-  return (
-    <div className="space-y-16">
-      {sections.map((section, sectionIndex) => {
-        // Compute sequences for direct images if they exist
-        const sectionSequences = section.images
-          ? getImageSequences(section.images)
-          : null;
-
-        return (
+  const renderMasonry = (images: ArtImageType[], alt: string) => {
+    const items = getImageSequences(images);
+    return (
+      <Masonry
+        breakpointCols={getColumnCount(items.length)}
+        className="masonry-grid"
+        columnClassName="masonry-grid_column"
+      >
+        {items.map((item, i) => (
           <div
-            key={sectionIndex}
-            id={toSectionId(section.name)}
-            className="space-y-8"
+            key={Array.isArray(item) ? `sequence-${i}` : item.src}
+            className="reveal"
+            style={{ "--i": Math.min(i, 12) } as React.CSSProperties}
           >
-            {/* Section Header */}
-            <div className="border-b border-gray-200 pb-4">
-              <h2 className="art-section-header">{formatName(section.name)}</h2>
-            </div>
-
-            {/* Special handling for Animation section */}
-            {section.name === "Animation" ? (
-              <ul className="text-xs sm:text-xs md:text-sm lg:text-base text-gray-600 font-medium list-disc pl-6 space-y-2">
-                <li>
-                  <span>A music video explaining Stargardt disease: </span>
-                  <a
-                    href="https://youtu.be/5ML7prwZ5g4"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-600 underline underline-offset-2 hover-body-link"
-                  >
-                    https://youtu.be/5ML7prwZ5g4
-                  </a>
-                </li>
-                <li>
-                  <span>
-                    17-year-old me calculates the volume of my dog using triple
-                    integrals:{" "}
-                  </span>
-                  <a
-                    href="https://youtu.be/5-UyWwG1TGI"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-gray-600 underline underline-offset-2 hover-body-link"
-                  >
-                    https://youtu.be/5-UyWwG1TGI
-                  </a>
-                </li>
-              </ul>
-            ) : section.subsections ? (
-              <div className="space-y-12">
-                {section.subsections.map((subsection, subsectionIndex) => {
-                  // Regular image gallery for other sections
-                  const subsectionSequences = getImageSequences(
-                    subsection.images
-                  );
-                  return (
-                    <div key={subsectionIndex} className="space-y-4">
-                      {/* Subsection Header */}
-                      <h3 className="art-subsection-header text-gray-600 font-medium">
-                        {subsection.name}
-                      </h3>
-
-                      {/* Masonry Layout */}
-                      <Masonry
-                        breakpointCols={getColumnCount(
-                          subsectionSequences.length
-                        )}
-                        className="masonry-grid"
-                        columnClassName="masonry-grid_column"
-                      >
-                        {subsectionSequences.map((item, itemIndex) =>
-                          Array.isArray(item) ? (
-                            <ArtImageSequence
-                              key={`sequence-${itemIndex}`}
-                              images={item}
-                              alt={formatName(subsection.name)}
-                            />
-                          ) : (
-                            <ArtImage key={itemIndex} image={item} />
-                          )
-                        )}
-                      </Masonry>
-                    </div>
-                  );
-                })}
-              </div>
+            {Array.isArray(item) ? (
+              <ArtImageSequence images={item} alt={alt} priority={i < 3} />
             ) : (
-              /* If section has direct images */
-              sectionSequences && (
-                <Masonry
-                  breakpointCols={getColumnCount(sectionSequences.length)}
-                  className="masonry-grid"
-                  columnClassName="masonry-grid_column"
-                >
-                  {sectionSequences.map((item, itemIndex) =>
-                    Array.isArray(item) ? (
-                      <ArtImageSequence
-                        key={`sequence-${itemIndex}`}
-                        images={item}
-                        alt={formatName(section.name)}
-                      />
-                    ) : (
-                      <ArtImage key={itemIndex} image={item} />
-                    )
-                  )}
-                </Masonry>
-              )
+              <ArtImage image={item} priority={i < 3} />
             )}
           </div>
-        );
-      })}
-    </div>
-  );
+        ))}
+      </Masonry>
+    );
+  };
+
+  if (section.name === "Animation") {
+    return (
+      <ul className="col flex flex-col gap-3">
+        <li>
+          A music video explaining Stargardt disease.{" "}
+          <a
+            href="https://youtu.be/5ML7prwZ5g4"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link muted"
+          >
+            watch ↗
+          </a>
+        </li>
+        <li>
+          17-year-old me calculates the volume of my dog using triple
+          integrals.{" "}
+          <a
+            href="https://youtu.be/5-UyWwG1TGI"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link muted"
+          >
+            watch ↗
+          </a>
+        </li>
+      </ul>
+    );
+  }
+
+  if (section.subsections) {
+    return (
+      <div className="flex flex-col gap-16">
+        {section.subsections.map((subsection) => (
+          <section key={subsection.name} className="flex flex-col gap-4">
+            <h2 className="muted">{subsection.name}</h2>
+            {renderMasonry(subsection.images, subsection.name)}
+          </section>
+        ))}
+      </div>
+    );
+  }
+
+  return section.images ? renderMasonry(section.images, section.name) : null;
 }

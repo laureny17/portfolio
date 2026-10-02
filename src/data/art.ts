@@ -170,3 +170,25 @@ export const artSections: ArtSection[] = [
     name: "Animation",
   },
 ];
+
+export const artSectionSlug = (section: ArtSection) =>
+  section.name
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+
+export const getArtSection = (slug: string) =>
+  artSections.find((section) => artSectionSlug(section) === slug);
+
+const allSectionImages = (section: ArtSection): ArtImage[] => [
+  ...(section.images ?? []),
+  ...(section.subsections ?? []).flatMap((sub) => sub.images),
+];
+
+export const artSectionCount = (section: ArtSection) =>
+  allSectionImages(section).length;
+
+/** First image in the section, used as its hover preview on /art. */
+export const artSectionCover = (section: ArtSection) =>
+  allSectionImages(section)[0];
