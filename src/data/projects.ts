@@ -26,7 +26,7 @@ export const projects: Project[] = [
     title: "Pokémon Cry Atlas",
     blurb: "Which Pokémon sound alike, mapped by their cries.",
     description:
-      "An interactive atlas mapping which Pokémon sound alike—extracts MFCCs from hundreds of Pokémon cries, scores their acoustic similarity, and plots them as an explorable force-directed graph you can filter by generation and type. Sound ON!",
+      "An interactive atlas mapping which Pokémon sound alike—extracts MFCCs from hundreds of Pokémon cries, scores their acoustic similarity, and plots them as an explorable force-directed graph you can filter by generation and type.",
     image: ["/assets/demos/PokeCriesDemo.mp4"],
     githubUrl: "https://github.com/laureny17/poke-cries",
     deployedUrl: "https://poke-cries.onrender.com/",

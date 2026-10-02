@@ -17,7 +17,6 @@ const videoPoster = (src: string) => src.replace(/\.(mp4|webm|mov)$/i, ".png");
 function Media({ src, alt, playing }: { src: string; alt: string; playing: boolean }) {
   const [loaded, setLoaded] = useState(false);
   const [videoFailed, setVideoFailed] = useState(false);
-  const [muted, setMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   // Only play while the project is open
@@ -30,26 +29,19 @@ function Media({ src, alt, playing }: { src: string; alt: string; playing: boole
 
   if (isVideo(src) && !videoFailed) {
     return (
-      <figure>
-        <video
-          ref={videoRef}
-          src={src}
-          poster={videoPoster(src)}
-          muted={muted}
-          loop
-          playsInline
-          preload="metadata"
-          data-loaded={loaded}
-          onLoadedData={() => setLoaded(true)}
-          onError={() => setVideoFailed(true)}
-          className="fade-media w-full rounded-[3px] bg-[#f6f6f7]"
-        />
-        <figcaption className="pt-1.5 text-[12px] muted">
-          <button type="button" className="link link-muted" onClick={() => setMuted((m) => !m)}>
-            {muted ? "unmute" : "mute"}
-          </button>
-        </figcaption>
-      </figure>
+      <video
+        ref={videoRef}
+        src={src}
+        poster={videoPoster(src)}
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        data-loaded={loaded}
+        onLoadedData={() => setLoaded(true)}
+        onError={() => setVideoFailed(true)}
+        className="fade-media w-full rounded-[3px] bg-[#f6f6f7]"
+      />
     );
   }
 
