@@ -1,88 +1,51 @@
-"use client";
+import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import type { CSSProperties } from "react";
 import HeroStar from "@/components/hero-star";
-import ProjectItem, { projectSlug } from "@/components/project-item";
-import { hiddenProjectIds, projects } from "@/data/projects";
 
-const visibleProjects = projects.filter((p) => !hiddenProjectIds.has(p.id));
+const delay = (i: number) => ({ "--i": i }) as CSSProperties;
 
 export default function Home() {
-  const [openSlugs, setOpenSlugs] = useState<Set<string>>(new Set());
-
-  // Deep link: /#pokemon-cry-atlas opens that project
-  useEffect(() => {
-    const hash = decodeURIComponent(window.location.hash.slice(1));
-    if (hash && visibleProjects.some((p) => projectSlug(p) === hash)) {
-      setOpenSlugs(new Set([hash]));
-      requestAnimationFrame(() =>
-        document.getElementById(hash)?.scrollIntoView({ block: "start" })
-      );
-    }
-  }, []);
-
-  const toggle = useCallback((slug: string) => {
-    setOpenSlugs((prev) => {
-      const next = new Set(prev);
-      if (next.has(slug)) {
-        next.delete(slug);
-        if (window.location.hash === `#${slug}`) {
-          history.replaceState(null, "", window.location.pathname);
-        }
-      } else {
-        next.add(slug);
-        history.replaceState(null, "", `#${slug}`);
-      }
-      return next;
-    });
-  }, []);
-
   return (
-    <main className="col flex flex-col gap-16">
-      <section className="relative flex items-start justify-between gap-6">
-        <div className="flex flex-col gap-4 max-w-[300px]">
-          <p className="reveal" style={{ "--i": 0 } as React.CSSProperties}>
-            Hi, I&apos;m Lauren. I study computer science at MIT and I&apos;m
-            passionate about building meaningful experiences.
-          </p>
-          <p className="reveal muted" style={{ "--i": 1 } as React.CSSProperties}>
-            I&apos;m especially into networks and IoT, games and digital media,
-            education, and universal design. I also draw, paint, and animate;
-            some of that lives in{" "}
-            <Link href="/art" className="link text-[var(--ink)]">
-              art
-            </Link>
-            .
-          </p>
+    <main className="col flex flex-col gap-8">
+      <section className="flex items-center justify-between gap-6">
+        <div className="reveal flex items-center gap-4" style={delay(0)}>
+          <Image
+            src="/assets/profile/profile-photo.jpeg"
+            alt="Lauren"
+            width={112}
+            height={112}
+            className="w-14 h-14 rounded-full object-cover select-none"
+            draggable={false}
+            priority
+          />
+          <div className="flex flex-col">
+            <span>Lauren Yoo</span>
+            <span className="muted">she/her</span>
+          </div>
         </div>
-        <div className="shrink-0 -mt-6 -mr-4 sm:-mr-2 origin-top-right scale-[0.7] sm:scale-100">
+        <div className="shrink-0 -my-8 -mr-4 sm:-mr-2 scale-[0.7] sm:scale-[0.85] origin-right">
           <HeroStar />
         </div>
       </section>
 
-      <section className="flex flex-col gap-6">
-        <h2 className="reveal flex gap-3" style={{ "--i": 2 } as React.CSSProperties}>
-          <span className="muted tabular-nums">01</span>
-          <span>Projects</span>
-        </h2>
-        <div className="flex flex-col gap-5">
-          {visibleProjects.map((project, i) => {
-            const slug = projectSlug(project);
-            return (
-              <div
-                key={project.id}
-                className="reveal"
-                style={{ "--i": i + 3 } as React.CSSProperties}
-              >
-                <ProjectItem
-                  project={project}
-                  open={openSlugs.has(slug)}
-                  onToggle={() => toggle(slug)}
-                />
-              </div>
-            );
-          })}
-        </div>
+      <section className="flex flex-col gap-4">
+        <p className="reveal" style={delay(1)}>
+          Hi, I&apos;m Lauren! I&apos;m a senior at MIT studying computer
+          science, passionate about building meaningful experiences. I&apos;m
+          particularly excited about networks and IoT, games/digital media,
+          education, and accessibility in design.
+        </p>
+        <p className="reveal" style={delay(2)}>
+          Outside of that, I draw (
+          <Link href="/art" className="link muted">
+            art
+          </Link>
+          ), run, and read (some of my all-time favorites include{" "}
+          <em>A Thousand Splendid Suns</em>,{" "}
+          <em>Everything I Know about Love</em>, and{" "}
+          <em>Crying in H Mart</em>).
+        </p>
       </section>
     </main>
   );

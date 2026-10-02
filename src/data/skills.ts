@@ -1,0 +1,51 @@
+export const skillCategories = [
+  {
+    title: "Languages",
+    items: ["Python", "TypeScript", "JavaScript", "Java", "C#", "C", "Assembly"],
+  },
+  {
+    title: "Frameworks",
+    items: [
+      "React",
+      "Next.js",
+      "TanStack Query",
+      "Node.js",
+      "Express",
+      "Fastify",
+      "Django",
+      "Flask",
+      "React Native",
+      "Tailwind",
+      "Three.js",
+      "OpenCV",
+      "Electron",
+    ],
+  },
+  {
+    title: "Data & infra",
+    items: [
+      "SQL",
+      "PostgreSQL",
+      "MongoDB",
+      "Supabase",
+      "Firebase",
+      "Apache Spark (SparkSQL)",
+      "Presto/Trino",
+      "Apache Airflow",
+      "Thrift",
+      "AWS",
+      "Docker",
+      "Git",
+    ],
+  },
+  {
+    title: "Design",
+    items: [
+      "Figma",
+      "Adobe Illustrator",
+      "Adobe After Effects",
+      "Adobe Animate",
+      "Unity 3D",
+    ],
+  },
+];

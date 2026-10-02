@@ -5,7 +5,7 @@ import WatercolorStar from "./watercolor-star";
 
 const links = [
   { href: "/", label: "index" },
-  { href: "/about", label: "about" },
+  { href: "/projects", label: "projects" },
   { href: "/art", label: "art" },
 ];
 
