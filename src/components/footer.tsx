@@ -1,34 +1,25 @@
+const links = [
+  { href: "mailto:laureny@mit.edu", label: "email" },
+  { href: "https://www.linkedin.com/in/lauren-yoo-454437287/", label: "linkedin" },
+  { href: "https://github.com/laureny17", label: "github" },
+];
+
 export default function Footer() {
   return (
-    <footer className="flex flex-col space-y-3 py-5">
-      {/* Links */}
-      <div className="flex items-center justify-center sm:justify-start space-x-3 pb-10">
-        <a
-          href="mailto:laureny@mit.edu"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:underline hover:underline-offset-4 underline-green font-medium"
-        >
-          Email
-        </a>
-        <span className="font-medium">/</span>
-        <a
-          href="https://www.linkedin.com/in/lauren-yoo-454437287/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:underline hover:underline-offset-4 underline-green font-medium"
-        >
-          LinkedIn
-        </a>
-        <span className="font-medium">/</span>
-        <a
-          href="https://github.com/laureny17"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hover:underline hover:underline-offset-4 underline-green font-medium"
-        >
-          GitHub
-        </a>
+    <footer className="col flex justify-between pt-24 pb-10 text-[13px] muted">
+      <span>© {new Date().getFullYear()}</span>
+      <div className="flex gap-4">
+        {links.map(({ href, label }) => (
+          <a
+            key={label}
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="link link-muted"
+          >
+            {label}
+          </a>
+        ))}
       </div>
     </footer>
   );

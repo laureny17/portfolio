@@ -1,210 +1,210 @@
-@import url("https://fonts.googleapis.com/css2?family=Dongle:wght@300;400;700&display=swap");
 @import "tailwindcss";
-
-@font-face {
-  font-family: "Pecita";
-  src: url("/fonts/Pecita.otf") format("opentype");
-}
-
-/* new colors to switch to later */
 
 :root {
   --background: #ffffff;
-  --accent: #c8d7ff;
-  --accent2: #708fe4;
-  --gray: #3b3c40;
-  --black: #191a1d;
+  --ink: #1d1e21;
+  --muted: #8b8c91;
+  --faint: #c9cacd;
+  --rule: #ececee;
+  --wash: #b9cbfb; /* watercolor star pigment */
+  --wash-deep: #7f9be8; /* pooled pigment at the edges */
+
+  --col: 460px; /* reading column */
+  --col-wide: 880px; /* galleries */
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-/* :root {
-  --background: #fefdfb;
-  --accent: #c3e3a3;
-  --light-gray: #d0d1cd;
-  --gray: #353634;
-  --black: #181a17;
-} */
-
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-} */
+html {
+  background: var(--background);
+  -webkit-text-size-adjust: 100%;
+  scrollbar-gutter: stable;
+}
 
 body {
-  color: var(--black);
-  font-family: "Dongle", sans-serif;
-  font-size: 36px !important;
-  font-weight: 300;
-  line-height: 1.25 !important;
+  background: var(--background);
+  color: var(--ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Override Tailwind text size utilities to be much larger */
-.text-xs {
-  font-size: 1.5rem !important; /* 20px */
+::selection {
+  background: color-mix(in oklab, var(--wash) 55%, transparent);
 }
 
-.text-sm {
-  font-size: 1.75rem !important; /* 24px */
-}
-
-.text-base {
-  font-size: 2rem !important; /* 28px */
-}
-
-.text-lg {
-  font-size: 2.25rem !important; /* 32px */
-}
-
-.text-xl {
-  font-size: 2.5rem !important; /* 36px */
-}
-
-.text-2xl {
-  font-size: 3rem !important; /* 40px */
-}
-
-/* Ensure all text inherits lighter weight and tighter line height */
-* {
-  font-weight: 300;
-  line-height: 1.3 !important;
-}
-
-/* Allow font-medium to work in header and footer */
-header .font-medium,
-footer .font-medium,
-header a,
-footer a,
-header span {
-  font-weight: 400 !important;
-}
-
-/* Footer text sizes - override global text size rules with responsive sizes */
-/* Below 320px: small (text-xs = 1.5rem) */
-footer a,
-footer span {
-  font-size: 1.5rem !important; /* text-xs - small for < 320px */
-}
-
-/* 320px+: medium (text-sm = 1.75rem) */
-@media (min-width: 320px) {
-  footer a,
-  footer span {
-    font-size: 1.75rem !important; /* text-sm - medium at 320px+ */
-  }
-}
-
-/* 430px+: matches header at mobile (text-lg = 2.25rem) - MAX SIZE */
-@media (min-width: 430px) {
-  footer a,
-  footer span {
-    font-size: 2.25rem !important; /* text-lg - matches header at 430px+, stays this size for all larger screens */
-  }
-}
-
-/* Override for elements that explicitly use Pecita */
-[style*='fontFamily: "Pecita"'],
-[style*='font-family: "Pecita"'] {
-  font-weight: normal;
-}
-
-.bg-off-white {
-  background-color: var(--background);
-}
-
-.underline-green {
-  text-decoration-color: var(--accent);
-  text-decoration-thickness: 3px;
-}
-
-.underline-green-thick {
-  text-decoration-color: var(--accent);
-  text-decoration-thickness: 5px;
-}
-
-.hover-body-link:hover {
-  color: var(--accent2);
-}
-
-/* Tighter line-height for the institution/location meta lines on the About page */
-.profile-meta-line {
-  line-height: 1 !important;
-}
-
-/* Tighter line-height for project card titles, so wrapped titles don't get huge gaps */
-.card-title {
-  line-height: 1 !important;
-}
-
-/* Tighter line-height for the "why this link isn't available" popup */
-.icon-tooltip {
-  line-height: 1.15 !important;
-}
-
-/* Fix vertical alignment for rounded badge/button elements */
-.rounded-full {
-  line-height: 1 !important;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 0.5rem !important; /* Increase top padding */
-  padding-bottom: 0.25rem !important; /* Keep bottom padding smaller */
-}
-
-/* Custom filter styling */
-select {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%233b3c40' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.75rem center;
-  background-size: 12px;
-  padding-right: 2.5rem;
-  cursor: pointer;
-  transition: border-color 0.2s;
-}
-
-select:hover {
-  border-color: var(--gray);
-}
-
-select:focus {
-  outline: none;
-  border-color: var(--accent2);
-}
-
-input[type="checkbox"] {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 1.25rem;
-  height: 1.25rem;
-  border: 2px solid var(--gray);
-  border-radius: 0.25rem;
-  cursor: pointer;
-  position: relative;
-  transition: all 0.2s;
-}
-
-input[type="checkbox"]:hover {
-  border-color: var(--accent2);
-}
-
-input[type="checkbox"]:checked {
-  background-color: var(--accent);
-  border-color: var(--accent);
-}
-
-input[type="checkbox"]:checked::after {
-  content: "✓";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: var(--black);
-  font-size: 0.875rem;
+.serif {
+  font-family: var(--font-serif), Georgia, serif;
   font-weight: 400;
 }
+
+.muted {
+  color: var(--muted);
+}
+
+/* ---------- layout ---------- */
+
+.col {
+  width: 100%;
+  max-width: var(--col);
+  margin-inline: auto;
+}
+
+.col-wide {
+  width: 100%;
+  max-width: var(--col-wide);
+  margin-inline: auto;
+}
+
+/* ---------- links ---------- */
+
+/* Underline that draws itself in from the left on hover */
+.link {
+  position: relative;
+  color: inherit;
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.45s var(--ease-out), color 0.2s ease;
+}
+
+.link:hover,
+.link:focus-visible {
+  background-size: 100% 1px;
+}
+
+.link-muted {
+  color: var(--muted);
+}
+
+.link-muted:hover,
+.link-muted[aria-current="page"] {
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 1px dashed var(--muted);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---------- motion ---------- */
+
+/* Staggered fade-up on page enter. Set --i on each child for its delay slot. */
+.reveal {
+  opacity: 0;
+  animation: reveal 0.9s var(--ease-out) forwards;
+  animation-delay: calc(var(--i, 0) * 70ms + 60ms);
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+/* Route-level fade (app/template.tsx) */
+.page-in {
+  animation: page-in 0.5s ease both;
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Height-auto expand/collapse via grid rows */
+.expand {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.6s var(--ease-in-out);
+}
+
+.expand[data-open="true"] {
+  grid-template-rows: 1fr;
+}
+
+.expand > .expand-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.expand-content {
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.35s ease, transform 0.5s var(--ease-out);
+}
+
+.expand[data-open="true"] .expand-content {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.6s ease 0.15s, transform 0.7s var(--ease-out) 0.1s;
+}
+
+/* Media fades in once loaded */
+.fade-media {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.fade-media[data-loaded="true"] {
+  opacity: 1;
+}
+
+/* Gentle drift for the hero star */
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(12deg);
+  }
+  33% {
+    transform: translate(3px, -5px) rotate(15deg);
+  }
+  66% {
+    transform: translate(-3px, 2px) rotate(10deg);
+  }
+}
+
+.drift {
+  animation: drift 14s ease-in-out infinite;
+}
+
+/* Little star in the nav: one slow turn on hover */
+.nav-star {
+  transition: transform 1.2s var(--ease-out);
+}
+
+a:hover .nav-star {
+  transform: rotate(144deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal {
+    animation-delay: 0ms;
+  }
+}
+
+/* ---------- legacy (used by art components) ---------- */
 
 @keyframes star-spin-pause {
   0% {
@@ -216,9 +216,7 @@ input[type="checkbox"]:checked::after {
   30% {
     transform: rotate(350deg);
   }
-  35% {
-    transform: rotate(360deg);
-  }
+  35%,
   100% {
     transform: rotate(360deg);
   }
@@ -228,69 +226,18 @@ input[type="checkbox"]:checked::after {
   animation: star-spin-pause 1.4s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
 }
 
-/* Ambient drift for the mobile hero star - self-contained, not user-driven */
-@keyframes ambient-float {
-  0% {
-    transform: translate(0, 0);
-  }
-  25% {
-    transform: translate(24px, -32px);
-  }
-  50% {
-    transform: translate(-20px, 16px);
-  }
-  75% {
-    transform: translate(-28px, -20px);
-  }
-  100% {
-    transform: translate(0, 0);
-  }
-}
-
-.ambient-float-star {
-  animation: ambient-float 9s ease-in-out infinite;
-}
-
-/* Keep the hero title on one line by scaling it down below the sm breakpoint */
-@media (max-width: 639px) {
-  .hero-title {
-    font-size: clamp(1rem, 10vw, 4rem);
-  }
-}
-
-/* Below 400px, match the hero subtitle size to the tagline below it */
-@media (max-width: 399px) {
-  .hero-subtitle {
-    font-size: 1.5rem !important; /* matches .text-xs */
-  }
-}
-
-/* Art Gallery Section Headers - Always mobile size */
-/* Using higher specificity to override global text size rules */
-div h2.art-section-header,
-h2.art-section-header {
-  font-size: 2rem !important; /* text-base - mobile - 32px - all screen sizes */
-}
-
-/* Art Gallery Subsection Headers - Always smaller than section headers */
-div h3.art-subsection-header,
-h3.art-subsection-header {
-  font-size: 1.75rem !important; /* text-sm - mobile - 28px - all screen sizes */
-}
-
-/* Masonry Grid Styles */
 .masonry-grid {
   display: flex;
   width: 100%;
-  margin-left: -1rem;
+  margin-left: -0.75rem;
 }
 
 .masonry-grid_column {
-  padding-left: 1rem;
+  padding-left: 0.75rem;
   background-clip: padding-box;
 }
 
 .masonry-grid_column > div {
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   width: 100%;
 }

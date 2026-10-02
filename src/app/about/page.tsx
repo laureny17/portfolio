@@ -1,439 +1,127 @@
-"use client";
 import Image from "next/image";
-import { useState } from "react";
+import type { CSSProperties } from "react";
+
+const skillCategories = [
+  {
+    title: "Languages",
+    items: ["Python", "TypeScript", "JavaScript", "Java", "C#", "C", "Assembly"],
+  },
+  {
+    title: "Frameworks",
+    items: [
+      "React",
+      "Next.js",
+      "TanStack Query",
+      "Node.js",
+      "Express",
+      "Fastify",
+      "Django",
+      "Flask",
+      "React Native",
+      "Tailwind",
+      "Three.js",
+      "OpenCV",
+      "Electron",
+    ],
+  },
+  {
+    title: "Data & infra",
+    items: [
+      "SQL",
+      "PostgreSQL",
+      "MongoDB",
+      "Supabase",
+      "Firebase",
+      "Apache Spark (SparkSQL)",
+      "Presto/Trino",
+      "Apache Airflow",
+      "Thrift",
+      "AWS",
+      "Docker",
+      "Git",
+    ],
+  },
+  {
+    title: "Design",
+    items: [
+      "Figma",
+      "Adobe Illustrator",
+      "Adobe After Effects",
+      "Adobe Animate",
+      "Unity 3D",
+    ],
+  },
+];
+
+const delay = (i: number) => ({ "--i": i }) as CSSProperties;
 
 export default function About() {
-  const skillCategories = [
-    {
-      title: "Languages",
-      items: ["Python", "TypeScript", "JavaScript", "Java", "C#", "C", "Assembly"],
-    },
-    {
-      title: "Frameworks & Libraries",
-      items: [
-        "React",
-        "Next.js",
-        "TanStack Query",
-        "Node.js",
-        "Express",
-        "Fastify",
-        "Django",
-        "Flask",
-        "React Native",
-        "Tailwind",
-        "Three.js",
-        "OpenCV",
-        "Electron",
-      ],
-    },
-    {
-      title: "Data, Cloud, & DevOps",
-      items: [
-        "SQL",
-        "PostgreSQL",
-        "MongoDB",
-        "Supabase",
-        "Firebase",
-        "Apache Spark (SparkSQL)",
-        "Presto/Trino",
-        "Apache Airflow",
-        "Thrift",
-        "AWS",
-        "Docker",
-        "Git",
-      ],
-    },
-    {
-      title: "Design & Creative Tools",
-      items: [
-        "Figma",
-        "Adobe Illustrator",
-        "Adobe After Effects",
-        "Adobe Animate",
-        "Unity 3D",
-      ],
-    },
-  ];
-  const [activeCategory, setActiveCategory] = useState<string | null>(null);
-
   return (
-    <div className="grid grid-cols-1 min-[900px]:grid-cols-2 gap-10 lg:gap-20 py-10 px-0 sm:px-8 md:px-12 lg:px-16 xl:px-20">
-      {/* left section will have some personal info*/}
-      <div className="space-y-6">
-        {/* GitHub-style profile header */}
-        {/* > 1100px: 2 cols, pfp big, pronouns next to name, institution below name */}
-        {/* 900-1100px: 2 cols, pfp big, pronouns below name, institution below pfp+pronouns */}
-        {/* 430-900px: 1 col, pfp big, pronouns next to name, institution below name */}
-        {/* < 430px: 1 col, pfp small, pronouns below name, institution below pfp+pronouns */}
-
-        {/* Layout for > 1100px: pronouns next to name, institution below name */}
-        <div className="hidden min-[1100px]:flex flex-row items-start gap-6">
-          <div className="flex flex-col items-start gap-6">
-            <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 flex-shrink-0 rounded-lg overflow-hidden">
-              <Image
-                src="/assets/profile/profile-photo.jpeg"
-                alt="Profile Picture"
-                width={152}
-                height={152}
-                className="w-full h-full object-contain select-none"
-                draggable={false}
-              />
-            </div>
-          </div>
-          <div className="flex-shrink-0">
-            <div className="flex flex-row items-center gap-4 mb-6">
-              <h1 className="text-lg">Lauren</h1>
-              <div className="hidden min-[320px]:flex items-center gap-2 -translate-y-0.5">
-                <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
-                  she/her
-                </span>
-                <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
-                  2027
-                </span>
-              </div>
-              <span className="block min-[320px]:hidden text-xs text-gray-600 italic">
-                she/her, 2027
-              </span>
-            </div>
-            <div className="space-y-1 pt-3">
-              <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
-                <Image
-                  src="/assets/profile/institution-emoji.webp"
-                  alt="Institution"
-                  width={20}
-                  height={20}
-                  className="inline-block -mt-2 select-none"
-                  draggable={false}
-                />
-                CS @ MIT
-              </p>
-              <p className="text-sm text-gray-600 mb-4 profile-meta-line flex items-center gap-2">
-                <Image
-                  src="/assets/profile/pin-emoji.webp"
-                  alt="Location"
-                  width={20}
-                  height={20}
-                  className="inline-block -mt-1 select-none"
-                  draggable={false}
-                />
-                New Jersey
-              </p>
-            </div>
-          </div>
+    <main className="col flex flex-col gap-14">
+      <section className="reveal flex items-center gap-4" style={delay(0)}>
+        <Image
+          src="/assets/profile/profile-photo.jpeg"
+          alt="Lauren"
+          width={112}
+          height={112}
+          className="w-14 h-14 rounded-full object-cover select-none"
+          draggable={false}
+          priority
+        />
+        <div className="flex flex-col">
+          <span>Lauren Yoo</span>
+          <span className="muted">she/her · CS @ MIT, 2027 · New Jersey</span>
         </div>
+      </section>
 
-        {/* Layout for 430-640px: 1 col, pfp bigger, pronouns next to name, institution below name */}
-        <div className="hidden min-[430px]:flex min-[640px]:hidden flex-col items-start gap-4">
-          <div className="flex flex-row items-start gap-4 w-full">
-            <div className="w-32 h-32 flex-shrink-0 rounded-lg overflow-hidden">
-              <Image
-                src="/assets/profile/profile-photo.jpeg"
-                alt="Profile Picture"
-                width={152}
-                height={152}
-                className="w-full h-full object-contain select-none"
-                draggable={false}
-              />
-            </div>
-            <div className="flex-shrink-0 flex flex-col gap-2">
-              <div className="flex flex-row items-center gap-4">
-                <h1 className="text-lg">Lauren</h1>
-                <div className="hidden min-[320px]:flex items-center gap-2 -translate-y-0.5">
-                  <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
-                    she/her
-                  </span>
-                  <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
-                    2027
-                  </span>
-                </div>
-                <span className="block min-[320px]:hidden text-xs text-gray-600 italic">
-                  she/her, 2027
-                </span>
-              </div>
-              <div className="space-y-1 mt-1">
-                <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
-                  <Image
-                    src="/assets/profile/institution-emoji.webp"
-                    alt="Institution"
-                    width={20}
-                    height={20}
-                    className="inline-block -mt-2 select-none"
-                    draggable={false}
-                  />
-                  CS @ MIT
-                </p>
-                <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
-                  <Image
-                    src="/assets/profile/pin-emoji.webp"
-                    alt="Location"
-                    width={20}
-                    height={20}
-                    className="inline-block -mt-1 select-none"
-                    draggable={false}
-                  />
-                  New Jersey
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Layout for 640-900px: 1 col, pfp responsive, pronouns next to name, institution below name */}
-        <div className="hidden min-[640px]:flex min-[900px]:hidden flex-col items-start gap-4">
-          <div className="flex flex-row items-start gap-4 w-full">
-            <div className="w-32 h-32 md:w-36 md:h-36 flex-shrink-0 rounded-lg overflow-hidden">
-              <Image
-                src="/assets/profile/profile-photo.jpeg"
-                alt="Profile Picture"
-                width={152}
-                height={152}
-                className="w-full h-full object-contain select-none"
-                draggable={false}
-              />
-            </div>
-            <div className="flex-shrink-0 flex flex-col gap-2">
-              <div className="flex flex-row items-center gap-4">
-                <h1 className="text-lg">Lauren</h1>
-                <div className="hidden min-[320px]:flex items-center gap-2 -translate-y-0.5">
-                  <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
-                    she/her
-                  </span>
-                  <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
-                    2027
-                  </span>
-                </div>
-                <span className="block min-[320px]:hidden text-xs text-gray-600 italic">
-                  she/her, 2027
-                </span>
-              </div>
-              <div className="space-y-1 mt-1">
-                <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
-                  <Image
-                    src="/assets/profile/institution-emoji.webp"
-                    alt="Institution"
-                    width={20}
-                    height={20}
-                    className="inline-block -mt-2 select-none"
-                    draggable={false}
-                  />
-                  CS @ MIT
-                </p>
-                <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
-                  <Image
-                    src="/assets/profile/pin-emoji.webp"
-                    alt="Location"
-                    width={20}
-                    height={20}
-                    className="inline-block -mt-1 select-none"
-                    draggable={false}
-                  />
-                  New Jersey
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Layout for 900-1100px: 2 cols, pfp big, pronouns below name, institution below pfp+pronouns */}
-        <div className="hidden min-[900px]:flex min-[1100px]:hidden flex-col items-start gap-4">
-          <div className="flex flex-row items-start gap-4 w-full">
-            <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 flex-shrink-0 rounded-lg overflow-hidden">
-              <Image
-                src="/assets/profile/profile-photo.jpeg"
-                alt="Profile Picture"
-                width={152}
-                height={152}
-                className="w-full h-full object-contain select-none"
-                draggable={false}
-              />
-            </div>
-            <div className="flex-shrink-0">
-              <div className="flex flex-col gap-2">
-                <h1 className="text-lg">Lauren</h1>
-                <div className="hidden min-[320px]:flex items-center gap-2 -translate-y-0.5">
-                  <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
-                    she/her
-                  </span>
-                  <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
-                    2027
-                  </span>
-                </div>
-                <span className="block min-[320px]:hidden text-xs text-gray-600 italic">
-                  she/her, 2027
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="space-y-1 mt-1">
-            <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
-              <Image
-                src="/assets/profile/institution-emoji.webp"
-                alt="Institution"
-                width={20}
-                height={20}
-                className="inline-block -mt-2 select-none"
-                draggable={false}
-              />
-              CS @ MIT
-            </p>
-            <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
-              <Image
-                src="/assets/profile/pin-emoji.webp"
-                alt="Location"
-                width={20}
-                height={20}
-                className="inline-block -mt-1 select-none"
-                draggable={false}
-              />
-              New Jersey
-            </p>
-          </div>
-        </div>
-
-        {/* Layout for < 430px: 1 col, pfp bigger, pronouns below name, institution below pfp+pronouns */}
-        <div className="flex min-[430px]:hidden flex-col items-start gap-4">
-          <div className="flex flex-row items-start gap-4 w-full">
-            <div className="w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden">
-              <Image
-                src="/assets/profile/profile-photo.jpeg"
-                alt="Profile Picture"
-                width={152}
-                height={152}
-                className="w-full h-full object-contain select-none"
-                draggable={false}
-              />
-            </div>
-            <div className="flex-shrink-0">
-              <div className="flex flex-col gap-2">
-                <h1 className="text-lg">Lauren</h1>
-                <div className="hidden min-[320px]:flex items-center gap-2 -translate-y-0.5">
-                  <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
-                    she/her
-                  </span>
-                  <span className="px-3 py-0.5 text-xs bg-[var(--accent)] text-[var(--black)] rounded-full">
-                    2027
-                  </span>
-                </div>
-                <span className="block min-[320px]:hidden text-xs text-gray-600 italic">
-                  she/her, 2027
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="space-y-1 mt-1">
-            <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
-              <Image
-                src="/assets/profile/institution-emoji.webp"
-                alt="Institution"
-                width={20}
-                height={20}
-                className="inline-block -mt-2 select-none"
-                draggable={false}
-              />
-              CS @ MIT
-            </p>
-            <p className="text-sm text-gray-600 mb-0 profile-meta-line flex items-center gap-2">
-              <Image
-                src="/assets/profile/pin-emoji.webp"
-                alt="Location"
-                width={20}
-                height={20}
-                className="inline-block -mt-1 select-none"
-                draggable={false}
-              />
-              New Jersey
-            </p>
-          </div>
-        </div>
-
-        {/* fun facts */}
-        <ul className="text-xs min-[430px]:text-sm sm:text-sm md:text-base lg:text-lg list-disc pl-6 space-y-2">
-          <li>
-            {`I like building for social impact :) Particularly excited by computer networks + IoT, game dev / digital media, education, and universal design!`}
-          </li>
-          <li>
-            In my free time, I like to...
-            <ul className="text-xs sm:text-xs md:text-sm lg:text-base list-disc pl-6 space-y-2 pt-3 pb-3">
-              <li>Draw, paint, animate, etc.</li>
-              <li>Run (!!!)</li>
-              <li>
-                Cross off more books from my reading list (my fav recs: <em>A Thousand Splendid Suns</em>, <em>Everything I Know about Love</em>, <em>Crying in H Mart</em>)
-              </li>
-              <li>
-                Work on the newest project that's been plaguing my mind :D
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
-
-      {/* right section */}
-      <div className="space-y-10">
-        {/* sky clouds drawing */}
-        <div className="w-full rounded-md overflow-hidden max-h-[350px]">
+      <section className="flex flex-col gap-4">
+        <h2 className="reveal flex gap-3" style={delay(1)}>
+          <span className="muted tabular-nums">01</span>
+          <span>About</span>
+        </h2>
+        <p className="reveal" style={delay(2)}>
+          I like building for social impact. I&apos;m particularly excited by
+          computer networks and IoT, game dev and digital media, education, and
+          universal design.
+        </p>
+        <p className="reveal" style={delay(3)}>
+          In my free time I draw, paint, and animate; run (!!!); cross more
+          books off my reading list (favorite recs:{" "}
+          <em>A Thousand Splendid Suns</em>,{" "}
+          <em>Everything I Know about Love</em>, <em>Crying in H Mart</em>);
+          and work on whatever new project has been plaguing my mind.
+        </p>
+        <div className="reveal pt-2" style={delay(4)}>
           <Image
             src="/assets/profile/sky-clouds.jpg"
-            alt="Sky Clouds Drawing"
-            width={500}
-            height={200}
-            className="w-full h-full object-cover select-none"
+            alt="Sky and clouds drawing"
+            width={920}
+            height={400}
+            sizes="(max-width: 500px) 100vw, 460px"
+            className="w-full h-auto max-h-[220px] object-cover rounded-[3px] select-none"
             draggable={false}
           />
         </div>
+      </section>
 
-        {/* technical skills */}
-        <div>
-          {skillCategories.map((category) => {
-            const isOpen = activeCategory === category.title;
-            return (
-              <div key={category.title} className="border-b border-gray-200">
-                <button
-                  type="button"
-                  onClick={() =>
-                    setActiveCategory(isOpen ? null : category.title)
-                  }
-                  aria-expanded={isOpen}
-                  className="w-full flex items-center justify-between gap-4 pt-2 pb-0.5 text-left text-base sm:text-lg md:text-xl lg:text-2xl cursor-pointer"
-                >
-                  <span>{category.title}</span>
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.25"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className={`w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0 transition-transform duration-300 ${
-                      isOpen ? "rotate-180" : ""
-                    }`}
-                    aria-hidden="true"
-                  >
-                    <path d="M4 9 L12 14 L20 9" />
-                  </svg>
-                </button>
-                <div
-                  className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${
-                    isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
-                  }`}
-                >
-                  <div className="overflow-hidden">
-                    <div className="flex flex-wrap gap-2 pb-4">
-                      {category.items.map((item) => (
-                        <span
-                          key={item}
-                          className="px-3 py-0.5 bg-[var(--accent)] text-[var(--black)] rounded-full text-xs sm:text-sm"
-                        >
-                          {item}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </div>
+      <section className="flex flex-col gap-4">
+        <h2 className="reveal flex gap-3" style={delay(5)}>
+          <span className="muted tabular-nums">02</span>
+          <span>Tools</span>
+        </h2>
+        <dl className="flex flex-col gap-3">
+          {skillCategories.map((category, i) => (
+            <div
+              key={category.title}
+              className="reveal grid grid-cols-[100px_1fr] gap-4"
+              style={delay(6 + i)}
+            >
+              <dt className="muted">{category.title}</dt>
+              <dd>{category.items.join(", ")}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    </main>
   );
 }
