@@ -51,7 +51,7 @@ function Media({ src, alt, playing }: { src: string; alt: string; playing: boole
       alt={alt}
       width={920}
       height={520}
-      sizes="(max-width: 500px) 100vw, 460px"
+      sizes="(max-width: 560px) 100vw, 520px"
       data-loaded={loaded}
       onLoad={() => setLoaded(true)}
       className="fade-media w-full h-auto rounded-[3px] bg-[#f6f6f7]"
