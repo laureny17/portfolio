@@ -20,21 +20,25 @@ export default function Projects() {
     }
   }, []);
 
-  const toggle = useCallback((slug: string) => {
-    setOpenSlugs((prev) => {
-      const next = new Set(prev);
-      if (next.has(slug)) {
-        next.delete(slug);
-        if (window.location.hash === `#${slug}`) {
-          history.replaceState(null, "", window.location.pathname);
-        }
-      } else {
-        next.add(slug);
+  // URL side effects stay out of the state updater: Next.js patches
+  // history.replaceState, and calling it mid-render updates its Router.
+  const toggle = useCallback(
+    (slug: string) => {
+      const opening = !openSlugs.has(slug);
+      setOpenSlugs((prev) => {
+        const next = new Set(prev);
+        if (opening) next.add(slug);
+        else next.delete(slug);
+        return next;
+      });
+      if (opening) {
         history.replaceState(null, "", `#${slug}`);
+      } else if (window.location.hash === `#${slug}`) {
+        history.replaceState(null, "", window.location.pathname);
       }
-      return next;
-    });
-  }, []);
+    },
+    [openSlugs]
+  );
 
   return (
     <main className="col flex flex-col gap-16">
