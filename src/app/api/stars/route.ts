@@ -18,6 +18,8 @@
 // The jar holds at most the newest 150 stars from the last 30 days. The list is
 // newest-first (LPUSH), so expired stars are always a run at the end; reads
 // cut that tail off (1 extra command, only when something actually expired).
+// Each new star also resets a 30-day expiry on the whole list, so a jar with
+// no new stars for a month deletes itself even if nobody visits.
 
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
@@ -155,6 +157,9 @@ export async function POST(request: Request) {
     };
     await redis.lpush(KEY, star);
     await redis.ltrim(KEY, 0, MAX_STARS - 1);
+    // If no new star arrives for 30 days, every star in the list has expired:
+    // let Redis delete the whole list then, even if nobody visits to trim it
+    await redis.pexpire(KEY, MAX_AGE_MS);
 
     return Response.json({ star }, { status: 201 });
   } catch (error) {
