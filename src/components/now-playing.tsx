@@ -44,7 +44,7 @@ export default function NowPlaying({ labelClassName = "" }: { labelClassName?: s
       <dd key={track.url} className="page-in flex items-baseline gap-2 min-w-0">
         {track.isPlaying && <Equalizer />}
         <a href={track.url} target="_blank" rel="noopener noreferrer" className="marquee-link link min-w-0">
-          <Marquee auto={track.isPlaying}>
+          <Marquee>
             {track.title}
             <span className="muted"> · {track.artist}</span>
           </Marquee>
@@ -70,12 +70,12 @@ const MARQUEE_GAP = 40; // px between the end of the text and its repeat
 const MARQUEE_HOLD = 1.2; // seconds resting at the start of each pass
 
 /**
- * Text that scrolls sideways when it's too long to fit: continuously when
- * `auto` (a song is playing), otherwise only while hovered or focused. Each
- * pass rests at the start for a moment, and the loop is seamless (the text is
- * followed by a copy of itself). Fits, or reduced motion: plain ellipsis.
+ * Text that scrolls sideways while hovered or focused, if it's too long to
+ * fit. Each pass rests at the start for a moment, and the loop is seamless
+ * (the text is followed by a copy of itself). Otherwise, or with reduced
+ * motion: plain ellipsis.
  */
-function Marquee({ auto, children }: { auto: boolean; children: ReactNode }) {
+function Marquee({ children }: { children: ReactNode }) {
   const boxRef = useRef<HTMLSpanElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
   const trackRef = useRef<HTMLSpanElement>(null);
@@ -96,7 +96,7 @@ function Marquee({ auto, children }: { auto: boolean; children: ReactNode }) {
     return () => ro.disconnect();
   }, []);
 
-  const run = overflow && (auto || hovered);
+  const run = overflow && hovered;
   // Still showing the moving layout while it eases back to the start
   const [returning, setReturning] = useState(false);
 

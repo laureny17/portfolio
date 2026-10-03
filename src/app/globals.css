@@ -297,8 +297,8 @@ a:hover .nav-star {
   }
 }
 
-/* Spotify track that's too long to fit: scrolls sideways (see Marquee in
-   now-playing.tsx); ellipsis until it moves */
+/* Spotify track that's too long to fit: scrolls sideways on hover (see
+   Marquee in now-playing.tsx); ellipsis until it moves */
 .marquee {
   display: block;
   overflow: hidden;
