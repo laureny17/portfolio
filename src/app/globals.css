@@ -244,6 +244,20 @@ a:hover .nav-star {
   }
 }
 
+/* Held while dragging: a little wiggle */
+.guest-star-held {
+  animation: star-held 0.9s ease-in-out infinite alternate;
+}
+
+@keyframes star-held {
+  from {
+    rotate: -10deg;
+  }
+  to {
+    rotate: 10deg;
+  }
+}
+
 /* Tapped: a soft glow of the star's color blooms and fades behind it */
 .guest-star {
   isolation: isolate;

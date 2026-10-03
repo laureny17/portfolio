@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { CSSProperties, KeyboardEvent, MouseEvent } from "react";
+import { createPortal } from "react-dom";
+import type { CSSProperties, KeyboardEvent, PointerEvent } from "react";
 import type { GuestStar } from "@/app/api/stars/route";
 import { STAR_PALETTE } from "@/data/star-palette";
 import { ding } from "@/utils/ding";
@@ -9,16 +10,54 @@ import { hop, makeBody, RADIUS, step, type Body, type Walls } from "@/utils/star
 import { STAR_PATH, STAR_VIEWBOX, WatercolorFilter } from "./watercolor-star";
 
 const STAR_SIZE = 22;
-const DEFAULT_COLOR = 4; // the site's blue
 const MAX_SHOWN = 120; // keeps the pile from climbing out of the field
 const RAIN_INTERVAL_MS = 45; // stagger when saved stars pour in on load
-
 const FIELD_HEIGHT = 240; // blank space the stars fall into
+const DRAG_THRESHOLD = 4; // px of movement before a press becomes a drag
+const DROP_SLOP = 24; // px above the field that still counts as dropping into it
+const MAX_THROW = 6; // px per physics substep
+const TUNE_LENGTH = 10; // notes in "play a tune"
+const TUNE_BEAT_MS = 240;
+
+// sessionStorage key: colors used this session, so the palette stays right
+// even when stars aren't being saved (the server enforces it when they are)
+const USED_STORAGE_KEY = "stars-used";
 
 type Shown = { id: string; c: number };
 
+type Drag = {
+  c: number;
+  originX: number; // where the palette star sits, to fly back to
+  originY: number;
+  started: boolean;
+  samples: { x: number; y: number; t: number }[]; // recent pointer positions, for throw speed
+};
+
 // Invisible walls: the field's own edges
 const wallsFor = (width: number): Walls => ({ left: 0, right: width, bottom: FIELD_HEIGHT });
+
+// Sizes vary ±12%, seeded by id so a star keeps its size across visits
+function radiusFor(id: string) {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
+  return RADIUS * (0.88 + ((h % 1000) / 1000) * 0.24);
+}
+
+function readUsed(): number[] {
+  try {
+    return JSON.parse(sessionStorage.getItem(USED_STORAGE_KEY) ?? "[]");
+  } catch {
+    return [];
+  }
+}
+
+function writeUsed(used: Set<number>) {
+  try {
+    sessionStorage.setItem(USED_STORAGE_KEY, JSON.stringify([...used]));
+  } catch {
+    // storage unavailable (private mode etc.); the server still enforces it
+  }
+}
 
 /** One painted star; the filter comes from the shared defs in <GuestStars>. */
 function PaintedStar({ c, size = STAR_SIZE }: { c: number; size?: number }) {
@@ -39,23 +78,19 @@ function PaintedStar({ c, size = STAR_SIZE }: { c: number; size?: number }) {
   );
 }
 
-// Custom cursor: a tiny flat star in the selected color
-const cursorFor = (c: number) => {
-  const { color } = STAR_PALETTE[c];
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="${STAR_VIEWBOX}"><path d="${STAR_PATH}" fill="${color}" stroke="${color}" stroke-width="40" stroke-linejoin="round"/></svg>`;
-  return `url("data:image/svg+xml,${encodeURIComponent(svg)}") 10 10, crosshair`;
-};
-
 export default function GuestStars() {
   const [shown, setShown] = useState<Shown[]>([]);
   const [total, setTotal] = useState(0);
   const [loaded, setLoaded] = useState(false);
-  const [selected, setSelected] = useState(DEFAULT_COLOR);
+  const [used, setUsed] = useState<Set<number>>(new Set());
+  const [dragging, setDragging] = useState<number | null>(null); // color being dragged
   const [boing, setBoing] = useState<Record<string, number>>({});
   const [notice, setNotice] = useState("");
   const [fieldWidth, setFieldWidth] = useState(0);
 
   const fieldRef = useRef<HTMLDivElement>(null);
+  const ghostRef = useRef<HTMLDivElement>(null);
+  const drag = useRef<Drag | null>(null);
   const bodies = useRef<Body[]>([]);
   const elements = useRef(new Map<string, HTMLElement>());
   const wallsRef = useRef<Walls | null>(null);
@@ -110,6 +145,7 @@ export default function GuestStars() {
 
   useEffect(() => {
     reducedMotion.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setUsed(new Set(readUsed()));
     const el = fieldRef.current;
     if (!el) return;
     const ro = new ResizeObserver(([entry]) => setFieldWidth(entry.contentRect.width));
@@ -124,17 +160,22 @@ export default function GuestStars() {
 
   // ---- spawning ----
 
-  /** Add a star at the top of the field (x as a fraction across) and let it fall. */
+  /** Add a star at (x, y) px in the field, optionally thrown, and let it fall. */
   const spawn = useCallback(
-    (id: string, c: number, xFraction: number) => {
+    (id: string, c: number, x: number, y: number, vx = 0, vy = 0) => {
       const width = fieldRef.current?.clientWidth;
       if (!width) return;
-      // Sizes vary ±12%, seeded by id so a star keeps its size across visits
-      let h = 0;
-      for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
-      const r = RADIUS * (0.88 + ((h % 1000) / 1000) * 0.24);
-      const x = r + (width - r * 2) * Math.min(1, Math.max(0, xFraction));
-      bodies.current.push(makeBody(id, x, r, Math.random() * Math.PI * 2, r));
+      const r = radiusFor(id);
+      const body = makeBody(
+        id,
+        Math.min(width - r, Math.max(r, x)),
+        Math.min(FIELD_HEIGHT - r, Math.max(r, y)),
+        Math.random() * Math.PI * 2,
+        r
+      );
+      body.px = body.x - vx;
+      body.py = body.y - vy;
+      bodies.current.push(body);
       // Oldest stars drop out once there are too many to show
       if (bodies.current.length > MAX_SHOWN) {
         const removed = bodies.current.shift()!;
@@ -158,8 +199,9 @@ export default function GuestStars() {
 
     fetch("/api/stars")
       .then((res) => res.json())
-      .then((data: { stars: GuestStar[] }) => {
+      .then((data: { stars: GuestStar[]; used?: number[] }) => {
         setTotal(data.stars.length);
+        if (data.used?.length) setUsed((u) => new Set([...u, ...data.used!]));
         const toPour = data.stars.slice(0, MAX_SHOWN).reverse(); // oldest first
         const el = fieldRef.current;
         if (!el || toPour.length === 0) return;
@@ -167,9 +209,13 @@ export default function GuestStars() {
           ([entry]) => {
             if (!entry.isIntersecting) return;
             io.disconnect();
+            const width = el.clientWidth;
             toPour.forEach((s, i) =>
               timers.current.push(
-                setTimeout(() => spawn(s.id, s.c, s.x), reducedMotion.current ? 0 : i * RAIN_INTERVAL_MS)
+                setTimeout(
+                  () => spawn(s.id, s.c, s.x * width, RADIUS),
+                  reducedMotion.current ? 0 : i * RAIN_INTERVAL_MS
+                )
               )
             );
           },
@@ -183,20 +229,31 @@ export default function GuestStars() {
 
   useEffect(() => () => timers.current.forEach(clearTimeout), []);
 
-  // ---- interactions ----
+  // ---- dropping a star ----
 
   const flash = (message: string) => {
     setNotice(message);
     clearTimeout(noticeTimer.current);
-    noticeTimer.current = setTimeout(() => setNotice(""), 3000);
+    noticeTimer.current = setTimeout(() => setNotice(""), 3500);
   };
 
-  const place = useCallback(
-    async (xFraction: number) => {
-      const c = selected;
+  const markUsed = (c: number, isUsed: boolean) =>
+    setUsed((prev) => {
+      const next = new Set(prev);
+      if (isUsed) next.add(c);
+      else next.delete(c);
+      writeUsed(next);
+      return next;
+    });
+
+  const drop = useCallback(
+    async (c: number, x: number, y: number, vx = 0, vy = 0) => {
+      const width = fieldRef.current?.clientWidth;
+      if (!width) return;
       const tempId = `local-${crypto.randomUUID()}`;
-      spawn(tempId, c, xFraction);
+      spawn(tempId, c, x, y, vx, vy);
       setTotal((n) => n + 1);
+      markUsed(c, true);
       ding(STAR_PALETTE[c].freq);
 
       const undo = () => {
@@ -211,7 +268,7 @@ export default function GuestStars() {
         const res = await fetch("/api/stars", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ x: xFraction, y: 0, c }),
+          body: JSON.stringify({ x: x / width, y: y / FIELD_HEIGHT, c }),
         });
         if (res.status === 201) return;
         if (res.status === 503) {
@@ -219,44 +276,150 @@ export default function GuestStars() {
           return;
         }
         undo();
+        if (res.status === 409) {
+          flash(`you've already left a ${STAR_PALETTE[c].name} star`);
+          return; // stays marked used
+        }
+        markUsed(c, false);
         flash(res.status === 429 ? "slow down a little ✦" : "that star didn't stick, try again?");
       } catch {
         undo();
+        markUsed(c, false);
         flash("that star didn't stick, try again?");
       }
     },
-    [selected, spawn, wake]
+    [spawn, wake]
   );
 
-  // Stars fall from the top of the field, above wherever you click
-  const onFieldClick = (e: MouseEvent<HTMLDivElement>) => {
+  // ---- drag and drop from the palette ----
+
+  const moveGhost = (x: number, y: number, scale = 1.2) => {
+    const el = ghostRef.current;
+    if (el) el.style.transform = `translate3d(${x - STAR_SIZE / 2}px, ${y - STAR_SIZE / 2}px, 0) scale(${scale})`;
+  };
+
+  const onPalettePointerDown = (e: PointerEvent<HTMLButtonElement>, c: number) => {
+    if (e.button !== 0) return;
     const rect = e.currentTarget.getBoundingClientRect();
-    place((e.clientX - rect.left) / rect.width);
+    drag.current = {
+      c,
+      originX: rect.left + rect.width / 2,
+      originY: rect.top + 8,
+      started: false,
+      samples: [{ x: e.clientX, y: e.clientY, t: e.timeStamp }],
+    };
+    e.currentTarget.setPointerCapture(e.pointerId);
   };
 
-  const onFieldKey = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (e.target !== e.currentTarget) return;
-    if (e.key === "Enter" || e.key === " ") {
-      e.preventDefault();
-      place(Math.random());
+  const onPalettePointerMove = (e: PointerEvent<HTMLButtonElement>) => {
+    const d = drag.current;
+    if (!d) return;
+    if (!d.started) {
+      const first = d.samples[0];
+      if (Math.hypot(e.clientX - first.x, e.clientY - first.y) < DRAG_THRESHOLD) return;
+      if (used.has(d.c)) return; // used colors can't be dragged out
+      d.started = true;
+      setDragging(d.c);
+    }
+    d.samples.push({ x: e.clientX, y: e.clientY, t: e.timeStamp });
+    if (d.samples.length > 5) d.samples.shift();
+    moveGhost(e.clientX, e.clientY);
+  };
+
+  const onPalettePointerUp = (e: PointerEvent<HTMLButtonElement>) => {
+    const d = drag.current;
+    drag.current = null;
+    if (!d) return;
+
+    // A press without a drag: just preview the note
+    if (!d.started) {
+      ding(STAR_PALETTE[d.c].freq);
+      if (used.has(d.c)) flash(`you've already left a ${STAR_PALETTE[d.c].name} star`);
+      return;
+    }
+
+    const field = fieldRef.current?.getBoundingClientRect();
+    const inField =
+      field &&
+      e.clientX >= field.left &&
+      e.clientX <= field.right &&
+      e.clientY >= field.top - DROP_SLOP &&
+      e.clientY <= field.bottom;
+
+    if (field && inField) {
+      // Throw speed from the last few pointer samples (px/ms → px per physics substep)
+      const first = d.samples[0];
+      const dt = Math.max(1, e.timeStamp - first.t);
+      const perSubstep = 1000 / 60 / 2;
+      const clamp = (v: number) => Math.max(-MAX_THROW, Math.min(MAX_THROW, v));
+      const vx = clamp(((e.clientX - first.x) / dt) * perSubstep * 0.5);
+      const vy = clamp(((e.clientY - first.y) / dt) * perSubstep * 0.5);
+      setDragging(null);
+      drop(d.c, e.clientX - field.left, e.clientY - field.top, vx, vy);
+      return;
+    }
+
+    // Dropped outside: float back to the palette and fade
+    const el = ghostRef.current;
+    if (el) {
+      el.style.transition = "transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease";
+      moveGhost(d.originX, d.originY, 0.8);
+      el.style.opacity = "0";
+      setTimeout(() => setDragging(null), 450);
+    } else {
+      setDragging(null);
     }
   };
 
-  const onStarClick = (e: MouseEvent<HTMLButtonElement>, star: Shown) => {
-    e.stopPropagation();
-    ding(STAR_PALETTE[star.c].freq);
-    const body = bodies.current.find((b) => b.id === star.id);
-    if (body) {
-      hop(body);
-      wake();
+  const onPaletteKey = (e: KeyboardEvent<HTMLButtonElement>, c: number) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    e.preventDefault();
+    if (used.has(c)) {
+      ding(STAR_PALETTE[c].freq);
+      flash(`you've already left a ${STAR_PALETTE[c].name} star`);
+      return;
     }
-    setBoing((p) => ({ ...p, [star.id]: (p[star.id] ?? 0) + 1 }));
+    const width = fieldRef.current?.clientWidth ?? 0;
+    drop(c, width * (0.1 + Math.random() * 0.8), RADIUS);
   };
 
-  const choose = (c: number) => {
-    setSelected(c);
-    ding(STAR_PALETTE[c].freq);
+  // ---- tapping stars in the field ----
+
+  /** Ding, hop, and glow, as if the star was tapped. */
+  const tap = useCallback(
+    (star: Shown) => {
+      ding(STAR_PALETTE[star.c].freq);
+      const body = bodies.current.find((b) => b.id === star.id);
+      if (body) {
+        hop(body);
+        wake();
+      }
+      setBoing((p) => ({ ...p, [star.id]: (p[star.id] ?? 0) + 1 }));
+    },
+    [wake]
+  );
+
+  // ---- a little tune: up to 10 random stars, in a random order ----
+
+  const [playing, setPlaying] = useState(false);
+
+  const playTune = () => {
+    if (playing || shown.length === 0) return;
+    const picks = [...shown]
+      .sort(() => Math.random() - 0.5)
+      .slice(0, TUNE_LENGTH);
+    setPlaying(true);
+    let at = 0;
+    picks.forEach((star, i) => {
+      timers.current.push(setTimeout(() => tap(star), at));
+      // Swung rhythm (long-short), with a held note at the end of each phrase
+      const beat = i % 2 === 0 ? TUNE_BEAT_MS * 1.2 : TUNE_BEAT_MS * 0.8;
+      at += (i + 1) % 4 === 0 ? beat * 1.8 : beat;
+    });
+    timers.current.push(setTimeout(() => setPlaying(false), at));
   };
+
+  const allUsed = used.size >= STAR_PALETTE.length;
 
   return (
     <div className="flex flex-col gap-3">
@@ -270,46 +433,57 @@ export default function GuestStars() {
       </svg>
 
       <div className="flex items-end justify-between gap-4">
-        <p className="muted">pick a note, then click below to drop a star.</p>
-        <div role="radiogroup" aria-label="star color and note" className="flex gap-1.5 shrink-0">
-          {STAR_PALETTE.map((p, i) => (
-            <button
-              key={p.name}
-              type="button"
-              role="radio"
-              aria-checked={selected === i}
-              aria-label={`${p.name}, note ${p.note}`}
-              onClick={() => choose(i)}
-              className="group flex flex-col items-center gap-0.5 cursor-pointer"
-            >
-              <span
-                className="block transition-transform duration-500 ease-[var(--ease-out)] group-hover:-translate-y-0.5"
-                style={{ transform: selected === i ? "scale(1.25)" : undefined }}
+        <p key={allUsed ? "done" : "ask"} className="page-in muted">
+          {allUsed
+            ? "thanks for stopping by ⋆｡°★"
+            : "stopping by? drag a star (or two... or more?) down on your way through."}
+        </p>
+        <div className="flex gap-1.5 shrink-0">
+          {STAR_PALETTE.map((p, i) => {
+            const isUsed = used.has(i);
+            const isLifted = dragging === i;
+            return (
+              <button
+                key={p.name}
+                type="button"
+                aria-label={
+                  isUsed
+                    ? `${p.name} star, note ${p.note}, already left`
+                    : `${p.name} star, note ${p.note}. Drag it below, or press Enter to drop it`
+                }
+                onPointerDown={(e) => onPalettePointerDown(e, i)}
+                onPointerMove={onPalettePointerMove}
+                onPointerUp={onPalettePointerUp}
+                onPointerCancel={() => {
+                  drag.current = null;
+                  setDragging(null);
+                }}
+                onKeyDown={(e) => onPaletteKey(e, i)}
+                className="group flex flex-col items-center gap-0.5 touch-none select-none"
+                style={{ cursor: isUsed ? "default" : isLifted ? "grabbing" : "grab" }}
               >
-                <PaintedStar c={i} size={16} />
-              </span>
-              <span
-                className="text-[11px] leading-none transition-colors"
-                style={{ color: selected === i ? "var(--ink)" : "var(--faint)" }}
-              >
-                {p.note}
-              </span>
-            </button>
-          ))}
+                <span
+                  className={`block transition-[transform,opacity] duration-500 ease-[var(--ease-out)] ${
+                    isUsed ? "" : "group-hover:-translate-y-0.5"
+                  }`}
+                  style={{ opacity: isUsed ? 0.25 : isLifted ? 0.3 : 1 }}
+                >
+                  <PaintedStar c={i} size={16} />
+                </span>
+                <span
+                  className="text-[11px] leading-none"
+                  style={{ color: isUsed ? "var(--rule)" : "var(--faint)" }}
+                >
+                  {p.note}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      <div
-        ref={fieldRef}
-        role="button"
-        tabIndex={0}
-        aria-label="drop a star (Enter drops one at random)"
-        onClick={onFieldClick}
-        onKeyDown={onFieldKey}
-        className="relative select-none"
-        style={{ height: FIELD_HEIGHT, cursor: cursorFor(selected) }}
-      >
-        {loaded && total === 0 && (
+      <div ref={fieldRef} className="relative select-none" style={{ height: FIELD_HEIGHT }}>
+        {loaded && total === 0 && dragging === null && (
           <p className="page-in absolute inset-0 flex items-center justify-center muted pointer-events-none">
             no stars yet. be the first?
           </p>
@@ -327,7 +501,7 @@ export default function GuestStars() {
             }}
             type="button"
             aria-label={`star, note ${STAR_PALETTE[star.c].note}`}
-            onClick={(e) => onStarClick(e, star)}
+            onClick={() => tap(star)}
             className="guest-star"
           >
             {boing[star.id] ? (
@@ -348,8 +522,48 @@ export default function GuestStars() {
         ))}
       </div>
 
+      {/* The star following the pointer while dragging. Portaled to <body>: the
+          section's reveal animation leaves a filter on it, which would make
+          position: fixed relative to the section instead of the viewport. */}
+      {dragging !== null &&
+        createPortal(
+          <div
+            ref={(el) => {
+              ghostRef.current = el;
+              const d = drag.current;
+              if (el && d && !el.style.transform) {
+                const last = d.samples[d.samples.length - 1];
+                el.style.transform = `translate3d(${last.x - STAR_SIZE / 2}px, ${last.y - STAR_SIZE / 2}px, 0) scale(1.2)`;
+              }
+            }}
+            aria-hidden="true"
+            className="fixed left-0 top-0 z-50 pointer-events-none will-change-transform"
+            style={{ width: STAR_SIZE, height: STAR_SIZE }}
+          >
+            <span className="guest-star-held block">
+              <PaintedStar c={dragging} />
+            </span>
+          </div>,
+          document.body
+        )}
+
       <p className="flex justify-between text-[13px] muted min-h-[1.6em]">
-        <span>{total > 0 && `${total} star${total === 1 ? "" : "s"}`}</span>
+        <span className="flex gap-2">
+          {total > 0 && <span>{`${total} star${total === 1 ? "" : "s"}`}</span>}
+          {shown.length > 1 && (
+            <>
+              <span aria-hidden="true">·</span>
+              <button
+                type="button"
+                onClick={playTune}
+                disabled={playing}
+                className="link link-muted cursor-pointer disabled:cursor-default"
+              >
+                {playing ? "playing ♪" : "play a tune ♪"}
+              </button>
+            </>
+          )}
+        </span>
         <span key={notice} className="page-in">
           {notice}
         </span>

@@ -84,7 +84,7 @@ export default function Home() {
       <section className="reveal flex flex-col gap-4" style={delay(8)}>
         <h2 className="flex gap-3">
           <span className="muted tabular-nums">03</span>
-          <span>Stars</span>
+          <span>Jar</span>
         </h2>
         <GuestStars />
       </section>
