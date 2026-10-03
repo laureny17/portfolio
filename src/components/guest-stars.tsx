@@ -6,7 +6,17 @@ import type { CSSProperties, KeyboardEvent, PointerEvent } from "react";
 import type { GuestStar } from "@/app/api/stars/route";
 import { STAR_PALETTE } from "@/data/star-palette";
 import { allowSound, ding } from "@/utils/ding";
-import { clearSpawnY, hop, makeBody, RADIUS, step, type Body, type Walls } from "@/utils/star-physics";
+import {
+  advance,
+  clearSpawnY,
+  hop,
+  makeBody,
+  RADIUS,
+  startClock,
+  step,
+  type Body,
+  type Walls,
+} from "@/utils/star-physics";
 import { STAR_PATH, STAR_VIEWBOX, WatercolorFilter } from "./watercolor-star";
 
 const STAR_SIZE = 22;
@@ -177,17 +187,16 @@ export default function GuestStars() {
   const wake = useCallback(() => {
     activeUntil.current = performance.now() + MAX_ACTIVE_MS;
     if (frame.current) return;
-    let restFrames = 0;
-    const tick = () => {
+    const clock = startClock(performance.now());
+    const tick = (now: number) => {
       const walls = wallsRef.current;
       if (!walls) {
         frame.current = 0;
         return;
       }
-      const moving = step(bodies.current, walls);
-      draw();
-      restFrames = moving ? 0 : restFrames + 1;
-      const done = restFrames > 30 || performance.now() > activeUntil.current;
+      // Real-time steps, so it looks the same at 60Hz and on 120Hz phones
+      if (advance(bodies.current, walls, clock, now) > 0) draw();
+      const done = clock.restSteps > 30 || now > activeUntil.current;
       frame.current = done ? 0 : requestAnimationFrame(tick);
     };
     frame.current = requestAnimationFrame(tick);

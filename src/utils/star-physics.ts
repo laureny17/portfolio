@@ -146,3 +146,32 @@ export function step(bodies: Body[], walls: Walls): boolean {
   }
   return motion > REST_THRESHOLD;
 }
+
+// ---- frame-rate independence ----
+// step() is one fixed slice of time. Screens refresh at 60, 90, 120Hz..., so
+// run as many steps as real time calls for, not one per frame; otherwise
+// everything moves twice as fast on a 120Hz phone.
+
+export const STEP_MS = 1000 / 60;
+const MAX_STEPS_PER_FRAME = 4; // after a long pause (tab switch), don't fast-forward
+
+export type Clock = { last: number; carry: number; restSteps: number };
+
+export const startClock = (now: number): Clock => ({ last: now, carry: 0, restSteps: 0 });
+
+/**
+ * Advance the simulation by the real time since the last call.
+ * Returns how many steps ran (0 on a fast screen between steps; skip drawing).
+ */
+export function advance(bodies: Body[], walls: Walls, clock: Clock, now: number): number {
+  clock.carry += now - clock.last;
+  clock.last = now;
+  let steps = 0;
+  while (clock.carry >= STEP_MS && steps < MAX_STEPS_PER_FRAME) {
+    clock.restSteps = step(bodies, walls) ? 0 : clock.restSteps + 1;
+    clock.carry -= STEP_MS;
+    steps++;
+  }
+  if (steps === MAX_STEPS_PER_FRAME) clock.carry = 0; // drop the backlog instead of racing
+  return steps;
+}
