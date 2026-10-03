@@ -77,11 +77,11 @@ function ProjectLink({
     );
   }
   if (unavailableReason) {
-    // Greyed out, with a visible note (the hover-only tooltip never showed on
-    // phones); the full reason is the tooltip and is read out to screen readers
+    // Greyed out; the row ends with one "[access restricted]" note. The full
+    // reason is the tooltip and is read out to screen readers.
     return (
       <span className="text-[var(--faint)] cursor-help" title={unavailableReason}>
-        {label} <span className="text-[var(--muted)]">[access restricted]</span>
+        {label}
         <span className="sr-only">: {unavailableReason}</span>
       </span>
     );
@@ -107,6 +107,13 @@ export default function ProjectItem({ project, open, onToggle }: ProjectItemProp
   const roles = [project.roleLabel, project.isTeam ? "Team" : null].filter(Boolean);
   // e.g. "Unity, C#, Meta Quest 3, [UROP]"
   const meta = [...project.tags, ...roles.map((r) => `[${r}]`)].join(", ");
+  // Links greyed out with a reason, and no working link in their place
+  const hasRestricted = [
+    [project.deployedUrl, project.deployedUnavailableReason],
+    [project.githubUrl, project.githubUnavailableReason],
+    [project.devpostUrl, project.devpostUnavailableReason],
+    [project.labUrl, project.labUnavailableReason],
+  ].some(([url, reason]) => !url && reason);
 
   return (
     <article id={slug} className="scroll-mt-10">
@@ -152,6 +159,7 @@ export default function ProjectItem({ project, open, onToggle }: ProjectItemProp
                 <ProjectLink href={project.githubUrl} unavailableReason={project.githubUnavailableReason} label="Code" />
                 <ProjectLink href={project.devpostUrl} unavailableReason={project.devpostUnavailableReason} label="Devpost" />
                 <ProjectLink href={project.labUrl} unavailableReason={project.labUnavailableReason} label="Lab page" />
+                {hasRestricted && <span className="muted">[access restricted]</span>}
               </p>
             </div>
           </div>
