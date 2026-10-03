@@ -10,7 +10,7 @@ import { hop, makeBody, RADIUS, step, type Body, type Walls } from "@/utils/star
 import { STAR_PATH, STAR_VIEWBOX, WatercolorFilter } from "./watercolor-star";
 
 const STAR_SIZE = 22;
-const MAX_SHOWN = 120; // keeps the pile from climbing out of the field
+const MAX_SHOWN = 150; // all the server keeps; fits the field even on phones
 const RAIN_INTERVAL_MS = 45; // stagger when saved stars pour in on load
 const FIELD_HEIGHT = 240; // blank space the stars fall into
 const DRAG_THRESHOLD = 4; // px of movement before a press becomes a drag
@@ -19,9 +19,10 @@ const MAX_THROW = 6; // px per physics substep
 const TUNE_LENGTH = 10; // notes in "play a tune"
 const TUNE_BEAT_MS = 240;
 const SAVE_ATTEMPTS = 5;
+const MAX_ACTIVE_MS = 8000; // physics stops this long after the last drop/tap at most
 
-// sessionStorage key: colors used this session, so the palette stays right
-// even when stars aren't being saved (the server enforces it when they are)
+// sessionStorage key: colors used this session, so the palette remembers across
+// reloads (the server enforces the limit too, with a session cookie)
 const USED_STORAGE_KEY = "stars-used";
 
 type Shown = { id: string; c: number };
@@ -59,6 +60,11 @@ function writeUsed(used: Set<number>) {
     // storage unavailable (private mode etc.); the server still enforces it
   }
 }
+
+// Temporary id for a just-dropped star. Not crypto.randomUUID(): browsers only
+// expose it on HTTPS/localhost, so it breaks on a phone viewing the dev server
+// over the LAN (and on iOS before 15.4).
+const localId = () => `local-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -147,7 +153,13 @@ export default function GuestStars() {
     }
   }, []);
 
+  // Each wake keeps the loop alive for a while; it also stops early once still.
+  // The cap is a safety net: a star wedged in a tall pile can jitter forever
+  // at sub-pixel scale, and that shouldn't keep a phone busy.
+  const activeUntil = useRef(0);
+
   const wake = useCallback(() => {
+    activeUntil.current = performance.now() + MAX_ACTIVE_MS;
     if (frame.current) return;
     let restFrames = 0;
     const tick = () => {
@@ -159,7 +171,8 @@ export default function GuestStars() {
       const moving = step(bodies.current, walls);
       draw();
       restFrames = moving ? 0 : restFrames + 1;
-      frame.current = restFrames > 30 ? 0 : requestAnimationFrame(tick);
+      const done = restFrames > 30 || performance.now() > activeUntil.current;
+      frame.current = done ? 0 : requestAnimationFrame(tick);
     };
     frame.current = requestAnimationFrame(tick);
   }, [draw]);
@@ -231,10 +244,9 @@ export default function GuestStars() {
     started.current = true;
 
     fetch("/api/stars")
-      .then((res) => res.json())
-      .then((data: { stars: GuestStar[]; used?: number[] }) => {
+      .then((res) => (res.ok ? res.json() : { stars: [] }))
+      .then((data: { stars: GuestStar[] }) => {
         setTotal(data.stars.length);
-        if (data.used?.length) setUsed((u) => new Set([...u, ...data.used!]));
         const toPour = data.stars.slice(0, MAX_SHOWN).reverse(); // oldest first
         const el = fieldRef.current;
         if (!el || toPour.length === 0) return;
@@ -283,7 +295,7 @@ export default function GuestStars() {
     async (c: number, x: number, y: number, vx = 0, vy = 0) => {
       const width = fieldRef.current?.clientWidth;
       if (!width) return;
-      const tempId = `local-${crypto.randomUUID()}`;
+      const tempId = localId();
       spawn(tempId, c, x, y, vx, vy);
       setTotal((n) => n + 1);
       markUsed(c, true);
@@ -303,7 +315,7 @@ export default function GuestStars() {
         const result = await saveStar({ x: x / width, y: y / FIELD_HEIGHT, c });
         if (result === "saved") return;
         if (result === "disabled") {
-          flash("stars aren't saving yet, so this one's just for you");
+          flash("stars aren't saving right now, so this one's just for you");
           return;
         }
         undo();
