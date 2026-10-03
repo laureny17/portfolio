@@ -74,7 +74,7 @@ export default function ArtImage({
         <div
           className={`absolute inset-0 flex items-center justify-center min-h-[200px] z-10 ${bgColor}`}
         >
-          <div className="absolute inset-0 bg-[#f6f6f7] animate-pulse" />
+          <div className="absolute inset-0 bg-[var(--skeleton)] animate-pulse" />
         </div>
       )}
       {hasError ? (
@@ -132,7 +132,7 @@ export default function ArtImage({
       {mounted &&
         createPortal(
           <div
-            className={`fixed inset-0 z-50 flex items-center justify-center bg-white/95 px-4 transition-opacity duration-300 ${
+            className={`fixed inset-0 z-50 flex items-center justify-center bg-[var(--background)]/95 px-4 transition-opacity duration-300 ${
               isModalOpen && !image.link
                 ? "opacity-100 pointer-events-auto"
                 : "opacity-0 pointer-events-none"

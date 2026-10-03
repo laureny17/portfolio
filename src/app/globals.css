@@ -8,11 +8,48 @@
   --rule: #ececee;
   --wash: #b9cbfb; /* watercolor star pigment */
   --wash-deep: #7f9be8; /* pooled pigment at the edges */
+  --skeleton: #f6f6f7; /* media placeholder */
 
   --col: 520px; /* site column */
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  color-scheme: light;
+}
+
+/* Dark palette: follows the system unless the toggle picked a theme
+   (data-theme on <html>, set before paint by the script in layout.tsx). */
+:root[data-theme="dark"] {
+  --background: #141416;
+  --ink: #e4e4e7;
+  --muted: #8b8c91;
+  --faint: #4b4c51;
+  --rule: #26272b;
+  --skeleton: #1e1f22;
+
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --background: #141416;
+    --ink: #e4e4e7;
+    --muted: #8b8c91;
+    --faint: #4b4c51;
+    --rule: #26272b;
+    --skeleton: #1e1f22;
+
+    color-scheme: dark;
+  }
+}
+
+/* Soft cross-fade while switching themes (class is added briefly by the toggle) */
+.theme-switching,
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease !important;
 }
 
 html {
@@ -167,6 +204,82 @@ body {
 
 a:hover .nav-star {
   transform: rotate(144deg);
+}
+
+/* Watercolor stars multiply into white paper; on a dark page multiply would
+   swallow them, so they're painted normally there. */
+.wc-star {
+  mix-blend-mode: multiply;
+}
+
+:root[data-theme="dark"] .wc-star {
+  mix-blend-mode: normal;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .wc-star {
+    mix-blend-mode: normal;
+  }
+}
+
+/* Theme toggle in the nav: moon in light mode, sun in dark, crossfading */
+.theme-toggle {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  color: var(--muted);
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  color: var(--ink);
+}
+
+.theme-toggle > svg {
+  grid-area: 1 / 1;
+  transition: opacity 0.4s ease, transform 0.8s var(--ease-out);
+}
+
+.theme-toggle .icon-sun {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.6);
+}
+
+.theme-toggle:hover .icon-moon {
+  transform: rotate(-20deg);
+}
+
+:root[data-theme="dark"] .theme-toggle .icon-moon {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.6);
+}
+
+:root[data-theme="dark"] .theme-toggle .icon-sun {
+  opacity: 1;
+  transform: none;
+}
+
+:root[data-theme="dark"] .theme-toggle:hover .icon-sun {
+  transform: rotate(45deg);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .icon-moon {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.6);
+  }
+
+  :root:not([data-theme="light"]) .theme-toggle .icon-sun {
+    opacity: 1;
+    transform: none;
+  }
+
+  :root:not([data-theme="light"]) .theme-toggle:hover .icon-sun {
+    transform: rotate(45deg);
+  }
 }
 
 /* Tiny "playing now" bars next to the Spotify track */

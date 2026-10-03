@@ -40,7 +40,7 @@ function Media({ src, alt, playing }: { src: string; alt: string; playing: boole
         data-loaded={loaded}
         onLoadedData={() => setLoaded(true)}
         onError={() => setVideoFailed(true)}
-        className="fade-media w-full rounded-[3px] bg-[#f6f6f7]"
+        className="fade-media w-full rounded-[3px] bg-[var(--skeleton)]"
       />
     );
   }
@@ -54,7 +54,7 @@ function Media({ src, alt, playing }: { src: string; alt: string; playing: boole
       sizes="(max-width: 560px) 100vw, 520px"
       data-loaded={loaded}
       onLoad={() => setLoaded(true)}
-      className="fade-media w-full h-auto rounded-[3px] bg-[#f6f6f7]"
+      className="fade-media w-full h-auto rounded-[3px] bg-[var(--skeleton)]"
       draggable={false}
     />
   );

@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import WatercolorStar from "./watercolor-star";
+import ThemeToggle from "./theme-toggle";
 
 const links = [
   { href: "/", label: "Index" },
@@ -22,7 +23,7 @@ export default function Header() {
         <span>Lauren Yoo</span>
       </Link>
 
-      <nav className="flex gap-4">
+      <nav className="flex items-center gap-4">
         {links.map(({ href, label }) => (
           <Link
             key={href}
@@ -33,6 +34,7 @@ export default function Header() {
             {label}
           </Link>
         ))}
+        <ThemeToggle />
       </nav>
     </header>
   );

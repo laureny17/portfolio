@@ -143,7 +143,7 @@ type WatercolorStarProps = {
   edgeColor?: string; // pooled pigment at the rim
 };
 
-/** The site star, painted with WatercolorFilter. Multiply-blended so it sits "in" the page. */
+/** The site star, painted with WatercolorFilter. Multiply-blended (.wc-star) so it sits "in" the page. */
 export default function WatercolorStar({
   size = 160,
   className = "",
@@ -158,8 +158,8 @@ export default function WatercolorStar({
       viewBox={STAR_VIEWBOX}
       width={size}
       height={size}
-      className={className}
-      style={{ mixBlendMode: "multiply", overflow: "visible" }}
+      className={`wc-star ${className}`}
+      style={{ overflow: "visible" }}
       aria-hidden="true"
       focusable="false"
     >
