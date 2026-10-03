@@ -7,13 +7,14 @@ import { skillCategories } from "@/data/skills";
 const visibleProjects = projects.filter((p) => !hiddenProjectIds.has(p.id));
 
 export default function Projects() {
-  const [openSlugs, setOpenSlugs] = useState<Set<string>>(new Set());
+  // Only one project open at a time
+  const [openSlug, setOpenSlug] = useState<string | null>(null);
 
   // Deep link: /projects#pokemon-cry-atlas opens that project
   useEffect(() => {
     const hash = decodeURIComponent(window.location.hash.slice(1));
     if (hash && visibleProjects.some((p) => projectSlug(p) === hash)) {
-      setOpenSlugs(new Set([hash]));
+      setOpenSlug(hash);
       requestAnimationFrame(() =>
         document.getElementById(hash)?.scrollIntoView({ block: "start" })
       );
@@ -24,20 +25,15 @@ export default function Projects() {
   // history.replaceState, and calling it mid-render updates its Router.
   const toggle = useCallback(
     (slug: string) => {
-      const opening = !openSlugs.has(slug);
-      setOpenSlugs((prev) => {
-        const next = new Set(prev);
-        if (opening) next.add(slug);
-        else next.delete(slug);
-        return next;
-      });
+      const opening = openSlug !== slug;
+      setOpenSlug(opening ? slug : null); // opening one closes any other
       if (opening) {
         history.replaceState(null, "", `#${slug}`);
       } else if (window.location.hash === `#${slug}`) {
         history.replaceState(null, "", window.location.pathname);
       }
     },
-    [openSlugs]
+    [openSlug]
   );
 
   return (
@@ -58,7 +54,7 @@ export default function Projects() {
               >
                 <ProjectItem
                   project={project}
-                  open={openSlugs.has(slug)}
+                  open={openSlug === slug}
                   onToggle={() => toggle(slug)}
                 />
               </div>
