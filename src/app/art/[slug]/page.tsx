@@ -50,7 +50,7 @@ export default async function ArtSectionPage({
         </h1>
       </div>
 
-      <div className="col-wide">
+      <div className="col">
         <ArtSectionGallery section={section} />
       </div>
 

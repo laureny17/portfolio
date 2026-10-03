@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Masonry from "react-masonry-css";
 import ArtImage from "./art-image";
 import ArtImageSequence from "./art-image-sequence";
@@ -90,29 +89,11 @@ type ArtSectionGalleryProps = {
 
 /** One art section's images (or its subsections), as masonry columns. */
 export default function ArtSectionGallery({ section }: ArtSectionGalleryProps) {
-  const [windowWidth, setWindowWidth] = useState(0);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const getColumnCount = (itemCount: number) => {
-    if (itemCount <= 2) return 2;
-    if (windowWidth === 0) return 2; // SSR/default
-    if (windowWidth >= 768) return 3;
-    return 2;
-  };
-
   const renderMasonry = (images: ArtImageType[], alt: string) => {
     const items = getImageSequences(images);
     return (
       <Masonry
-        breakpointCols={getColumnCount(items.length)}
+        breakpointCols={2}
         className="masonry-grid"
         columnClassName="masonry-grid_column"
       >

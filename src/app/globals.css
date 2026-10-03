@@ -9,8 +9,7 @@
   --wash: #b9cbfb; /* watercolor star pigment */
   --wash-deep: #7f9be8; /* pooled pigment at the edges */
 
-  --col: 460px; /* reading column */
-  --col-wide: 880px; /* galleries */
+  --col: 460px; /* site column */
 
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
@@ -45,12 +44,6 @@ body {
 .col {
   width: 100%;
   max-width: var(--col);
-  margin-inline: auto;
-}
-
-.col-wide {
-  width: 100%;
-  max-width: var(--col-wide);
   margin-inline: auto;
 }
 
@@ -241,7 +234,7 @@ a:hover .nav-star {
 
 .masonry-grid {
   display: flex;
-  width: 100%;
+  width: calc(100% + 0.75rem); /* the negative margin eats the first gutter */
   margin-left: -0.75rem;
 }
 
