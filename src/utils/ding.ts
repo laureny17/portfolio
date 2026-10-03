@@ -43,8 +43,8 @@ const PARTIALS: [number, number, number][] = [
   [4.2, 0.04, 0.3],
 ];
 
-function play(ctx: AudioContext, out: GainNode, freq: number) {
-  const t = ctx.currentTime;
+/** Schedule one bell at audio-clock time `t` (seconds). */
+function play(ctx: AudioContext, out: GainNode, freq: number, t: number) {
   for (const [ratio, gain, decay] of PARTIALS) {
     const osc = ctx.createOscillator();
     osc.type = "sine";
@@ -63,20 +63,45 @@ function play(ctx: AudioContext, out: GainNode, freq: number) {
   }
 }
 
-export function ding(freq: number) {
+// A note that couldn't play within this long of being asked for is dropped:
+// better a missing note than several bunched together when audio wakes up late
+const MAX_LATENCY_MS = 120;
+
+/**
+ * Wake the audio engine (call from a user event). Resolves true once it's
+ * running, so callers can schedule a sequence on the audio clock up front.
+ */
+export function prepareAudio(): Promise<boolean> {
+  if (typeof window === "undefined") return Promise.resolve(false);
+  const { ctx } = audio();
+  if (ctx.state === "running") return Promise.resolve(true);
+  return ctx
+    .resume()
+    .then(() => ctx.state === "running")
+    .catch(() => false);
+}
+
+/**
+ * Play a bell, optionally `delay` seconds from now on the audio clock.
+ * Scheduling on the audio clock keeps a sequence perfectly even even when
+ * the page itself is busy (e.g. right after load on a phone).
+ */
+export function ding(freq: number, delay = 0) {
   if (typeof window === "undefined" || !soundAllowed()) return;
   const { ctx, out } = audio();
   if (ctx.state === "running") {
-    play(ctx, out, freq);
+    play(ctx, out, freq, ctx.currentTime + delay);
     return;
   }
   // "suspended" (no gesture yet) or Safari's "interrupted" (after sleep or
-  // another app took the audio): wake it up, then play once it's running
+  // another app took the audio): wake it up, then play only if that was quick
+  const asked = performance.now();
   ctx
     .resume()
     .then(() => {
-      // Only if it woke up promptly; a late resume must not dump queued notes
-      if (soundAllowed()) play(ctx, out, freq);
+      if (soundAllowed() && performance.now() - asked < MAX_LATENCY_MS) {
+        play(ctx, out, freq, ctx.currentTime + delay);
+      }
     })
     .catch(() => {});
 }

@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import type { CSSProperties, KeyboardEvent, PointerEvent } from "react";
 import type { GuestStar } from "@/app/api/stars/route";
 import { STAR_PALETTE } from "@/data/star-palette";
-import { allowSound, ding } from "@/utils/ding";
+import { allowSound, ding, prepareAudio } from "@/utils/ding";
 import {
   advance,
   clearSpawnY,
@@ -460,9 +460,9 @@ export default function GuestStars() {
   // ---- tapping stars in the field ----
 
   /** Ding, hop, and glow, as if the star was tapped. */
-  const tap = useCallback(
+  /** Hop and glow, as if the star was tapped (no sound). */
+  const animateTap = useCallback(
     (star: Shown) => {
-      ding(STAR_PALETTE[star.c].freq);
       const body = bodies.current.find((b) => b.id === star.id);
       if (body) {
         hop(body);
@@ -473,16 +473,24 @@ export default function GuestStars() {
     [wake]
   );
 
+  /** Ding, hop, and glow. */
+  const tap = useCallback(
+    (star: Shown) => {
+      ding(STAR_PALETTE[star.c].freq);
+      animateTap(star);
+    },
+    [animateTap]
+  );
+
   // ---- a little tune: up to 10 random stars, in a random order ----
 
   const [playing, setPlaying] = useState(false);
 
-  const playTune = () => {
+  const playTune = async () => {
     if (playing || shown.length === 0) return;
     const picks = [...shown]
       .sort(() => Math.random() - 0.5)
       .slice(0, TUNE_LENGTH);
-    setPlaying(true);
     let at = 0;
     const times = picks.map((_, i) => {
       const t = at;
@@ -492,7 +500,16 @@ export default function GuestStars() {
       return t;
     });
     allowSound(at + 300); // the button press covers the whole tune
-    picks.forEach((star, i) => timers.current.push(setTimeout(() => tap(star), times[i])));
+    setPlaying(true);
+
+    // Wake the audio first, then hand every note to the audio clock at once,
+    // so the tune stays evenly spaced even if the page is busy. The hops and
+    // glows follow on ordinary timers (if those run late, only visuals lag).
+    const audioReady = await prepareAudio();
+    picks.forEach((star, i) => {
+      if (audioReady) ding(STAR_PALETTE[star.c].freq, times[i] / 1000);
+      timers.current.push(setTimeout(() => animateTap(star), times[i]));
+    });
     timers.current.push(setTimeout(() => setPlaying(false), at));
   };
 
