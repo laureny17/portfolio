@@ -67,6 +67,13 @@
   display: none;
 }
 
+html,
+body {
+  /* Nothing may widen the page sideways (e.g. an edge star's glow in the jar):
+     iOS Safari zooms out to fit, then back in, which looks like a glitch */
+  overflow-x: clip;
+}
+
 html {
   background: var(--background);
   -webkit-text-size-adjust: 100%;
