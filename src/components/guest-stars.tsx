@@ -464,13 +464,13 @@ export default function GuestStars() {
         </defs>
       </svg>
 
-      <div className="flex items-end justify-between gap-4">
+      <div className="flex items-start justify-between gap-4">
         <p key={allUsed ? "done" : "ask"} className="page-in muted">
           {allUsed
             ? "thanks for stopping by ⋆｡°★"
             : "stopping by? drag a star (or two... or more?) down on your way through."}
         </p>
-        <div className="flex gap-1.5 shrink-0">
+        <div className="flex gap-1.5 shrink-0 mt-1.5">
           {STAR_PALETTE.map((p, i) => {
             const isUsed = used.has(i);
             const isLifted = dragging === i;
