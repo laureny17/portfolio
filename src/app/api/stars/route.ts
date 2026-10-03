@@ -14,6 +14,10 @@
 //   repeat offenders cost nothing
 // - if Redis errors (down, or over quota) both routes answer 503 instead of
 //   throwing, and the client stops retrying
+//
+// The jar holds at most the newest 150 stars from the last 30 days. The list is
+// newest-first (LPUSH), so expired stars are always a run at the end; reads
+// cut that tail off (1 extra command, only when something actually expired).
 
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
@@ -31,7 +35,8 @@ export type GuestStar = {
 };
 
 const KEY = "stars";
-const MAX_STARS = 150; // older stars fall off; matches what the jar shows
+const MAX_STARS = 150; // newest 150 are kept; each new star pushes out the oldest
+const MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000; // stars expire after 30 days
 const SESSION_COOKIE = "star_session";
 const USED_TTL_SECONDS = 60 * 60 * 24; // bookkeeping cleanup; the cookie itself ends with the session
 
@@ -56,12 +61,26 @@ const getLimiter = (redis: Redis) =>
 const unavailable = () =>
   Response.json({ error: "stars are resting right now" }, { status: 503 });
 
+/**
+ * Stars from the last 30 days, newest first. Deletes expired ones from the
+ * end of the list. Trimming from the tail (negative LTRIM index) is safe even
+ * if a new star is pushed onto the head at the same moment.
+ */
+async function freshStars(redis: Redis) {
+  const all = await redis.lrange<GuestStar>(KEY, 0, -1);
+  const cutoff = Date.now() - MAX_AGE_MS;
+  let expired = 0;
+  while (expired < all.length && Number(all[all.length - 1 - expired].t) < cutoff) expired++;
+  if (expired > 0) await redis.ltrim(KEY, 0, -(expired + 1)); // all expired -> list removed
+  return all.slice(0, all.length - expired).slice(0, MAX_STARS);
+}
+
 export async function GET() {
   const redis = getRedis();
   if (!redis) return Response.json({ enabled: false, stars: [] });
 
   try {
-    const stars = await redis.lrange<GuestStar>(KEY, 0, MAX_STARS - 1);
+    const stars = await freshStars(redis);
     return Response.json(
       { enabled: true, stars },
       // Same for everyone: let the CDN serve it, refreshing every 15s
