@@ -197,6 +197,139 @@ a:hover .nav-star {
   }
 }
 
+/* ---------- guest stars ---------- */
+
+.guest-star {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  padding: 4px; /* bigger hit target */
+  cursor: pointer;
+  line-height: 0;
+}
+
+.guest-star > span,
+.guest-star-drift,
+.guest-star-pop,
+.guest-star-rest {
+  display: block;
+  position: relative;
+}
+
+/* Light bounce into frame */
+.guest-star-enter {
+  animation: star-in 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: var(--enter-delay, 0ms);
+}
+
+@keyframes star-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-14px) scale(0.3);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(2px) scale(1.1);
+  }
+  80% {
+    transform: translateY(-1px) scale(0.97);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Slow wander in place; each star gets its own --dx/--dy/--dur/--phase */
+.guest-star-drift {
+  will-change: transform;
+  animation: star-drift var(--dur, 10s) ease-in-out infinite;
+  animation-delay: var(--phase, 0s);
+}
+
+@keyframes star-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(var(--r));
+  }
+  25% {
+    transform: translate(var(--dx), calc(var(--dy) * -1)) rotate(calc(var(--r) + 8deg));
+  }
+  50% {
+    transform: translate(calc(var(--dx) * -0.6), var(--dy)) rotate(calc(var(--r) - 5deg));
+  }
+  75% {
+    transform: translate(calc(var(--dx) * -1), calc(var(--dy) * -0.4)) rotate(var(--r));
+  }
+}
+
+.guest-star-rest {
+  transition: transform 0.4s var(--ease-out);
+}
+
+.guest-star:hover .guest-star-rest {
+  transform: scale(1.15);
+}
+
+/* Click: a little boing... */
+.guest-star-pop {
+  animation: star-boing 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes star-boing {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.4);
+  }
+  60% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ...and soft rings of its color spreading out */
+.guest-star-pulse,
+.guest-star-pulse::after {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  border-radius: 50%;
+  pointer-events: none;
+  border: 1.5px solid var(--pulse);
+  background: color-mix(in oklab, var(--pulse) 22%, transparent);
+  animation: star-pulse 1.1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.guest-star-pulse::after {
+  content: "";
+  left: 0;
+  top: 0;
+  margin: 0;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  background: none;
+  animation-delay: 0.18s;
+  opacity: 0;
+}
+
+@keyframes star-pulse {
+  from {
+    opacity: 0.95;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 0;
+    transform: scale(3.2);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

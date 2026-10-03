@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
+import GuestStars from "@/components/guest-stars";
 import NowPlaying from "@/components/now-playing";
 import { now } from "@/data/now";
 
@@ -78,6 +79,14 @@ export default function Home() {
             </div>
           )}
         </dl>
+      </section>
+
+      <section className="reveal flex flex-col gap-4" style={delay(8)}>
+        <h2 className="flex gap-3">
+          <span className="muted tabular-nums">03</span>
+          <span>Stars</span>
+        </h2>
+        <GuestStars />
       </section>
     </main>
   );
