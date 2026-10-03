@@ -5,31 +5,20 @@ import type { CSSProperties, KeyboardEvent, MouseEvent } from "react";
 import type { GuestStar } from "@/app/api/stars/route";
 import { STAR_PALETTE } from "@/data/star-palette";
 import { ding } from "@/utils/ding";
+import { hop, makeBody, RADIUS, step, type Body, type Walls } from "@/utils/star-physics";
 import { STAR_PATH, STAR_VIEWBOX, WatercolorFilter } from "./watercolor-star";
 
 const STAR_SIZE = 22;
 const DEFAULT_COLOR = 4; // the site's blue
+const MAX_SHOWN = 120; // keeps the pile from climbing out of the field
+const RAIN_INTERVAL_MS = 45; // stagger when saved stars pour in on load
 
-type LocalStar = GuestStar & { fresh?: boolean };
+const FIELD_HEIGHT = 240; // blank space the stars fall into
 
-// Deterministic per-star randomness, so a star drifts the same way every visit
-function hash(s: string) {
-  let h = 2166136261;
-  for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619);
-  return (h >>> 0) / 4294967295;
-}
+type Shown = { id: string; c: number };
 
-function driftStyle(id: string, index: number, fresh: boolean): CSSProperties {
-  const r = (n: number) => hash(id + n);
-  return {
-    "--r": `${Math.round(r(1) * 70 - 35)}deg`,
-    "--dx": `${(1.5 + r(2) * 3).toFixed(1)}px`,
-    "--dy": `${(1.5 + r(3) * 3).toFixed(1)}px`,
-    "--dur": `${(8 + r(4) * 7).toFixed(1)}s`,
-    "--phase": `${(-r(5) * 15).toFixed(1)}s`,
-    "--enter-delay": fresh ? "0ms" : `${Math.min(index, 40) * 35 + 150}ms`,
-  } as CSSProperties;
-}
+// Invisible walls: the field's own edges
+const wallsFor = (width: number): Walls => ({ left: 0, right: width, bottom: FIELD_HEIGHT });
 
 /** One painted star; the filter comes from the shared defs in <GuestStars>. */
 function PaintedStar({ c, size = STAR_SIZE }: { c: number; size?: number }) {
@@ -39,7 +28,7 @@ function PaintedStar({ c, size = STAR_SIZE }: { c: number; size?: number }) {
       viewBox={STAR_VIEWBOX}
       width={size}
       height={size}
-      style={{ mixBlendMode: "multiply", overflow: "visible" }}
+      style={{ overflow: "visible" }}
       aria-hidden="true"
       focusable="false"
     >
@@ -58,21 +47,143 @@ const cursorFor = (c: number) => {
 };
 
 export default function GuestStars() {
-  const [stars, setStars] = useState<LocalStar[]>([]);
+  const [shown, setShown] = useState<Shown[]>([]);
+  const [total, setTotal] = useState(0);
   const [loaded, setLoaded] = useState(false);
   const [selected, setSelected] = useState(DEFAULT_COLOR);
-  const [pulses, setPulses] = useState<Record<string, number>>({});
+  const [boing, setBoing] = useState<Record<string, number>>({});
   const [notice, setNotice] = useState("");
+  const [fieldWidth, setFieldWidth] = useState(0);
+
   const fieldRef = useRef<HTMLDivElement>(null);
+  const bodies = useRef<Body[]>([]);
+  const elements = useRef(new Map<string, HTMLElement>());
+  const wallsRef = useRef<Walls | null>(null);
+  const frame = useRef(0);
   const noticeTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const reducedMotion = useRef(false);
+
+  wallsRef.current = fieldWidth ? wallsFor(fieldWidth) : null;
+
+  // ---- simulation loop: runs only while something is moving ----
+
+  const transformFor = (b: Body) => {
+    const half = STAR_SIZE / 2;
+    return `translate3d(${b.x - half}px, ${b.y - half}px, 0) rotate(${b.angle}rad) scale(${b.r / RADIUS})`;
+  };
+
+  const draw = useCallback(() => {
+    for (const b of bodies.current) {
+      const el = elements.current.get(b.id);
+      if (el) el.style.transform = transformFor(b);
+    }
+  }, []);
+
+  const wake = useCallback(() => {
+    if (frame.current) return;
+    let restFrames = 0;
+    const tick = () => {
+      const walls = wallsRef.current;
+      if (!walls) {
+        frame.current = 0;
+        return;
+      }
+      const moving = step(bodies.current, walls);
+      draw();
+      restFrames = moving ? 0 : restFrames + 1;
+      frame.current = restFrames > 30 ? 0 : requestAnimationFrame(tick);
+    };
+    frame.current = requestAnimationFrame(tick);
+  }, [draw]);
+
+  useEffect(() => () => cancelAnimationFrame(frame.current), []);
+
+  // Settle instantly (no animation) for reduced-motion visitors
+  const settleNow = useCallback(() => {
+    const walls = wallsRef.current;
+    if (!walls) return;
+    for (let i = 0; i < 600 && step(bodies.current, walls); i++);
+    draw();
+  }, [draw]);
+
+  // ---- layout ----
 
   useEffect(() => {
+    reducedMotion.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const el = fieldRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => setFieldWidth(entry.contentRect.width));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  // Walls moved (resize): let everything re-settle
+  useEffect(() => {
+    if (fieldWidth) wake();
+  }, [fieldWidth, wake]);
+
+  // ---- spawning ----
+
+  /** Add a star at the top of the field (x as a fraction across) and let it fall. */
+  const spawn = useCallback(
+    (id: string, c: number, xFraction: number) => {
+      const width = fieldRef.current?.clientWidth;
+      if (!width) return;
+      // Sizes vary ±12%, seeded by id so a star keeps its size across visits
+      let h = 0;
+      for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
+      const r = RADIUS * (0.88 + ((h % 1000) / 1000) * 0.24);
+      const x = r + (width - r * 2) * Math.min(1, Math.max(0, xFraction));
+      bodies.current.push(makeBody(id, x, r, Math.random() * Math.PI * 2, r));
+      // Oldest stars drop out once there are too many to show
+      if (bodies.current.length > MAX_SHOWN) {
+        const removed = bodies.current.shift()!;
+        elements.current.delete(removed.id);
+      }
+      setShown((s) => [...s, { id, c }].slice(-MAX_SHOWN));
+      if (reducedMotion.current) requestAnimationFrame(settleNow);
+      else wake();
+    },
+    [wake, settleNow]
+  );
+
+  // Load saved stars, then pour them in once the field scrolls into view (once)
+  const started = useRef(false);
+  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const ready = fieldWidth > 0;
+
+  useEffect(() => {
+    if (!ready || started.current) return;
+    started.current = true;
+
     fetch("/api/stars")
       .then((res) => res.json())
-      .then((data: { stars: GuestStar[] }) => setStars(data.stars))
+      .then((data: { stars: GuestStar[] }) => {
+        setTotal(data.stars.length);
+        const toPour = data.stars.slice(0, MAX_SHOWN).reverse(); // oldest first
+        const el = fieldRef.current;
+        if (!el || toPour.length === 0) return;
+        const io = new IntersectionObserver(
+          ([entry]) => {
+            if (!entry.isIntersecting) return;
+            io.disconnect();
+            toPour.forEach((s, i) =>
+              timers.current.push(
+                setTimeout(() => spawn(s.id, s.c, s.x), reducedMotion.current ? 0 : i * RAIN_INTERVAL_MS)
+              )
+            );
+          },
+          { threshold: 0.35 }
+        );
+        io.observe(el);
+      })
       .catch(() => {})
       .finally(() => setLoaded(true));
-  }, []);
+  }, [ready, spawn]);
+
+  useEffect(() => () => timers.current.forEach(clearTimeout), []);
+
+  // ---- interactions ----
 
   const flash = (message: string) => {
     setNotice(message);
@@ -80,58 +191,66 @@ export default function GuestStars() {
     noticeTimer.current = setTimeout(() => setNotice(""), 3000);
   };
 
-  const pulse = (id: string) => setPulses((p) => ({ ...p, [id]: (p[id] ?? 0) + 1 }));
-
   const place = useCallback(
-    async (x: number, y: number) => {
+    async (xFraction: number) => {
       const c = selected;
       const tempId = `local-${crypto.randomUUID()}`;
-      const star: LocalStar = { id: tempId, x, y, c, t: Date.now(), fresh: true };
-      setStars((s) => [star, ...s]);
+      spawn(tempId, c, xFraction);
+      setTotal((n) => n + 1);
       ding(STAR_PALETTE[c].freq);
-      pulse(tempId);
+
+      const undo = () => {
+        bodies.current = bodies.current.filter((b) => b.id !== tempId);
+        elements.current.delete(tempId);
+        setShown((s) => s.filter((st) => st.id !== tempId));
+        setTotal((n) => n - 1);
+        wake();
+      };
 
       try {
         const res = await fetch("/api/stars", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ x, y, c }),
+          body: JSON.stringify({ x: xFraction, y: 0, c }),
         });
-        if (res.status === 201) return; // keep the local copy; it has the same look
+        if (res.status === 201) return;
         if (res.status === 503) {
           flash("stars aren't saving yet, so this one's just for you");
           return;
         }
-        setStars((s) => s.filter((st) => st.id !== tempId));
+        undo();
         flash(res.status === 429 ? "slow down a little ✦" : "that star didn't stick, try again?");
       } catch {
-        setStars((s) => s.filter((st) => st.id !== tempId));
+        undo();
         flash("that star didn't stick, try again?");
       }
     },
-    [selected]
+    [selected, spawn, wake]
   );
 
+  // Stars fall from the top of the field, above wherever you click
   const onFieldClick = (e: MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    // Keep stars a little inside the edges
-    const x = Math.min(0.96, Math.max(0.04, (e.clientX - rect.left) / rect.width));
-    const y = Math.min(0.9, Math.max(0.1, (e.clientY - rect.top) / rect.height));
-    place(x, y);
+    place((e.clientX - rect.left) / rect.width);
   };
 
   const onFieldKey = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.target !== e.currentTarget) return;
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
-      place(0.08 + Math.random() * 0.84, 0.15 + Math.random() * 0.7);
+      place(Math.random());
     }
   };
 
-  const onStarClick = (e: MouseEvent<HTMLButtonElement>, star: LocalStar) => {
+  const onStarClick = (e: MouseEvent<HTMLButtonElement>, star: Shown) => {
     e.stopPropagation();
     ding(STAR_PALETTE[star.c].freq);
-    pulse(star.id);
+    const body = bodies.current.find((b) => b.id === star.id);
+    if (body) {
+      hop(body);
+      wake();
+    }
+    setBoing((p) => ({ ...p, [star.id]: (p[star.id] ?? 0) + 1 }));
   };
 
   const choose = (c: number) => {
@@ -141,9 +260,9 @@ export default function GuestStars() {
 
   return (
     <div className="flex flex-col gap-3">
-      {/* One watercolor filter per color, shared by every star */}
       <svg width="0" height="0" className="absolute" aria-hidden="true" focusable="false">
         <defs>
+          {/* One watercolor filter per color, shared by every star */}
           {STAR_PALETTE.map((p, i) => (
             <WatercolorFilter key={p.name} id={`guest-star-${i}`} seed={3 + i} edgeColor={p.edge} />
           ))}
@@ -151,7 +270,7 @@ export default function GuestStars() {
       </svg>
 
       <div className="flex items-end justify-between gap-4">
-        <p className="muted">pick a note, then click below to leave a star.</p>
+        <p className="muted">pick a note, then click below to drop a star.</p>
         <div role="radiogroup" aria-label="star color and note" className="flex gap-1.5 shrink-0">
           {STAR_PALETTE.map((p, i) => (
             <button
@@ -184,56 +303,53 @@ export default function GuestStars() {
         ref={fieldRef}
         role="button"
         tabIndex={0}
-        aria-label="leave a star (Enter places one at random)"
+        aria-label="drop a star (Enter drops one at random)"
         onClick={onFieldClick}
         onKeyDown={onFieldKey}
-        className="relative h-[200px] rounded-[10px] border border-[var(--rule)] bg-[var(--background)]"
-        style={{ cursor: cursorFor(selected) }}
+        className="relative select-none"
+        style={{ height: FIELD_HEIGHT, cursor: cursorFor(selected) }}
       >
-        {loaded && stars.length === 0 && (
+        {loaded && total === 0 && (
           <p className="page-in absolute inset-0 flex items-center justify-center muted pointer-events-none">
             no stars yet. be the first?
           </p>
         )}
 
-        {stars.map((star, i) => (
+        {shown.map((star) => (
           <button
             key={star.id}
+            ref={(el) => {
+              if (!el) return;
+              elements.current.set(star.id, el);
+              // Position it before first paint, so it never flashes at a default spot
+              const body = bodies.current.find((b) => b.id === star.id);
+              if (body) el.style.transform = transformFor(body);
+            }}
             type="button"
             aria-label={`star, note ${STAR_PALETTE[star.c].note}`}
             onClick={(e) => onStarClick(e, star)}
             className="guest-star"
-            style={{
-              left: `${star.x * 100}%`,
-              top: `${star.y * 100}%`,
-              ...driftStyle(star.id, stars.length - 1 - i, !!star.fresh),
-            }}
           >
-            <span className="guest-star-enter">
-              <span className="guest-star-drift">
-                <span
-                  key={pulses[star.id] ?? 0}
-                  className={pulses[star.id] ? "guest-star-pop" : "guest-star-rest"}
-                >
-                  <PaintedStar c={star.c} />
-                </span>
-                {pulses[star.id] ? (
-                  <span
-                    key={`pulse-${pulses[star.id]}`}
-                    className="guest-star-pulse"
-                    style={{ "--pulse": STAR_PALETTE[star.c].color } as CSSProperties}
-                  />
-                ) : null}
-              </span>
+            {boing[star.id] ? (
+              <span
+                key={`glow-${boing[star.id]}`}
+                className="guest-star-glow"
+                style={{ "--glow": STAR_PALETTE[star.c].color } as CSSProperties}
+              />
+            ) : null}
+            <span
+              key={boing[star.id] ?? 0}
+              className={boing[star.id] ? "guest-star-pop" : "guest-star-sway"}
+              style={{ "--phase": `${-(star.id.charCodeAt(star.id.length - 1) % 9)}s` } as CSSProperties}
+            >
+              <PaintedStar c={star.c} />
             </span>
           </button>
         ))}
       </div>
 
       <p className="flex justify-between text-[13px] muted min-h-[1.6em]">
-        <span>
-          {stars.length > 0 && `${stars.length} star${stars.length === 1 ? "" : "s"}`}
-        </span>
+        <span>{total > 0 && `${total} star${total === 1 ? "" : "s"}`}</span>
         <span key={notice} className="page-in">
           {notice}
         </span>
