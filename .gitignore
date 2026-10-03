@@ -40,3 +40,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI agent skills installed by integrations (e.g. `vercel integration add upstash`)
+/.agents/
+/.claude/skills/
+/skills-lock.json
