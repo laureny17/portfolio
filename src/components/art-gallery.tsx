@@ -27,45 +27,45 @@ const getImageSequences = (
   };
 
   addSequenceByFilenames([
-    "hack26-prospectus-01.png",
-    "hack26-prospectus-02.png",
-    "hack26-prospectus-03.png",
-    "hack26-prospectus-04.png",
-    "hack26-prospectus-05.png",
-    "hack26-prospectus-06.png",
-    "hack26-prospectus-07.png",
-    "hack26-prospectus-08.png",
-    "hack26-prospectus-09.png",
+    "hack26-prospectus-01.webp",
+    "hack26-prospectus-02.webp",
+    "hack26-prospectus-03.webp",
+    "hack26-prospectus-04.webp",
+    "hack26-prospectus-05.webp",
+    "hack26-prospectus-06.webp",
+    "hack26-prospectus-07.webp",
+    "hack26-prospectus-08.webp",
+    "hack26-prospectus-09.webp",
   ]);
   addSequenceByFilenames([
-    "bp26-crewneck-blue.png",
-    "bp26-crewneck-tan.png",
+    "bp26-crewneck-blue.webp",
+    "bp26-crewneck-tan.webp",
   ]);
   addSequenceByFilenames([
-    "check-first-place.png",
-    "check-second-place.png",
-    "check-third-place.png",
-    "check-beginner.png",
+    "check-first-place.webp",
+    "check-second-place.webp",
+    "check-third-place.webp",
+    "check-beginner.webp",
   ]);
   addSequenceByFilenames([
-    "hack-vertical.png",
-    "hacker-check-in.png",
-    "mentor-sponsor-check-in.png",
+    "hack-vertical.webp",
+    "hacker-check-in.webp",
+    "mentor-sponsor-check-in.webp",
   ]);
   addSequenceByFilenames([
-    "splash-main.png",
-    "splash-tracks.png",
-    "splash-end.png",
+    "splash-main.webp",
+    "splash-tracks.webp",
+    "splash-end.webp",
   ]);
-  addSequenceByFilenames(["tote-light.jpeg", "tote-dark.jpeg"]);
+  addSequenceByFilenames(["tote-light.webp", "tote-dark.webp"]);
   addSequenceByFilenames([
-    "hack25-playing-cards-1.jpeg",
-    "hack25-playing-cards-2.jpeg",
+    "hack25-playing-cards-1.webp",
+    "hack25-playing-cards-2.webp",
   ]);
   addSequenceByFilenames([
-    "greek-corinthian.PNG",
-    "greek-ionic.PNG",
-    "greek-doric.PNG",
+    "greek-corinthian.webp",
+    "greek-ionic.webp",
+    "greek-doric.webp",
   ]);
 
   images.forEach((image) => {

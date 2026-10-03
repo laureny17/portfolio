@@ -22,123 +22,123 @@ export const artImages: Record<string, ArtImageData> = {
   // 21T.121, Spring 2026
   "s26-bag": {
     id: "s26-bag",
-    src: "/assets/art/21T.121-S26/bag.jpeg",
+    src: "/assets/art/21T.121-S26/bag.webp",
     alt: "Bag",
   },
   "s26-bp-setup": {
     id: "s26-bp-setup",
-    src: "/assets/art/21T.121-S26/bp-setup.jpeg",
+    src: "/assets/art/21T.121-S26/bp-setup.webp",
     alt: "BP Setup",
   },
   "s26-jug": {
     id: "s26-jug",
-    src: "/assets/art/21T.121-S26/jug.jpeg",
+    src: "/assets/art/21T.121-S26/jug.webp",
     alt: "Jug",
   },
   "s26-model-1": {
     id: "s26-model-1",
-    src: "/assets/art/21T.121-S26/model-1.jpeg",
+    src: "/assets/art/21T.121-S26/model-1.webp",
     alt: "Model 1",
   },
   "s26-model-2a": {
     id: "s26-model-2a",
-    src: "/assets/art/21T.121-S26/model-2a.jpeg",
+    src: "/assets/art/21T.121-S26/model-2a.webp",
     alt: "Model 2a",
   },
   "s26-model-2b": {
     id: "s26-model-2b",
-    src: "/assets/art/21T.121-S26/model-2b.jpeg",
+    src: "/assets/art/21T.121-S26/model-2b.webp",
     alt: "Model 2b",
   },
   "s26-perfumes": {
     id: "s26-perfumes",
-    src: "/assets/art/21T.121-S26/perfumes.jpeg",
+    src: "/assets/art/21T.121-S26/perfumes.webp",
     alt: "Perfumes",
   },
   "s26-replica": {
     id: "s26-replica",
-    src: "/assets/art/21T.121-S26/replica.jpeg",
+    src: "/assets/art/21T.121-S26/replica.webp",
     alt: "Replica",
   },
   "s26-scarf": {
     id: "s26-scarf",
-    src: "/assets/art/21T.121-S26/scarf.jpeg",
+    src: "/assets/art/21T.121-S26/scarf.webp",
     alt: "Scarf",
   },
   "s26-skelly": {
     id: "s26-skelly",
-    src: "/assets/art/21T.121-S26/skelly.jpeg",
+    src: "/assets/art/21T.121-S26/skelly.webp",
     alt: "Skelly",
   },
   "s26-zeus": {
     id: "s26-zeus",
-    src: "/assets/art/21T.121-S26/zeus.jpeg",
+    src: "/assets/art/21T.121-S26/zeus.webp",
     alt: "Zeus",
   },
 
   // Digital Paintings - Portfolio 2023
   "sip-clouds": {
     id: "sip-clouds",
-    src: "/assets/art/digital-paintings/portfolio-2023/sip-clouds.PNG",
+    src: "/assets/art/digital-paintings/portfolio-2023/sip-clouds.webp",
     alt: "SIP Clouds",
   },
   "sip-field": {
     id: "sip-field",
-    src: "/assets/art/digital-paintings/portfolio-2023/sip-field.PNG",
+    src: "/assets/art/digital-paintings/portfolio-2023/sip-field.webp",
     alt: "SIP Field",
   },
   "sip-lake": {
     id: "sip-lake",
-    src: "/assets/art/digital-paintings/portfolio-2023/sip-lake.PNG",
+    src: "/assets/art/digital-paintings/portfolio-2023/sip-lake.webp",
     alt: "SIP Lake",
   },
   "sip-sunset": {
     id: "sip-sunset",
-    src: "/assets/art/digital-paintings/portfolio-2023/sip-sunset.PNG",
+    src: "/assets/art/digital-paintings/portfolio-2023/sip-sunset.webp",
     alt: "SIP Sunset",
   },
   "sip-swirl": {
     id: "sip-swirl",
-    src: "/assets/art/digital-paintings/portfolio-2023/sip-swirl.PNG",
+    src: "/assets/art/digital-paintings/portfolio-2023/sip-swirl.webp",
     alt: "SIP Swirl",
   },
   "sip-woods": {
     id: "sip-woods",
-    src: "/assets/art/digital-paintings/portfolio-2023/sip-woods.PNG",
+    src: "/assets/art/digital-paintings/portfolio-2023/sip-woods.webp",
     alt: "SIP Woods",
   },
 
   // Digital Paintings - Misc
   "sky-cotl": {
     id: "sky-cotl",
-    src: "/assets/art/digital-paintings/misc/sky-cotl.PNG",
+    src: "/assets/art/digital-paintings/misc/sky-cotl.webp",
     alt: "Sky COTL",
   },
   "arcane-style-study": {
     id: "arcane-style-study",
-    src: "/assets/art/digital-paintings/misc/arcane-style-study.jpg",
+    src: "/assets/art/digital-paintings/misc/arcane-style-study.webp",
     alt: "Arcane Style Study",
   },
 
   // HackMIT - BP25
   "bp25-banner": {
     id: "bp25-banner",
-    src: "/assets/art/hackmit/bp25/bp25-banner.PNG",
+    src: "/assets/art/hackmit/bp25/bp25-banner.webp",
     alt: "BP25 Banner",
   },
   "bp25-fb": {
     id: "bp25-fb",
-    src: "/assets/art/hackmit/bp25/bp25-fb.PNG",
+    src: "/assets/art/hackmit/bp25/bp25-fb.webp",
     alt: "BP25 Facebook",
   },
   "bp25-logo": {
     id: "bp25-logo",
-    src: "/assets/art/hackmit/bp25/bp25-logo.PNG",
+    src: "/assets/art/hackmit/bp25/bp25-logo.webp",
     alt: "BP25 Logo",
   },
   "bp25-table-sign": {
     id: "bp25-table-sign",
-    src: "/assets/art/hackmit/bp25/bp25-table-sign.PNG",
+    src: "/assets/art/hackmit/bp25/bp25-table-sign.webp",
     alt: "BP25 Table Sign",
   },
 
@@ -152,243 +152,243 @@ export const artImages: Record<string, ArtImageData> = {
   // HackMIT - BP26
   "bp26-about-layout": {
     id: "bp26-about-layout",
-    src: "/assets/art/hackmit/bp26/bp26-about-layout.png",
+    src: "/assets/art/hackmit/bp26/bp26-about-layout.webp",
     alt: "BP26 About Layout",
   },
   "bp26-crewneck-blue": {
     id: "bp26-crewneck-blue",
-    src: "/assets/art/hackmit/bp26/bp26-crewneck-blue.png",
+    src: "/assets/art/hackmit/bp26/bp26-crewneck-blue.webp",
     alt: "BP26 Crewneck Blue",
   },
   "bp26-crewneck-tan": {
     id: "bp26-crewneck-tan",
-    src: "/assets/art/hackmit/bp26/bp26-crewneck-tan.png",
+    src: "/assets/art/hackmit/bp26/bp26-crewneck-tan.webp",
     alt: "BP26 Crewneck Tan",
   },
 
   // HackMIT - Hack25
   "hack25-puzzle": {
     id: "hack25-puzzle",
-    src: "/assets/art/hackmit/hack25/hack-25-puzzle-announcement.png",
+    src: "/assets/art/hackmit/hack25/hack-25-puzzle-announcement.webp",
     alt: "Hack25 Puzzle Announcement",
   },
   "hack25-cards-1": {
     id: "hack25-cards-1",
-    src: "/assets/art/hackmit/hack25/hack25-playing-cards-1.jpeg",
+    src: "/assets/art/hackmit/hack25/hack25-playing-cards-1.webp",
     alt: "Hack25 Playing Cards 1",
   },
   "hack25-cards-2": {
     id: "hack25-cards-2",
-    src: "/assets/art/hackmit/hack25/hack25-playing-cards-2.jpeg",
+    src: "/assets/art/hackmit/hack25/hack25-playing-cards-2.webp",
     alt: "Hack25 Playing Cards 2",
   },
   "hack25-recruitment": {
     id: "hack25-recruitment",
-    src: "/assets/art/hackmit/hack25/hack25-recruitment.png",
+    src: "/assets/art/hackmit/hack25/hack25-recruitment.webp",
     alt: "Hack25 Recruitment",
   },
   "hack26-prospectus-01": {
     id: "hack26-prospectus-01",
-    src: "/assets/art/hackmit/hack25/hack26-prospectus-01.png",
+    src: "/assets/art/hackmit/hack25/hack26-prospectus-01.webp",
     alt: "Hack26 Prospectus 01",
   },
   "hack26-prospectus-02": {
     id: "hack26-prospectus-02",
-    src: "/assets/art/hackmit/hack25/hack26-prospectus-02.png",
+    src: "/assets/art/hackmit/hack25/hack26-prospectus-02.webp",
     alt: "Hack26 Prospectus 02",
   },
   "hack26-prospectus-03": {
     id: "hack26-prospectus-03",
-    src: "/assets/art/hackmit/hack25/hack26-prospectus-03.png",
+    src: "/assets/art/hackmit/hack25/hack26-prospectus-03.webp",
     alt: "Hack26 Prospectus 03",
   },
   "hack26-prospectus-04": {
     id: "hack26-prospectus-04",
-    src: "/assets/art/hackmit/hack25/hack26-prospectus-04.png",
+    src: "/assets/art/hackmit/hack25/hack26-prospectus-04.webp",
     alt: "Hack26 Prospectus 04",
   },
   "hack26-prospectus-05": {
     id: "hack26-prospectus-05",
-    src: "/assets/art/hackmit/hack25/hack26-prospectus-05.png",
+    src: "/assets/art/hackmit/hack25/hack26-prospectus-05.webp",
     alt: "Hack26 Prospectus 05",
   },
   "hack26-prospectus-06": {
     id: "hack26-prospectus-06",
-    src: "/assets/art/hackmit/hack25/hack26-prospectus-06.png",
+    src: "/assets/art/hackmit/hack25/hack26-prospectus-06.webp",
     alt: "Hack26 Prospectus 06",
   },
   "hack26-prospectus-07": {
     id: "hack26-prospectus-07",
-    src: "/assets/art/hackmit/hack25/hack26-prospectus-07.png",
+    src: "/assets/art/hackmit/hack25/hack26-prospectus-07.webp",
     alt: "Hack26 Prospectus 07",
   },
   "hack26-prospectus-08": {
     id: "hack26-prospectus-08",
-    src: "/assets/art/hackmit/hack25/hack26-prospectus-08.png",
+    src: "/assets/art/hackmit/hack25/hack26-prospectus-08.webp",
     alt: "Hack26 Prospectus 08",
   },
   "hack26-prospectus-09": {
     id: "hack26-prospectus-09",
-    src: "/assets/art/hackmit/hack25/hack26-prospectus-09.png",
+    src: "/assets/art/hackmit/hack25/hack26-prospectus-09.webp",
     alt: "Hack26 Prospectus 09",
   },
   "hack25-tote-light": {
     id: "hack25-tote-light",
-    src: "/assets/art/hackmit/hack25/tote-light.jpeg",
+    src: "/assets/art/hackmit/hack25/tote-light.webp",
     alt: "Hack25 Tote Light",
   },
   "hack25-tote-dark": {
     id: "hack25-tote-dark",
-    src: "/assets/art/hackmit/hack25/tote-dark.jpeg",
+    src: "/assets/art/hackmit/hack25/tote-dark.webp",
     alt: "Hack25 Tote Dark",
   },
   "hack25-photo-wall": {
     id: "hack25-photo-wall",
-    src: "/assets/art/hackmit/hack25/photo-wall.jpeg",
+    src: "/assets/art/hackmit/hack25/photo-wall.webp",
     alt: "Hack25 Photo Wall",
   },
   "hack25-check-first": {
     id: "hack25-check-first",
-    src: "/assets/art/hackmit/hack25/check-first-place.png",
+    src: "/assets/art/hackmit/hack25/check-first-place.webp",
     alt: "Hack25 First Place Check",
   },
   "hack25-check-second": {
     id: "hack25-check-second",
-    src: "/assets/art/hackmit/hack25/check-second-place.png",
+    src: "/assets/art/hackmit/hack25/check-second-place.webp",
     alt: "Hack25 Second Place Check",
   },
   "hack25-check-third": {
     id: "hack25-check-third",
-    src: "/assets/art/hackmit/hack25/check-third-place.png",
+    src: "/assets/art/hackmit/hack25/check-third-place.webp",
     alt: "Hack25 Third Place Check",
   },
   "hack25-check-beginner": {
     id: "hack25-check-beginner",
-    src: "/assets/art/hackmit/hack25/check-beginner.png",
+    src: "/assets/art/hackmit/hack25/check-beginner.webp",
     alt: "Hack25 Beginner Check",
   },
   "hack25-hacker-check-in": {
     id: "hack25-hacker-check-in",
-    src: "/assets/art/hackmit/hack25/hacker-check-in.png",
+    src: "/assets/art/hackmit/hack25/hacker-check-in.webp",
     alt: "Hack25 Hacker Check In",
   },
   "hack25-mentor-sponsor-check-in": {
     id: "hack25-mentor-sponsor-check-in",
-    src: "/assets/art/hackmit/hack25/mentor-sponsor-check-in.png",
+    src: "/assets/art/hackmit/hack25/mentor-sponsor-check-in.webp",
     alt: "Hack25 Mentor Sponsor Check In",
   },
   "hack25-banner-vertical": {
     id: "hack25-banner-vertical",
-    src: "/assets/art/hackmit/hack25/hack-vertical.png",
+    src: "/assets/art/hackmit/hack25/hack-vertical.webp",
     alt: "Hack25 Vertical Banner",
   },
   "hack25-social-media": {
     id: "hack25-social-media",
-    src: "/assets/art/hackmit/hack25/hack25-social-media.png",
+    src: "/assets/art/hackmit/hack25/hack25-social-media.webp",
     alt: "Hack25 Social Media",
   },
   "hack25-video-cover": {
     id: "hack25-video-cover",
-    src: "/assets/art/hackmit/hack25/video-cover.png",
+    src: "/assets/art/hackmit/hack25/video-cover.webp",
     alt: "Hack25 Video Cover",
   },
   "hack25-splash-main": {
     id: "hack25-splash-main",
-    src: "/assets/art/hackmit/hack25/splash-main.png",
+    src: "/assets/art/hackmit/hack25/splash-main.webp",
     alt: "Hack25 Splash Main",
   },
   "hack25-splash-tracks": {
     id: "hack25-splash-tracks",
-    src: "/assets/art/hackmit/hack25/splash-tracks.png",
+    src: "/assets/art/hackmit/hack25/splash-tracks.webp",
     alt: "Hack25 Splash Tracks",
   },
   "hack25-splash-end": {
     id: "hack25-splash-end",
-    src: "/assets/art/hackmit/hack25/splash-end.png",
+    src: "/assets/art/hackmit/hack25/splash-end.webp",
     alt: "Hack25 Splash End",
   },
 
   // Sketches
   "clouds-study": {
     id: "clouds-study",
-    src: "/assets/art/sketches/clouds-study.PNG",
+    src: "/assets/art/sketches/clouds-study.webp",
     alt: "Clouds Study",
   },
   eyes: {
     id: "eyes",
-    src: "/assets/art/sketches/eyes.jpg",
+    src: "/assets/art/sketches/eyes.webp",
     alt: "Eyes",
   },
   "greek-corinthian": {
     id: "greek-corinthian",
-    src: "/assets/art/sketches/greek-corinthian.PNG",
+    src: "/assets/art/sketches/greek-corinthian.webp",
     alt: "Greek Corinthian",
   },
   "greek-doric": {
     id: "greek-doric",
-    src: "/assets/art/sketches/greek-doric.PNG",
+    src: "/assets/art/sketches/greek-doric.webp",
     alt: "Greek Doric",
   },
   "greek-ionic": {
     id: "greek-ionic",
-    src: "/assets/art/sketches/greek-ionic.PNG",
+    src: "/assets/art/sketches/greek-ionic.webp",
     alt: "Greek Ionic",
   },
   "sketch-cat": {
     id: "sketch-cat",
-    src: "/assets/art/sketches/sketch-cat.jpg",
+    src: "/assets/art/sketches/sketch-cat.webp",
     alt: "Sketch Cat",
   },
   "sketch-dog": {
     id: "sketch-dog",
-    src: "/assets/art/sketches/sketch-dog.jpg",
+    src: "/assets/art/sketches/sketch-dog.webp",
     alt: "Sketch Dog",
   },
   "tori-floor": {
     id: "tori-floor",
-    src: "/assets/art/sketches/tori-floor.PNG",
+    src: "/assets/art/sketches/tori-floor.webp",
     alt: "Tori Floor",
   },
   "tori-sleep": {
     id: "tori-sleep",
-    src: "/assets/art/sketches/tori-sleep.jpg",
+    src: "/assets/art/sketches/tori-sleep.webp",
     alt: "Tori Sleep",
   },
   jinx: {
     id: "jinx",
-    src: "/assets/art/sketches/jinx.jpg",
+    src: "/assets/art/sketches/jinx.webp",
     alt: "Jinx",
   },
   "pin-girl": {
     id: "pin-girl",
-    src: "/assets/art/sketches/pin-girl.jpg",
+    src: "/assets/art/sketches/pin-girl.webp",
     alt: "Pin Girl",
   },
 
   // Traditional
   "bird-dragonfruit": {
     id: "bird-dragonfruit",
-    src: "/assets/art/traditional/bird-dragonfruit.jpeg",
+    src: "/assets/art/traditional/bird-dragonfruit.webp",
     alt: "Bird Dragonfruit",
   },
   "hopper-inspired": {
     id: "hopper-inspired",
-    src: "/assets/art/traditional/hopper-inspired.jpeg",
+    src: "/assets/art/traditional/hopper-inspired.webp",
     alt: "Hopper Inspired",
   },
   pot: {
     id: "pot",
-    src: "/assets/art/traditional/pot.jpeg",
+    src: "/assets/art/traditional/pot.webp",
     alt: "Pot",
   },
   "realism-gloves": {
     id: "realism-gloves",
-    src: "/assets/art/traditional/realism-gloves.jpeg",
+    src: "/assets/art/traditional/realism-gloves.webp",
     alt: "Realism Gloves",
   },
   "dog-tote": {
     id: "dog-tote",
-    src: "/assets/art/traditional/dog-tote.jpeg",
+    src: "/assets/art/traditional/dog-tote.webp",
     alt: "Dog Tote",
   },
   // Animation
