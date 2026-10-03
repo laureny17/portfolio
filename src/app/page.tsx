@@ -14,10 +14,12 @@ export default function Home() {
           <span className="muted tabular-nums">01</span>
           <span>About</span>
         </h2>
-        {/* Photo height tracks the bio: fixed width, stretched to the row's height, cropped to fit */}
-        <div className="flex items-stretch gap-5 sm:gap-6">
+        {/* Photo height tracks the text beside it (fixed width, stretched, cropped):
+            phones: beside the first paragraph, second one full width below;
+            desktop: beside both paragraphs */}
+        <div className="grid grid-cols-[auto_1fr] gap-x-5 gap-y-4 sm:gap-x-6">
           <div
-            className="reveal relative shrink-0 w-[84px] sm:w-[108px] overflow-hidden rounded-[10px]"
+            className="reveal relative row-start-1 sm:row-span-2 w-[84px] sm:w-[108px] overflow-hidden rounded-[10px]"
             style={delay(1)}
           >
             <Image
@@ -30,20 +32,21 @@ export default function Home() {
               priority
             />
           </div>
-          <p className="reveal min-w-0" style={delay(2)}>
-            Hi, I&apos;m Lauren! I&apos;m a senior at MIT studying computer
-            science, passionate about building meaningful experiences. I&apos;m
-            particularly excited about networks and IoT, games/digital media,
-            education, and accessibility in design.
+          <p className="reveal col-start-2 row-start-1 min-w-0" style={delay(2)}>
+            Hi! I&apos;m a senior at MIT studying computer science, passionate
+            about building meaningful experiences. Particularly excited about
+            networks and IoT, digital media, and education.
+          </p>
+          <p
+            className="reveal col-span-2 row-start-2 sm:col-span-1 sm:col-start-2 min-w-0"
+            style={delay(3)}
+          >
+            Outside of that, I draw, run, and read (some of my all-time favorites include{" "}
+            <em>A Thousand Splendid Suns</em>,{" "}
+            <em>Everything I Know about Love</em>, and{" "}
+            <em>Crying in H Mart</em>).
           </p>
         </div>
-
-        <p className="reveal" style={delay(3)}>
-          Outside of that, I draw, run, and read (some of my all-time favorites include{" "}
-          <em>A Thousand Splendid Suns</em>,{" "}
-          <em>Everything I Know about Love</em>, and{" "}
-          <em>Crying in H Mart</em>).
-        </p>
       </section>
 
       <section className="flex flex-col gap-4">
