@@ -1,17 +1,33 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import type { NowPlaying as NowPlayingData } from "@/app/api/now-playing/route";
 
 type Track = Extract<NowPlayingData, { configured: true }>["track"];
 
 const POLL_MS = 60_000;
 
-/** The "listening" row in Now. Renders nothing until there's a track to show. */
-export default function NowPlaying({ labelClassName = "" }: { labelClassName?: string }) {
-  const [track, setTrack] = useState<Track>(null);
+/**
+ * The "listening" row in Now. When Spotify is set up (`enabled`, known at build
+ * time) the row is there from the start, so it fades in with its neighbours
+ * instead of popping in later and shoving the page down. The song fades in
+ * once it's loaded; if there's nothing to show (rare: Spotify errored), the
+ * row goes away.
+ */
+export default function NowPlaying({
+  enabled,
+  labelClassName = "",
+  style,
+}: {
+  enabled: boolean;
+  labelClassName?: string;
+  style?: CSSProperties;
+}) {
+  // undefined: still loading. null: nothing to show.
+  const [track, setTrack] = useState<Track | undefined>(undefined);
 
   useEffect(() => {
+    if (!enabled) return;
     let cancelled = false;
 
     const load = async () => {
@@ -21,7 +37,8 @@ export default function NowPlaying({ labelClassName = "" }: { labelClassName?: s
         const data = (await res.json()) as NowPlayingData;
         if (!cancelled) setTrack(data.configured ? data.track : null);
       } catch {
-        // keep whatever we showed last
+        // keep whatever we showed last (or hide the row if there never was one)
+        if (!cancelled) setTrack((t) => (t === undefined ? null : t));
       }
     };
 
@@ -33,24 +50,34 @@ export default function NowPlaying({ labelClassName = "" }: { labelClassName?: s
       clearInterval(interval);
       document.removeEventListener("visibilitychange", load);
     };
-  }, []);
+  }, [enabled]);
 
-  if (!track) return null;
+  if (!enabled || track === null) return null;
 
   return (
-    <div className="reveal grid grid-cols-[84px_1fr] gap-4">
+    <div className="reveal grid grid-cols-[84px_1fr] gap-4" style={style}>
       <dt className={labelClassName}>Listening</dt>
-      {/* key: crossfade when the song changes */}
-      <dd key={track.url} className="page-in flex items-baseline gap-2 min-w-0">
-        {track.isPlaying && <Equalizer />}
-        <a href={track.url} target="_blank" rel="noopener noreferrer" className="marquee-link link min-w-0">
-          <Marquee>
-            {track.title}
-            <span className="muted"> · {track.artist}</span>
-          </Marquee>
-        </a>
-        {!track.isPlaying && <span className="muted shrink-0">(last played)</span>}
-      </dd>
+      {track ? (
+        // key: crossfade when the song changes
+        <dd key={track.url} className="page-in flex items-baseline gap-2 min-w-0">
+          {track.isPlaying && <Equalizer />}
+          <a href={track.url} target="_blank" rel="noopener noreferrer" className="marquee-link link min-w-0">
+            <Marquee>
+              {track.title}
+              <span className="muted"> · {track.artist}</span>
+            </Marquee>
+          </a>
+          {!track.isPlaying && <span className="muted shrink-0">(last played)</span>}
+        </dd>
+      ) : (
+        <dd className="text-[var(--faint)]" aria-label="loading">
+          <span className="tuning-dots" aria-hidden="true">
+            <span>.</span>
+            <span>.</span>
+            <span>.</span>
+          </span>
+        </dd>
+      )}
     </div>
   );
 }
