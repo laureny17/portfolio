@@ -16,7 +16,7 @@ export const now = {
     { number: "6.1600", name: "Computer Security" },
     { number: "24.211", name: "Theory of Knowledge" },
     { number: "21G.907", name: "Korean VII" },
-    { number: "24.917", name: "Conlangs" },
+    { number: "24.917", name: "ConLangs" },
   ],
 
   // Shown as-is, e.g. "training for the Boston Marathon" or "312 miles so far this year"
