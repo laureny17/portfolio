@@ -6,6 +6,11 @@ import { now } from "@/data/now";
 
 const delay = (i: number) => ({ "--i": i }) as CSSProperties;
 
+// Known at build time, so the "Listening" row can hold its place from the start
+const spotifyEnabled = Boolean(
+  process.env.SPOTIFY_CLIENT_ID && process.env.SPOTIFY_CLIENT_SECRET && process.env.SPOTIFY_REFRESH_TOKEN
+);
+
 export default function Home() {
   return (
     <main className="col flex flex-col gap-16">
@@ -74,9 +79,9 @@ export default function Home() {
               </dd>
             </div>
           )}
-          <NowPlaying labelClassName="muted" />
+          <NowPlaying enabled={spotifyEnabled} labelClassName="muted" style={delay(7)} />
           {now.running && (
-            <div className="reveal grid grid-cols-[84px_1fr] gap-4" style={delay(7)}>
+            <div className="reveal grid grid-cols-[84px_1fr] gap-4" style={delay(8)}>
               <dt className="muted">Running</dt>
               <dd>{now.running}</dd>
             </div>
@@ -84,7 +89,7 @@ export default function Home() {
         </dl>
       </section>
 
-      <section className="reveal flex flex-col gap-4" style={delay(8)}>
+      <section className="reveal flex flex-col gap-4" style={delay(9)}>
         <h2 className="flex gap-3">
           <span className="muted tabular-nums">03</span>
           <span>Jar</span>
