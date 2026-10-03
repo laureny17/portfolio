@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import type { CSSProperties, KeyboardEvent, PointerEvent } from "react";
 import type { GuestStar } from "@/app/api/stars/route";
 import { STAR_PALETTE } from "@/data/star-palette";
-import { ding } from "@/utils/ding";
+import { allowSound, ding } from "@/utils/ding";
 import { hop, makeBody, RADIUS, step, type Body, type Walls } from "@/utils/star-physics";
 import { STAR_PATH, STAR_VIEWBOX, WatercolorFilter } from "./watercolor-star";
 
@@ -357,6 +357,7 @@ export default function GuestStars() {
     const d = drag.current;
     drag.current = null;
     if (!d) return;
+    allowSound();
 
     // A press without a drag: just preview the note
     if (!d.started) {
@@ -401,6 +402,7 @@ export default function GuestStars() {
   const onPaletteKey = (e: KeyboardEvent<HTMLButtonElement>, c: number) => {
     if (e.key !== "Enter" && e.key !== " ") return;
     e.preventDefault();
+    allowSound();
     if (used.has(c)) {
       ding(STAR_PALETTE[c].freq);
       flash(`you've already left a ${STAR_PALETTE[c].name} star`);
@@ -437,12 +439,15 @@ export default function GuestStars() {
       .slice(0, TUNE_LENGTH);
     setPlaying(true);
     let at = 0;
-    picks.forEach((star, i) => {
-      timers.current.push(setTimeout(() => tap(star), at));
+    const times = picks.map((_, i) => {
+      const t = at;
       // Swung rhythm (long-short), with a held note at the end of each phrase
       const beat = i % 2 === 0 ? TUNE_BEAT_MS * 1.2 : TUNE_BEAT_MS * 0.8;
       at += (i + 1) % 4 === 0 ? beat * 1.8 : beat;
+      return t;
     });
+    allowSound(at + 300); // the button press covers the whole tune
+    picks.forEach((star, i) => timers.current.push(setTimeout(() => tap(star), times[i])));
     timers.current.push(setTimeout(() => setPlaying(false), at));
   };
 
@@ -528,7 +533,10 @@ export default function GuestStars() {
             }}
             type="button"
             aria-label={`star, note ${STAR_PALETTE[star.c].note}`}
-            onClick={() => tap(star)}
+            onClick={() => {
+              allowSound();
+              tap(star);
+            }}
             className="guest-star"
           >
             {boing[star.id] ? (

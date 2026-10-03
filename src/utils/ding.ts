@@ -3,6 +3,18 @@
 let ctx: AudioContext | null = null;
 let out: GainNode | null = null;
 
+// Sound only ever follows a real user action: handlers call allowSound(), and
+// ding() is a no-op outside that window. Notes are never queued for later, so
+// nothing can play by surprise (e.g. on page load after audio was blocked).
+let soundAllowedUntil = 0;
+
+/** Open a short window in which ding() may play. Call from user event handlers. */
+export function allowSound(forMs = 1000) {
+  soundAllowedUntil = Math.max(soundAllowedUntil, performance.now() + forMs);
+}
+
+const soundAllowed = () => performance.now() < soundAllowedUntil;
+
 function audio() {
   // Rebuild if the browser closed the context
   if (!ctx || ctx.state === "closed") {
@@ -52,7 +64,7 @@ function play(ctx: AudioContext, out: GainNode, freq: number) {
 }
 
 export function ding(freq: number) {
-  if (typeof window === "undefined") return;
+  if (typeof window === "undefined" || !soundAllowed()) return;
   const { ctx, out } = audio();
   if (ctx.state === "running") {
     play(ctx, out, freq);
@@ -62,6 +74,9 @@ export function ding(freq: number) {
   // another app took the audio): wake it up, then play once it's running
   ctx
     .resume()
-    .then(() => play(ctx, out, freq))
+    .then(() => {
+      // Only if it woke up promptly; a late resume must not dump queued notes
+      if (soundAllowed()) play(ctx, out, freq);
+    })
     .catch(() => {});
 }
