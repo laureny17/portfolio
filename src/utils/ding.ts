@@ -90,8 +90,8 @@ export function dingSequence(freqs: number[], offsetsMs: number[]): number[] | n
   if (typeof window === "undefined" || !soundAllowed() || !ctx || ctx.state !== "running") {
     return null;
   }
-  // A small lead so the first note's attack isn't clipped by the render quantum
-  const start = ctx.currentTime + 0.03;
+  // A hair of lead so the first note's attack isn't clipped by the render quantum
+  const start = ctx.currentTime + 0.01;
   const times = offsetsMs.map((ms) => start + ms / 1000);
   freqs.forEach((f, i) => play(ctx!, out!, f, times[i]));
   return times;

@@ -484,7 +484,12 @@ export default function GuestStars() {
 
   // ---- a little tune: up to 10 random stars, in a random order ----
 
-  const [playing, setPlaying] = useState(false);
+  // "waiting": pressed, audio waking. "tuning": that's taking a while (over
+  // 150ms), so the button says "Tuning up" and the stars about to play breathe.
+  // "playing": the first note has sounded.
+  const [phase, setPhase] = useState<"idle" | "waiting" | "tuning" | "playing">("idle");
+  const playing = phase !== "idle";
+  const [cued, setCued] = useState<ReadonlySet<string>>(new Set());
   const tuneFrame = useRef(0);
   useEffect(() => () => cancelAnimationFrame(tuneFrame.current), []);
 
@@ -502,7 +507,16 @@ export default function GuestStars() {
       return t;
     });
     allowSound(at + 300); // the button press covers the whole tune
-    setPlaying(true);
+    setPhase("waiting");
+    const slow = setTimeout(() => {
+      setPhase("tuning");
+      setCued(new Set(picks.map((p) => p.id)));
+    }, 150);
+    const startTune = () => {
+      clearTimeout(slow);
+      setPhase("playing");
+      setCued(new Set());
+    };
 
     // Wake the audio first, then hand every note to the audio clock at once,
     // so the tune stays evenly spaced even if the page is busy. Each hop and
@@ -517,8 +531,9 @@ export default function GuestStars() {
       : null;
 
     if (!noteTimes) {
+      startTune();
       picks.forEach((star, i) => timers.current.push(setTimeout(() => animateTap(star), times[i])));
-      timers.current.push(setTimeout(() => setPlaying(false), at));
+      timers.current.push(setTimeout(() => setPhase("idle"), at));
       return;
     }
     const end = noteTimes[0] + at / 1000;
@@ -529,13 +544,16 @@ export default function GuestStars() {
       while (next < picks.length && heard >= noteTimes[next]) {
         // Hops that come up late (frames paused, e.g. a background tab) are
         // skipped rather than all bunched together
+        if (next === 0) startTune();
         if (heard - noteTimes[next] < 0.15) animateTap(picks[next]);
         next++;
       }
       if (heard < end && performance.now() < giveUp) {
         tuneFrame.current = requestAnimationFrame(frame);
       } else {
-        setPlaying(false);
+        clearTimeout(slow);
+        setCued(new Set());
+        setPhase("idle");
       }
     };
     tuneFrame.current = requestAnimationFrame(frame);
@@ -544,7 +562,10 @@ export default function GuestStars() {
   const allUsed = used.size >= STAR_PALETTE.length;
 
   return (
-    <div className="flex flex-col gap-3">
+    // Any press in the jar starts waking the audio (silently), so a note or the
+    // tune doesn't have to wait for it. Kept to the jar on purpose: on iPhones
+    // waking it can pause the visitor's own music.
+    <div className="flex flex-col gap-3" onPointerDownCapture={() => void prepareAudio()}>
       <svg width="0" height="0" className="absolute" aria-hidden="true" focusable="false">
         <defs>
           {/* One watercolor filter per color, shared by every star */}
@@ -633,19 +654,21 @@ export default function GuestStars() {
             className="guest-star"
           >
             <span className="guest-star-appear">
-              {boing[star.id] ? (
+              <span className="guest-star-cue" data-cued={cued.has(star.id) || undefined}>
+                {boing[star.id] ? (
+                  <span
+                    key={`glow-${boing[star.id]}`}
+                    className="guest-star-glow"
+                    style={{ "--glow": STAR_PALETTE[star.c].color } as CSSProperties}
+                  />
+                ) : null}
                 <span
-                  key={`glow-${boing[star.id]}`}
-                  className="guest-star-glow"
-                  style={{ "--glow": STAR_PALETTE[star.c].color } as CSSProperties}
-                />
-              ) : null}
-              <span
-                key={boing[star.id] ?? 0}
-                className={boing[star.id] ? "guest-star-pop" : "guest-star-sway"}
-                style={{ "--phase": `${-(star.id.charCodeAt(star.id.length - 1) % 9)}s` } as CSSProperties}
-              >
-                <PaintedStar c={star.c} />
+                  key={boing[star.id] ?? 0}
+                  className={boing[star.id] ? "guest-star-pop" : "guest-star-sway"}
+                  style={{ "--phase": `${-(star.id.charCodeAt(star.id.length - 1) % 9)}s` } as CSSProperties}
+                >
+                  <PaintedStar c={star.c} />
+                </span>
               </span>
             </span>
           </button>
@@ -686,10 +709,24 @@ export default function GuestStars() {
               <button
                 type="button"
                 onClick={playTune}
+                onPointerDown={() => void prepareAudio()}
                 disabled={playing}
                 className="link link-muted cursor-pointer disabled:cursor-default"
               >
-                {playing ? "Playing ♪" : "Play a tune ♪"}
+                {phase === "tuning" ? (
+                  <>
+                    Tuning up
+                    <span className="tuning-dots" aria-hidden="true">
+                      <span>.</span>
+                      <span>.</span>
+                      <span>.</span>
+                    </span>
+                  </>
+                ) : phase === "playing" ? (
+                  "Playing ♪"
+                ) : (
+                  "Play a tune ♪"
+                )}
               </button>
             </>
           )}
