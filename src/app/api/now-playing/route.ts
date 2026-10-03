@@ -29,10 +29,15 @@ const TOKEN_URL = "https://accounts.spotify.com/api/token";
 const CURRENT_URL = "https://api.spotify.com/v1/me/player/currently-playing";
 const RECENT_URL = "https://api.spotify.com/v1/me/player/recently-played?limit=1";
 
+// Values pasted into a dashboard often pick up stray whitespace, newlines,
+// or surrounding quotes; any of those makes Spotify reject them
+const envValue = (name: string) =>
+  process.env[name]?.trim().replace(/^(["'])(.*)\1$/, "$2").trim() || undefined;
+
 async function getAccessToken() {
-  const id = process.env.SPOTIFY_CLIENT_ID;
-  const secret = process.env.SPOTIFY_CLIENT_SECRET;
-  const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN;
+  const id = envValue("SPOTIFY_CLIENT_ID");
+  const secret = envValue("SPOTIFY_CLIENT_SECRET");
+  const refreshToken = envValue("SPOTIFY_REFRESH_TOKEN");
   if (!id || !secret || !refreshToken) return null;
 
   const res = await fetch(TOKEN_URL, {
@@ -47,7 +52,12 @@ async function getAccessToken() {
     }),
     cache: "no-store",
   });
-  if (!res.ok) throw new Error(`Spotify token refresh failed: ${res.status}`);
+  if (!res.ok) {
+    // Spotify's error code says which value is wrong (not secret, safe to log):
+    // invalid_client -> client ID/secret; invalid_grant -> refresh token
+    const detail = await res.text().catch(() => "");
+    throw new Error(`Spotify token refresh failed: ${res.status} ${detail.slice(0, 200)}`);
+  }
   const data = (await res.json()) as { access_token: string };
   return data.access_token;
 }
