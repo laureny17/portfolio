@@ -7,6 +7,7 @@
 // Each visitor can drop one star of each color per browser session, tracked by
 // an anonymous session cookie (cleared when the browser closes).
 
+import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 import { cookies } from "next/headers";
 import { STAR_PALETTE } from "@/data/star-palette";
@@ -23,7 +24,6 @@ export type GuestStar = {
 
 const KEY = "stars";
 const MAX_STARS = 300; // older stars fall off
-const COOLDOWN_SECONDS = 2; // per IP, between stars
 const SESSION_COOKIE = "star_session";
 const USED_TTL_SECONDS = 60 * 60 * 24; // bookkeeping cleanup; the cookie itself ends with the session
 
@@ -43,6 +43,16 @@ function getRedis() {
   const token = process.env.UPSTASH_REDIS_REST_TOKEN ?? process.env.KV_REST_API_TOKEN;
   return url && token ? new Redis({ url, token }) : null;
 }
+
+// Anti-spam only: a real visitor drops at most 7 (one per color), so this is
+// generous enough for many people sharing one IP (e.g. campus wifi)
+let limiter: Ratelimit | null = null;
+const getLimiter = (redis: Redis) =>
+  (limiter ??= new Ratelimit({
+    redis,
+    limiter: Ratelimit.slidingWindow(30, "60 s"),
+    prefix: "stars:ratelimit",
+  }));
 
 export async function GET() {
   const redis = getRedis();
@@ -82,10 +92,17 @@ export async function POST(request: Request) {
     return Response.json({ error: "bad star" }, { status: 400 });
   }
 
-  // Light rate limit per visitor so nobody fills the sky in one go
+  // Rate limit per IP so a script can't fill the jar
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-  const allowed = await redis.set(`stars:cooldown:${ip}`, 1, { nx: true, ex: COOLDOWN_SECONDS });
-  if (!allowed) return Response.json({ error: "slow down a little" }, { status: 429 });
+  const { success, reset } = await getLimiter(redis).limit(ip);
+  if (!success) {
+    // Tell the client when to retry; it keeps the star and resends then
+    const retryAfter = Math.max(1, Math.ceil((reset - Date.now()) / 1000));
+    return Response.json(
+      { error: "slow down a little" },
+      { status: 429, headers: { "Retry-After": String(retryAfter) } }
+    );
+  }
 
   // One of each color per session
   const jar = await cookies();

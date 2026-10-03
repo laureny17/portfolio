@@ -18,6 +18,7 @@ const DROP_SLOP = 24; // px above the field that still counts as dropping into i
 const MAX_THROW = 6; // px per physics substep
 const TUNE_LENGTH = 10; // notes in "play a tune"
 const TUNE_BEAT_MS = 240;
+const SAVE_ATTEMPTS = 5;
 
 // sessionStorage key: colors used this session, so the palette stays right
 // even when stars aren't being saved (the server enforces it when they are)
@@ -59,6 +60,37 @@ function writeUsed(used: Set<number>) {
   }
 }
 
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * POST a star, retrying through rate limits and flaky connections.
+ * Resolves to what happened; only "failed"/"duplicate" should remove the star.
+ */
+async function saveStar(star: { x: number; y: number; c: number }) {
+  for (let attempt = 0; attempt < SAVE_ATTEMPTS; attempt++) {
+    try {
+      const res = await fetch("/api/stars", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(star),
+      });
+      if (res.status === 201) return "saved";
+      if (res.status === 503) return "disabled";
+      if (res.status === 409) return "duplicate";
+      if (res.status === 429) {
+        const wait = Number(res.headers.get("Retry-After")) || 2;
+        await sleep(wait * 1000);
+        continue;
+      }
+      if (res.status < 500) return "failed"; // bad request; retrying won't help
+    } catch {
+      // network hiccup: fall through to backoff
+    }
+    await sleep(1000 * 2 ** attempt);
+  }
+  return "failed";
+}
+
 /** One painted star; the filter comes from the shared defs in <GuestStars>. */
 function PaintedStar({ c, size = STAR_SIZE }: { c: number; size?: number }) {
   const { color } = STAR_PALETTE[c];
@@ -97,6 +129,7 @@ export default function GuestStars() {
   const frame = useRef(0);
   const noticeTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const reducedMotion = useRef(false);
+  const saveQueue = useRef<Promise<void>>(Promise.resolve());
 
   wallsRef.current = fieldWidth ? wallsFor(fieldWidth) : null;
 
@@ -264,29 +297,23 @@ export default function GuestStars() {
         wake();
       };
 
-      try {
-        const res = await fetch("/api/stars", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ x: x / width, y: y / FIELD_HEIGHT, c }),
-        });
-        if (res.status === 201) return;
-        if (res.status === 503) {
+      // Saves go out one at a time in the background; the star is already in
+      // the jar, so being "too fast" just means waiting and retrying
+      saveQueue.current = saveQueue.current.then(async () => {
+        const result = await saveStar({ x: x / width, y: y / FIELD_HEIGHT, c });
+        if (result === "saved") return;
+        if (result === "disabled") {
           flash("stars aren't saving yet, so this one's just for you");
           return;
         }
         undo();
-        if (res.status === 409) {
+        if (result === "duplicate") {
           flash(`you've already left a ${STAR_PALETTE[c].name} star`);
           return; // stays marked used
         }
         markUsed(c, false);
-        flash(res.status === 429 ? "slow down a little ✦" : "that star didn't stick, try again?");
-      } catch {
-        undo();
-        markUsed(c, false);
         flash("that star didn't stick, try again?");
-      }
+      });
     },
     [spawn, wake]
   );
