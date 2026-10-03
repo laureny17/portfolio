@@ -1,5 +1,7 @@
 "use client";
 
+import { useRef } from "react";
+
 const STORAGE_KEY = "theme";
 
 /**
@@ -31,15 +33,36 @@ export default function ThemeToggle() {
   // Cross-fade the whole page as one snapshot, so everything changes together
   // (per-element color transitions lag on nested text). Instant where the
   // View Transitions API isn't available.
-  const toggle = () => {
-    if (document.startViewTransition) document.startViewTransition(apply);
-    else apply();
+  // Browsers report a pointer leave when a view transition starts (the overlay
+  // takes the hover), which would snap the icon out of its hover tilt
+  // mid-turn. Ignore leaves during the fade and re-sync with :hover after.
+  const fading = useRef(false);
+
+  const toggle = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!document.startViewTransition) return apply();
+    const btn = e.currentTarget;
+    fading.current = true;
+    document.startViewTransition(apply).finished.finally(() => {
+      fading.current = false;
+      // :hover takes a frame or two to come back after the overlay goes away
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => {
+          if (!btn.matches(":hover")) delete btn.dataset.hover;
+        }),
+      );
+    });
   };
 
   return (
     <button
       type="button"
       onClick={toggle}
+      onPointerEnter={(e) => {
+        if (e.pointerType === "mouse") e.currentTarget.dataset.hover = "";
+      }}
+      onPointerLeave={(e) => {
+        if (!fading.current) delete e.currentTarget.dataset.hover;
+      }}
       className="theme-toggle"
       aria-label="Toggle dark mode"
       title="Toggle dark mode"
