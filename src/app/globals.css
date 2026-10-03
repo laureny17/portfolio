@@ -52,8 +52,8 @@
 }
 
 /* The toggle sits out of the snapshot fade and does its own moon/sun turn live.
-   Its hover styles key off data-hover (set from pointer events) rather than
-   :hover, which browsers drop for the length of a view transition. */
+   Its hover styles key off data-hover (set from the pointer's position) rather
+   than :hover, which browsers drop around a view transition. */
 .theme-toggle {
   view-transition-name: theme-toggle;
 }
