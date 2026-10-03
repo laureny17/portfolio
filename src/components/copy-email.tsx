@@ -43,18 +43,19 @@ export default function CopyEmail({ email }: { email: string }) {
       type="button"
       onClick={onClick}
       title={`Copy ${email}`}
-      className="link link-muted cursor-pointer inline-grid"
+      className="copy-email link-muted cursor-pointer inline-grid"
     >
       {status === "failed" ? (
         // Couldn't copy: show the address so it can be copied by hand
-        <span className="page-in select-all">{email}</span>
+        <span className="page-in link select-all">{email}</span>
       ) : (
-        // "Email" and "Copied!" share one grid cell, so swapping never shifts the footer
+        // "Email" and "Copied!" share one grid cell, so swapping never shifts the
+        // footer; each hugs its own text so the hover underline matches it
         (["idle", "copied"] as const).map((s) => (
           <span
             key={s}
             aria-hidden={s !== status}
-            className="[grid-area:1/1] text-right transition-opacity duration-300"
+            className="link [grid-area:1/1] justify-self-end transition-[opacity,background-size] duration-300"
             style={{ opacity: s === status ? 1 : 0 }}
           >
             {s === "idle" ? "Email" : "Copied!"}

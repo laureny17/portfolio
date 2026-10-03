@@ -68,6 +68,12 @@ body {
   background-size: 100% 1px;
 }
 
+/* Copy-email button: underline the label inside, not the whole (wider) button */
+.copy-email:hover .link,
+.copy-email:focus-visible .link {
+  background-size: 100% 1px;
+}
+
 .link-muted {
   color: var(--muted);
 }
