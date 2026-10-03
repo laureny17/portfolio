@@ -4,7 +4,13 @@ let ctx: AudioContext | null = null;
 let out: GainNode | null = null;
 
 function audio() {
-  if (!ctx) {
+  // Rebuild if the browser closed the context
+  if (!ctx || ctx.state === "closed") {
+    // iOS mutes Web Audio with the silent switch unless the page declares
+    // itself as media playback (Safari 17+; ignored elsewhere)
+    const session = (navigator as Navigator & { audioSession?: { type: string } }).audioSession;
+    if (session) session.type = "playback";
+
     ctx = new AudioContext();
     // Gentle lowpass + master volume keeps it soft and unpiercing
     const lowpass = ctx.createBiquadFilter();
@@ -14,8 +20,6 @@ function audio() {
     out.gain.value = 0.22;
     out.connect(lowpass).connect(ctx.destination);
   }
-  // Browsers start the context suspended until a user gesture
-  if (ctx.state === "suspended") ctx.resume();
   return { ctx, out: out! };
 }
 
@@ -27,11 +31,8 @@ const PARTIALS: [number, number, number][] = [
   [4.2, 0.04, 0.3],
 ];
 
-export function ding(freq: number) {
-  if (typeof window === "undefined") return;
-  const { ctx, out } = audio();
+function play(ctx: AudioContext, out: GainNode, freq: number) {
   const t = ctx.currentTime;
-
   for (const [ratio, gain, decay] of PARTIALS) {
     const osc = ctx.createOscillator();
     osc.type = "sine";
@@ -48,4 +49,19 @@ export function ding(freq: number) {
     osc.start(t);
     osc.stop(t + decay + 0.05);
   }
+}
+
+export function ding(freq: number) {
+  if (typeof window === "undefined") return;
+  const { ctx, out } = audio();
+  if (ctx.state === "running") {
+    play(ctx, out, freq);
+    return;
+  }
+  // "suspended" (no gesture yet) or Safari's "interrupted" (after sleep or
+  // another app took the audio): wake it up, then play once it's running
+  ctx
+    .resume()
+    .then(() => play(ctx, out, freq))
+    .catch(() => {});
 }
