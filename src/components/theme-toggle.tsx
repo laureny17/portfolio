@@ -9,7 +9,7 @@ const STORAGE_KEY = "theme";
  * nothing to hydrate.
  */
 export default function ThemeToggle() {
-  const toggle = () => {
+  const apply = () => {
     const root = document.documentElement;
     const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
     const current = root.dataset.theme ?? (systemDark ? "dark" : "light");
@@ -26,6 +26,14 @@ export default function ThemeToggle() {
         localStorage.setItem(STORAGE_KEY, next);
       } catch {}
     }
+  };
+
+  // Cross-fade the whole page as one snapshot, so everything changes together
+  // (per-element color transitions lag on nested text). Instant where the
+  // View Transitions API isn't available.
+  const toggle = () => {
+    if (document.startViewTransition) document.startViewTransition(apply);
+    else apply();
   };
 
   return (

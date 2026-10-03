@@ -44,6 +44,13 @@
   }
 }
 
+/* Theme switch cross-fade (startViewTransition in theme-toggle.tsx) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.4s;
+  animation-timing-function: ease;
+}
+
 html {
   background: var(--background);
   -webkit-text-size-adjust: 100%;
@@ -443,6 +450,11 @@ a:hover .nav-star {
   }
   .reveal {
     animation-delay: 0ms;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }
 
