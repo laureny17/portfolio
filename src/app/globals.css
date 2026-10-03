@@ -297,6 +297,45 @@ a:hover .nav-star {
   }
 }
 
+/* Spotify track that's too long to fit: scrolls sideways (see Marquee in
+   now-playing.tsx); ellipsis until it moves */
+.marquee {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee-track {
+  display: inline-flex;
+  will-change: transform;
+}
+
+.marquee-text {
+  flex-shrink: 0;
+}
+
+/* At rest: one copy, cut off with an ellipsis */
+.marquee:not([data-running]) .marquee-text[aria-hidden] {
+  display: none;
+}
+
+.marquee:not([data-running]) .marquee-track,
+.marquee:not([data-running]) .marquee-text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Moving: soft fades at both edges instead of a hard cut */
+.marquee[data-running] {
+  mask-image: linear-gradient(to right, transparent, #000 10px, #000 calc(100% - 16px), transparent);
+}
+
+/* Underline sits on the link's box, not the scrolling text */
+.marquee-link {
+  display: block;
+}
+
 /* Tiny "playing now" bars next to the Spotify track */
 .equalizer {
   display: inline-flex;
