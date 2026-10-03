@@ -19,6 +19,8 @@ html {
   background: var(--background);
   -webkit-text-size-adjust: 100%;
   scrollbar-gutter: stable;
+  /* No double-tap-to-zoom (tapping stars quickly kept zooming); pinch zoom still works */
+  touch-action: manipulation;
 }
 
 body {

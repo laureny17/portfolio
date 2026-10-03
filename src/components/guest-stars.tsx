@@ -6,7 +6,7 @@ import type { CSSProperties, KeyboardEvent, PointerEvent } from "react";
 import type { GuestStar } from "@/app/api/stars/route";
 import { STAR_PALETTE } from "@/data/star-palette";
 import { allowSound, ding } from "@/utils/ding";
-import { hop, makeBody, RADIUS, step, type Body, type Walls } from "@/utils/star-physics";
+import { clearSpawnY, hop, makeBody, RADIUS, step, type Body, type Walls } from "@/utils/star-physics";
 import { STAR_PATH, STAR_VIEWBOX, WatercolorFilter } from "./watercolor-star";
 
 const STAR_SIZE = 22;
@@ -98,13 +98,14 @@ async function saveStar(star: { x: number; y: number; c: number }) {
 }
 
 /** One painted star; the filter comes from the shared defs in <GuestStars>. */
-function PaintedStar({ c, size = STAR_SIZE }: { c: number; size?: number }) {
+function PaintedStar({ c, size = STAR_SIZE }: { c: number; size?: number | string }) {
   const { color } = STAR_PALETTE[c];
   return (
     <svg
       viewBox={STAR_VIEWBOX}
       width={size}
       height={size}
+      className="block"
       style={{ overflow: "visible" }}
       aria-hidden="true"
       focusable="false"
@@ -212,13 +213,10 @@ export default function GuestStars() {
       const width = fieldRef.current?.clientWidth;
       if (!width) return;
       const r = radiusFor(id);
-      const body = makeBody(
-        id,
-        Math.min(width - r, Math.max(r, x)),
-        Math.min(FIELD_HEIGHT - r, Math.max(r, y)),
-        Math.random() * Math.PI * 2,
-        r
-      );
+      const sx = Math.min(width - r, Math.max(r, x));
+      // Never start overlapping another star (the push-apart would launch it)
+      const sy = clearSpawnY(bodies.current, sx, Math.min(FIELD_HEIGHT - r, Math.max(r, y)), r);
+      const body = makeBody(id, sx, sy, Math.random() * Math.PI * 2, r);
       body.px = body.x - vx;
       body.py = body.y - vy;
       bodies.current.push(body);
@@ -476,13 +474,14 @@ export default function GuestStars() {
         </defs>
       </svg>
 
-      <div className="flex items-start justify-between gap-4">
+      {/* Phones: description full width, bigger palette underneath (easier to grab) */}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
         <p key={allUsed ? "done" : "ask"} className="page-in muted">
           {allUsed
             ? "thanks for stopping by ⋆｡°★"
             : "stopping by? drag a star (or two... or more?) down on your way through."}
         </p>
-        <div className="flex gap-1.5 shrink-0 mt-1.5">
+        <div className="flex justify-between sm:justify-start sm:gap-1.5 shrink-0 sm:mt-1.5">
           {STAR_PALETTE.map((p, i) => {
             const isUsed = used.has(i);
             const isLifted = dragging === i;
@@ -503,7 +502,7 @@ export default function GuestStars() {
                   setDragging(null);
                 }}
                 onKeyDown={(e) => onPaletteKey(e, i)}
-                className="group flex flex-col items-center gap-0.5 touch-none select-none"
+                className="group flex flex-col items-center gap-1 sm:gap-0.5 p-1.5 -m-1.5 sm:p-0 sm:m-0 touch-none select-none"
                 style={{ cursor: isUsed ? "default" : isLifted ? "grabbing" : "grab" }}
               >
                 <span
@@ -512,10 +511,12 @@ export default function GuestStars() {
                   }`}
                   style={{ opacity: isUsed ? 0.25 : isLifted ? 0.3 : 1 }}
                 >
-                  <PaintedStar c={i} size={16} />
+                  <span className="block w-7 h-7 sm:w-4 sm:h-4">
+                    <PaintedStar c={i} size="100%" />
+                  </span>
                 </span>
                 <span
-                  className="text-[11px] leading-none"
+                  className="text-[12px] sm:text-[11px] leading-none"
                   style={{ color: isUsed ? "var(--rule)" : "var(--faint)" }}
                 >
                   {p.note}

@@ -27,10 +27,26 @@ const WALL_FRICTION = 0.85; // keeps piles from sliding forever
 const WALL_BOUNCE = 0.45; // fraction of speed kept when hitting the floor/walls
 const STAR_BOUNCE = 0.3; // ...and when landing on another star
 const BOUNCE_MIN_SPEED = 0.6; // slower impacts just settle (no endless jitter)
+// Upward speed cap (px per substep). A normal landing bounce or a tap's hop
+// stays under it; overlap corrections can't launch a star sky-high.
+const MAX_UP_SPEED = 3.5;
 const REST_THRESHOLD = 0.06; // px per frame; below this any leftover jitter is invisible
 
 export function makeBody(id: string, x: number, y: number, angle: number, r = RADIUS): Body {
   return { id, x, y, px: x, py: y, angle, r };
+}
+
+/** Lowest y at or above `y` where a star of radius r at x overlaps nothing. */
+export function clearSpawnY(bodies: Body[], x: number, y: number, r: number): number {
+  for (let guard = 0; guard < bodies.length + 1; guard++) {
+    const hit = bodies.find((b) => Math.hypot(b.x - x, b.y - y) < b.r + r);
+    if (!hit) return y;
+    // Sit just above the star we'd overlap
+    const dx = x - hit.x;
+    const gap = (hit.r + r + 0.5) ** 2 - dx * dx;
+    y = hit.y - Math.sqrt(Math.max(gap, 0));
+  }
+  return y;
 }
 
 /** Upward kick, as if the star was tapped. */
@@ -121,6 +137,7 @@ export function step(bodies: Body[], walls: Walls): boolean {
     }
   }
   for (const b of bodies) {
+    if (b.py - b.y > MAX_UP_SPEED) b.py = b.y + MAX_UP_SPEED;
     const vx = b.x - b.px;
     const vy = b.y - b.py;
     // Roll a little as they move sideways
