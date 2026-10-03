@@ -77,9 +77,12 @@ function ProjectLink({
     );
   }
   if (unavailableReason) {
+    // Greyed out, with a visible note (the hover-only tooltip never showed on
+    // phones); the full reason is the tooltip and is read out to screen readers
     return (
       <span className="text-[var(--faint)] cursor-help" title={unavailableReason}>
-        {label}
+        {label} <span className="text-[var(--muted)]">[access restricted]</span>
+        <span className="sr-only">: {unavailableReason}</span>
       </span>
     );
   }
