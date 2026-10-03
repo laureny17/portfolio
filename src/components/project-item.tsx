@@ -101,7 +101,7 @@ export default function ProjectItem({ project, open, onToggle }: ProjectItemProp
 
   const slug = projectSlug(project);
   const media = project.image.filter(Boolean);
-  const role = [project.roleLabel, project.isTeam ? "Team" : null].filter(Boolean).join(", ");
+  const roles = [project.roleLabel, project.isTeam ? "Team" : null].filter(Boolean);
 
   return (
     <article id={slug} className="scroll-mt-10">
@@ -143,7 +143,7 @@ export default function ProjectItem({ project, open, onToggle }: ProjectItemProp
             <div className="flex flex-col gap-1 text-[13px]">
               <p className="muted">
                 {project.tags.join(", ")}
-                {role && <> · {role}</>}
+                {roles.map((r) => ` [${r}]`).join("")}
               </p>
               <p className="flex flex-wrap gap-x-4">
                 <ProjectLink href={project.deployedUrl} unavailableReason={project.deployedUnavailableReason} label="Live" />
