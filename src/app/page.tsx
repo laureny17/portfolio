@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import type { CSSProperties } from "react";
 import NowPlaying from "@/components/now-playing";
 import { now } from "@/data/now";
@@ -39,11 +38,7 @@ export default function Home() {
         </div>
 
         <p className="reveal" style={delay(3)}>
-          Outside of that, I draw (
-          <Link href="/art" className="link muted">
-            art
-          </Link>
-          ), run, and read (some of my all-time favorites include{" "}
+          Outside of that, I draw, run, and read (some of my all-time favorites include{" "}
           <em>A Thousand Splendid Suns</em>,{" "}
           <em>Everything I Know about Love</em>, and{" "}
           <em>Crying in H Mart</em>).
