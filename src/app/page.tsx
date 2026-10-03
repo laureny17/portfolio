@@ -46,10 +46,10 @@ export default function Home() {
             className="reveal col-span-2 row-start-2 sm:col-span-1 sm:col-start-2 min-w-0"
             style={delay(3)}
           >
-            Outside of that, I draw, run, and read (some of my all-time favorites include{" "}
+            Outside of that, I draw, run, and read—some of my all-time favorites include{" "}
             <em>A Thousand Splendid Suns</em>,{" "}
             <em>Everything I Know about Love</em>, and{" "}
-            <em>Crying in H Mart</em>).
+            <em>Crying in H Mart</em>.
           </p>
         </div>
       </section>
