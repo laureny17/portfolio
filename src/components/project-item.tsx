@@ -102,6 +102,8 @@ export default function ProjectItem({ project, open, onToggle }: ProjectItemProp
   const slug = projectSlug(project);
   const media = project.image.filter(Boolean);
   const roles = [project.roleLabel, project.isTeam ? "Team" : null].filter(Boolean);
+  // e.g. "Unity, C#, Meta Quest 3, [UROP]"
+  const meta = [...project.tags, ...roles.map((r) => `[${r}]`)].join(", ");
 
   return (
     <article id={slug} className="scroll-mt-10">
@@ -141,10 +143,7 @@ export default function ProjectItem({ project, open, onToggle }: ProjectItemProp
             )}
 
             <div className="flex flex-col gap-1 text-[13px]">
-              <p className="muted">
-                {project.tags.join(", ")}
-                {roles.map((r) => ` [${r}]`).join("")}
-              </p>
+              <p className="muted">{meta}</p>
               <p className="flex flex-wrap gap-x-4">
                 <ProjectLink href={project.deployedUrl} unavailableReason={project.deployedUnavailableReason} label="Live" />
                 <ProjectLink href={project.githubUrl} unavailableReason={project.githubUnavailableReason} label="Code" />
