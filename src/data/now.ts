@@ -8,13 +8,13 @@
 
 export const now = {
   taking: [
-    "Computer Networks (grad)",
-    "Operating Systems",
-    "Computer Systems and Society (grad)",
-    "Computer Security",
-    "Theory of Knowledge",
-    "Korean VII",
-    "Conlangs",
+    { number: "6.5820", name: "Computer Networks (grad)" },
+    { number: "6.1810", name: "Operating Systems" },
+    { number: "6.1852", name: "Computer Systems and Society (grad)" },
+    { number: "6.1600", name: "Computer Security" },
+    { number: "24.211", name: "Theory of Knowledge" },
+    { number: "21G.907", name: "Korean VII" },
+    { number: "24.917", name: "Conlangs" },
   ],
 
   // Shown as-is, e.g. "training for the Boston Marathon" or "312 miles so far this year"

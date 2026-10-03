@@ -60,9 +60,12 @@ export default function Home() {
             <div className="reveal grid grid-cols-[84px_1fr] gap-4" style={delay(5)}>
               <dt className="muted">taking</dt>
               <dd>
-                <ul>
+                <ul className="grid grid-cols-[auto_1fr] gap-x-3">
                   {now.taking.map((c) => (
-                    <li key={c}>{c}</li>
+                    <li key={c.number} className="contents">
+                      <span className="muted tabular-nums">{c.number}</span>
+                      <span>{c.name}</span>
+                    </li>
                   ))}
                 </ul>
               </dd>
