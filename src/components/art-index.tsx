@@ -102,8 +102,9 @@ export default function ArtIndex({ sections }: { sections: ArtSection[] }) {
           aria-hidden="true"
           className="fixed left-0 top-0 z-30 pointer-events-none will-change-transform"
         >
+          {/* Each cover keeps its own shape (no cropping), scaled to fit 200×220 */}
           <div
-            className="relative w-[180px] h-[220px] transition-[opacity,transform] duration-500 ease-[var(--ease-out)]"
+            className="relative w-[200px] h-[220px] transition-[opacity,transform] duration-500 ease-[var(--ease-out)]"
             style={{
               opacity: active !== null && artSectionCover(sections[active]) ? 1 : 0,
               transform: active !== null ? "scale(1)" : "scale(0.96)",
@@ -117,9 +118,10 @@ export default function ArtIndex({ sections }: { sections: ArtSection[] }) {
                   key={section.name}
                   src={cover.src}
                   alt=""
-                  fill
-                  sizes="180px"
-                  className="object-cover rounded-[3px] transition-opacity duration-500"
+                  width={400}
+                  height={440}
+                  sizes="200px"
+                  className="absolute left-0 top-0 w-auto h-auto max-w-[200px] max-h-[220px] rounded-[3px] transition-opacity duration-500"
                   style={{ opacity: active === i ? 1 : 0 }}
                 />
               );

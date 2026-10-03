@@ -75,6 +75,8 @@ export const artSections: ArtSection[] = [
     name: "Sketches",
     images: toArtImages(
       getImagesByIds([
+        "jinx",
+        "pin-girl",
         "sketch-dog",
         "eyes",
         "clouds-study",
@@ -84,8 +86,6 @@ export const artSections: ArtSection[] = [
         "greek-ionic",
         "sketch-cat",
         "tori-sleep",
-        "jinx",
-        "pin-girl",
       ])
     ),
   },
