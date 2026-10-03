@@ -211,17 +211,33 @@ a:hover .nav-star {
   cursor: pointer;
   line-height: 0;
   will-change: transform;
-  /* Materialize softly at the top while starting to fall */
-  animation: star-appear 0.7s ease-out both;
+}
+
+/* Soft pop as a star appears. On an inner element on purpose: the button's
+   transform is its physics position, and scaling the button would scale that
+   position too (the star would slide sideways while popping). */
+.guest-star-appear {
+  position: relative;
+  animation: star-appear 0.6s cubic-bezier(0.34, 1.4, 0.64, 1) both;
 }
 
 @keyframes star-appear {
-  from {
+  0% {
     opacity: 0;
+    scale: 0.4;
+  }
+  55% {
+    opacity: 1;
+    scale: 1.12;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
   }
 }
 
-.guest-star > span {
+.guest-star-appear,
+.guest-star-appear > span {
   display: block;
 }
 

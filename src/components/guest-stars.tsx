@@ -11,7 +11,7 @@ import { STAR_PATH, STAR_VIEWBOX, WatercolorFilter } from "./watercolor-star";
 
 const STAR_SIZE = 22;
 const MAX_SHOWN = 150; // all the server keeps; fits the field even on phones
-const RAIN_INTERVAL_MS = 45; // stagger when saved stars pour in on load
+const POUR_MAX_MS = 1500; // saved stars always finish pouring in within ~this long
 const FIELD_HEIGHT = 240; // blank space the stars fall into
 const DRAG_THRESHOLD = 4; // px of movement before a press becomes a drag
 const DROP_SLOP = 24; // px above the field that still counts as dropping into it
@@ -65,6 +65,21 @@ function writeUsed(used: Set<number>) {
 // expose it on HTTPS/localhost, so it breaks on a phone viewing the dev server
 // over the LAN (and on iOS before 15.4).
 const localId = () => `local-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+
+/**
+ * When each saved star gets tossed in on load: one continuous pour that starts
+ * gently, flows faster in the middle, and eases off at the end (like tipping a
+ * cup), with a little jitter so it never ticks like a metronome.
+ */
+function pourSchedule(count: number): number[] {
+  if (count <= 1) return [0];
+  const total = Math.min(POUR_MAX_MS, count * 40);
+  const step = total / (count - 1);
+  return Array.from({ length: count }, (_, i) => {
+    const eased = (1 - Math.cos((Math.PI * i) / (count - 1))) / 2; // ease-in-out
+    return Math.max(0, eased * total + (Math.random() - 0.5) * step * 0.6);
+  });
+}
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -253,11 +268,22 @@ export default function GuestStars() {
             if (!entry.isIntersecting) return;
             io.disconnect();
             const width = el.clientWidth;
+            const times = pourSchedule(toPour.length);
             toPour.forEach((s, i) =>
               timers.current.push(
                 setTimeout(
-                  () => spawn(s.id, s.c, s.x * width, RADIUS),
-                  reducedMotion.current ? 0 : i * RAIN_INTERVAL_MS
+                  // Tossed in: a small random sideways + upward start velocity,
+                  // then ordinary gravity and collisions take over
+                  () =>
+                    spawn(
+                      s.id,
+                      s.c,
+                      s.x * width,
+                      RADIUS,
+                      (Math.random() - 0.5) * 2.4,
+                      -(0.5 + Math.random() * 1.2)
+                    ),
+                  reducedMotion.current ? 0 : times[i]
                 )
               )
             );
@@ -474,14 +500,14 @@ export default function GuestStars() {
         </defs>
       </svg>
 
-      {/* Phones: description full width, bigger palette underneath (easier to grab) */}
+      {/* Phones: description full width, bigger palette underneath, left-aligned (easier to grab) */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
         <p key={allUsed ? "done" : "ask"} className="page-in muted">
           {allUsed
             ? "thanks for stopping by ⋆｡°★"
             : "stopping by? drag a star (or two... or more?) down on your way through."}
         </p>
-        <div className="flex justify-between sm:justify-start sm:gap-1.5 shrink-0 sm:mt-1.5">
+        <div className="flex gap-2.5 sm:gap-1.5 shrink-0 sm:mt-1.5">
           {STAR_PALETTE.map((p, i) => {
             const isUsed = used.has(i);
             const isLifted = dragging === i;
@@ -502,7 +528,7 @@ export default function GuestStars() {
                   setDragging(null);
                 }}
                 onKeyDown={(e) => onPaletteKey(e, i)}
-                className="group flex flex-col items-center gap-1 sm:gap-0.5 p-1.5 -m-1.5 sm:p-0 sm:m-0 touch-none select-none"
+                className="group flex flex-col items-center gap-1 sm:gap-0.5 p-1 -m-1 sm:p-0 sm:m-0 touch-none select-none"
                 style={{ cursor: isUsed ? "default" : isLifted ? "grabbing" : "grab" }}
               >
                 <span
@@ -552,19 +578,21 @@ export default function GuestStars() {
             }}
             className="guest-star"
           >
-            {boing[star.id] ? (
+            <span className="guest-star-appear">
+              {boing[star.id] ? (
+                <span
+                  key={`glow-${boing[star.id]}`}
+                  className="guest-star-glow"
+                  style={{ "--glow": STAR_PALETTE[star.c].color } as CSSProperties}
+                />
+              ) : null}
               <span
-                key={`glow-${boing[star.id]}`}
-                className="guest-star-glow"
-                style={{ "--glow": STAR_PALETTE[star.c].color } as CSSProperties}
-              />
-            ) : null}
-            <span
-              key={boing[star.id] ?? 0}
-              className={boing[star.id] ? "guest-star-pop" : "guest-star-sway"}
-              style={{ "--phase": `${-(star.id.charCodeAt(star.id.length - 1) % 9)}s` } as CSSProperties}
-            >
-              <PaintedStar c={star.c} />
+                key={boing[star.id] ?? 0}
+                className={boing[star.id] ? "guest-star-pop" : "guest-star-sway"}
+                style={{ "--phase": `${-(star.id.charCodeAt(star.id.length - 1) % 9)}s` } as CSSProperties}
+              >
+                <PaintedStar c={star.c} />
+              </span>
             </span>
           </button>
         ))}
