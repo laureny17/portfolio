@@ -15,7 +15,6 @@ export default function ThemeToggle() {
     const current = root.dataset.theme ?? (systemDark ? "dark" : "light");
     const next = current === "dark" ? "light" : "dark";
 
-    root.classList.add("theme-switching");
     if (next === (systemDark ? "dark" : "light")) {
       delete root.dataset.theme;
       try {
@@ -27,7 +26,6 @@ export default function ThemeToggle() {
         localStorage.setItem(STORAGE_KEY, next);
       } catch {}
     }
-    window.setTimeout(() => root.classList.remove("theme-switching"), 450);
   };
 
   return (

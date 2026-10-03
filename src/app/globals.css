@@ -44,14 +44,6 @@
   }
 }
 
-/* Soft cross-fade while switching themes (class is added briefly by the toggle) */
-.theme-switching,
-.theme-switching *,
-.theme-switching *::before,
-.theme-switching *::after {
-  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease !important;
-}
-
 html {
   background: var(--background);
   -webkit-text-size-adjust: 100%;
