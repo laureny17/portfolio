@@ -51,24 +51,28 @@ export default function Home() {
           <span>Now</span>
         </h2>
         <dl className="flex flex-col gap-3">
-          {now.taking.length > 0 && (
+          {now.based && (
             <div className="reveal grid grid-cols-[84px_1fr] gap-4" style={delay(5)}>
+              <dt className="muted">based</dt>
+              <dd>{now.based}</dd>
+            </div>
+          )}
+          {now.taking.length > 0 && (
+            <div className="reveal grid grid-cols-[84px_1fr] gap-4" style={delay(6)}>
               <dt className="muted">taking</dt>
               <dd>
-                <ul className="grid grid-cols-[auto_1fr] gap-x-3">
-                  {now.taking.map((c) => (
-                    <li key={c.number} className="contents">
-                      <span className="muted tabular-nums">{c.number}</span>
-                      <span>{c.name}</span>
-                    </li>
-                  ))}
-                </ul>
+                {now.taking.map((c, i) => (
+                  <span key={c.number}>
+                    <span className="muted tabular-nums">[{c.number}]</span> {c.name}
+                    {i < now.taking.length - 1 && ", "}
+                  </span>
+                ))}
               </dd>
             </div>
           )}
           <NowPlaying labelClassName="muted" />
           {now.running && (
-            <div className="reveal grid grid-cols-[84px_1fr] gap-4" style={delay(6)}>
+            <div className="reveal grid grid-cols-[84px_1fr] gap-4" style={delay(7)}>
               <dt className="muted">running</dt>
               <dd>{now.running}</dd>
             </div>

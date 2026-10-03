@@ -7,6 +7,8 @@
 // ============================================
 
 export const now = {
+  based: "Cambridge, MA",
+
   taking: [
     { number: "6.5820", name: "Computer Networks (grad)" },
     { number: "6.1810", name: "Operating Systems" },
