@@ -54,13 +54,13 @@ export default function Home() {
         <dl className="flex flex-col gap-3">
           {now.based && (
             <div className="reveal grid grid-cols-[84px_1fr] gap-4" style={delay(5)}>
-              <dt className="muted">based</dt>
+              <dt className="muted">Based</dt>
               <dd>{now.based}</dd>
             </div>
           )}
           {now.taking.length > 0 && (
             <div className="reveal grid grid-cols-[84px_1fr] gap-4" style={delay(6)}>
-              <dt className="muted">taking</dt>
+              <dt className="muted">Taking</dt>
               <dd>
                 {now.taking.map((c, i) => (
                   <span key={c.number}>
@@ -74,7 +74,7 @@ export default function Home() {
           <NowPlaying labelClassName="muted" />
           {now.running && (
             <div className="reveal grid grid-cols-[84px_1fr] gap-4" style={delay(7)}>
-              <dt className="muted">running</dt>
+              <dt className="muted">Running</dt>
               <dd>{now.running}</dd>
             </div>
           )}

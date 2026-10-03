@@ -81,7 +81,7 @@ export default function ArtImage({
         <div
           className={`flex items-center justify-center text-[var(--muted)] min-h-[200px] ${bgColor}`}
         >
-          <span>failed to load</span>
+          <span>Failed to load</span>
         </div>
       ) : (
         <div className={`relative w-full ${bgColor}`}>

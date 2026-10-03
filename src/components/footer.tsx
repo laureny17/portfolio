@@ -1,7 +1,7 @@
 const links = [
-  { href: "mailto:laureny@mit.edu", label: "email" },
-  { href: "https://www.linkedin.com/in/lauren-yoo-454437287/", label: "linkedin" },
-  { href: "https://github.com/laureny17", label: "github" },
+  { href: "mailto:laureny@mit.edu", label: "Email" },
+  { href: "https://www.linkedin.com/in/lauren-yoo-454437287/", label: "LinkedIn" },
+  { href: "https://github.com/laureny17", label: "GitHub" },
 ];
 
 export default function Footer() {

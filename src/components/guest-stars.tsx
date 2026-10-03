@@ -339,16 +339,16 @@ export default function GuestStars() {
         const result = await saveStar({ x: x / width, y: y / FIELD_HEIGHT, c });
         if (result === "saved") return;
         if (result === "disabled") {
-          flash("stars aren't saving right now, so this one's just for you");
+          flash("Stars aren't saving right now, so this one's just for you");
           return;
         }
         undo();
         if (result === "duplicate") {
-          flash(`you've already left a ${STAR_PALETTE[c].name} star`);
+          flash(`You've already left a ${STAR_PALETTE[c].name} star`);
           return; // stays marked used
         }
         markUsed(c, false);
-        flash("that star didn't stick, try again?");
+        flash("That star didn't stick, try again?");
       });
     },
     [spawn, wake]
@@ -398,7 +398,7 @@ export default function GuestStars() {
     // A press without a drag: just preview the note
     if (!d.started) {
       ding(STAR_PALETTE[d.c].freq);
-      if (used.has(d.c)) flash(`you've already left a ${STAR_PALETTE[d.c].name} star`);
+      if (used.has(d.c)) flash(`You've already left a ${STAR_PALETTE[d.c].name} star`);
       return;
     }
 
@@ -441,7 +441,7 @@ export default function GuestStars() {
     allowSound();
     if (used.has(c)) {
       ding(STAR_PALETTE[c].freq);
-      flash(`you've already left a ${STAR_PALETTE[c].name} star`);
+      flash(`You've already left a ${STAR_PALETTE[c].name} star`);
       return;
     }
     const width = fieldRef.current?.clientWidth ?? 0;
@@ -504,8 +504,8 @@ export default function GuestStars() {
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
         <p key={allUsed ? "done" : "ask"} className="page-in muted">
           {allUsed
-            ? "thanks for stopping by ⋆｡°★"
-            : "stopping by? drag a star (or two... or more?) down on your way through."}
+            ? "Thanks for stopping by ⋆｡°★"
+            : "Stopping by? Drag a star (or two... or more?) down on your way through."}
         </p>
         <div className="flex gap-2.5 sm:gap-1.5 shrink-0 sm:mt-1.5">
           {STAR_PALETTE.map((p, i) => {
@@ -556,7 +556,7 @@ export default function GuestStars() {
       <div ref={fieldRef} className="relative select-none" style={{ height: FIELD_HEIGHT }}>
         {loaded && total === 0 && dragging === null && (
           <p className="page-in absolute inset-0 flex items-center justify-center muted pointer-events-none">
-            no stars yet. be the first?
+            No stars yet. Be the first?
           </p>
         )}
 
@@ -635,7 +635,7 @@ export default function GuestStars() {
                 disabled={playing}
                 className="link link-muted cursor-pointer disabled:cursor-default"
               >
-                {playing ? "playing ♪" : "play a tune ♪"}
+                {playing ? "Playing ♪" : "Play a tune ♪"}
               </button>
             </>
           )}

@@ -42,7 +42,7 @@ export default async function ArtSectionPage({
     <main className="flex flex-col gap-10">
       <div className="col flex flex-col gap-1">
         <Link href="/art" className="reveal link link-muted self-start">
-          ← art
+          ← Art
         </Link>
         <h1 className="reveal flex items-baseline justify-between gap-6 pt-4" style={{ "--i": 1 } as React.CSSProperties}>
           <span>{section.name}</span>

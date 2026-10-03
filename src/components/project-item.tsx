@@ -101,7 +101,7 @@ export default function ProjectItem({ project, open, onToggle }: ProjectItemProp
 
   const slug = projectSlug(project);
   const media = project.image.filter(Boolean);
-  const role = [project.roleLabel, project.isTeam ? "team" : null].filter(Boolean).join(", ");
+  const role = [project.roleLabel, project.isTeam ? "Team" : null].filter(Boolean).join(", ");
 
   return (
     <article id={slug} className="scroll-mt-10">
@@ -146,10 +146,10 @@ export default function ProjectItem({ project, open, onToggle }: ProjectItemProp
                 {role && <> · {role}</>}
               </p>
               <p className="flex flex-wrap gap-x-4">
-                <ProjectLink href={project.deployedUrl} unavailableReason={project.deployedUnavailableReason} label="live" />
-                <ProjectLink href={project.githubUrl} unavailableReason={project.githubUnavailableReason} label="code" />
-                <ProjectLink href={project.devpostUrl} unavailableReason={project.devpostUnavailableReason} label="devpost" />
-                <ProjectLink href={project.labUrl} unavailableReason={project.labUnavailableReason} label="lab page" />
+                <ProjectLink href={project.deployedUrl} unavailableReason={project.deployedUnavailableReason} label="Live" />
+                <ProjectLink href={project.githubUrl} unavailableReason={project.githubUnavailableReason} label="Code" />
+                <ProjectLink href={project.devpostUrl} unavailableReason={project.devpostUnavailableReason} label="Devpost" />
+                <ProjectLink href={project.labUrl} unavailableReason={project.labUnavailableReason} label="Lab page" />
               </p>
             </div>
           </div>

@@ -125,7 +125,7 @@ export default function ArtSectionGallery({ section }: ArtSectionGalleryProps) {
             rel="noopener noreferrer"
             className="link muted"
           >
-            watch ↗
+            Watch ↗
           </a>
         </li>
         <li>
@@ -137,7 +137,7 @@ export default function ArtSectionGallery({ section }: ArtSectionGalleryProps) {
             rel="noopener noreferrer"
             className="link muted"
           >
-            watch ↗
+            Watch ↗
           </a>
         </li>
       </ul>

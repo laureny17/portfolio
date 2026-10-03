@@ -39,7 +39,7 @@ export default function NowPlaying({ labelClassName = "" }: { labelClassName?: s
 
   return (
     <div className="reveal grid grid-cols-[84px_1fr] gap-4">
-      <dt className={labelClassName}>listening</dt>
+      <dt className={labelClassName}>Listening</dt>
       {/* key: crossfade when the song changes */}
       <dd key={track.url} className="page-in flex items-baseline gap-2 min-w-0">
         {track.isPlaying && <Equalizer />}

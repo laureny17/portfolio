@@ -4,9 +4,9 @@ import { usePathname } from "next/navigation";
 import WatercolorStar from "./watercolor-star";
 
 const links = [
-  { href: "/", label: "index" },
-  { href: "/projects", label: "projects" },
-  { href: "/art", label: "art" },
+  { href: "/", label: "Index" },
+  { href: "/projects", label: "Projects" },
+  { href: "/art", label: "Art" },
 ];
 
 export default function Header() {
