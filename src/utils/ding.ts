@@ -82,6 +82,39 @@ export function prepareAudio(): Promise<boolean> {
 }
 
 /**
+ * Schedule a sequence of bells `offsetsMs` apart on the audio clock (audio must
+ * already be running, see prepareAudio). Returns each note's audio-clock time,
+ * to compare against heardTime(), or null if nothing was scheduled.
+ */
+export function dingSequence(freqs: number[], offsetsMs: number[]): number[] | null {
+  if (typeof window === "undefined" || !soundAllowed() || !ctx || ctx.state !== "running") {
+    return null;
+  }
+  // A small lead so the first note's attack isn't clipped by the render quantum
+  const start = ctx.currentTime + 0.03;
+  const times = offsetsMs.map((ms) => start + ms / 1000);
+  freqs.forEach((f, i) => play(ctx!, out!, f, times[i]));
+  return times;
+}
+
+/**
+ * The audio-clock time of what's coming out of the speaker right now. Lags
+ * ctx.currentTime by the device's output delay (often 50-200ms on phones, more
+ * over Bluetooth), so visuals keyed to it line up with the sound.
+ */
+export function heardTime(): number {
+  if (!ctx) return 0;
+  const ts = ctx.getOutputTimestamp?.();
+  // Zero right after the audio wakes; plausible (0-500ms behind) otherwise
+  if (ts?.contextTime && ts.performanceTime) {
+    const t = ts.contextTime + (performance.now() - ts.performanceTime) / 1000;
+    const behind = ctx.currentTime - t;
+    if (behind >= 0 && behind <= 0.5) return t;
+  }
+  return ctx.currentTime - Math.min((ctx.outputLatency || 0) + (ctx.baseLatency || 0), 0.5);
+}
+
+/**
  * Play a bell, optionally `delay` seconds from now on the audio clock.
  * Scheduling on the audio clock keeps a sequence perfectly even even when
  * the page itself is busy (e.g. right after load on a phone).

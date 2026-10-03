@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import type { CSSProperties, KeyboardEvent, PointerEvent } from "react";
 import type { GuestStar } from "@/app/api/stars/route";
 import { STAR_PALETTE } from "@/data/star-palette";
-import { allowSound, ding, prepareAudio } from "@/utils/ding";
+import { allowSound, ding, dingSequence, heardTime, prepareAudio } from "@/utils/ding";
 import {
   advance,
   clearSpawnY,
@@ -485,6 +485,8 @@ export default function GuestStars() {
   // ---- a little tune: up to 10 random stars, in a random order ----
 
   const [playing, setPlaying] = useState(false);
+  const tuneFrame = useRef(0);
+  useEffect(() => () => cancelAnimationFrame(tuneFrame.current), []);
 
   const playTune = async () => {
     if (playing || shown.length === 0) return;
@@ -503,14 +505,40 @@ export default function GuestStars() {
     setPlaying(true);
 
     // Wake the audio first, then hand every note to the audio clock at once,
-    // so the tune stays evenly spaced even if the page is busy. The hops and
-    // glows follow on ordinary timers (if those run late, only visuals lag).
+    // so the tune stays evenly spaced even if the page is busy. Each hop and
+    // glow waits until its note is actually coming out of the speaker (phones
+    // take a while to get sound out, so a plain timer ran ahead of the notes).
     const audioReady = await prepareAudio();
-    picks.forEach((star, i) => {
-      if (audioReady) ding(STAR_PALETTE[star.c].freq, times[i] / 1000);
-      timers.current.push(setTimeout(() => animateTap(star), times[i]));
-    });
-    timers.current.push(setTimeout(() => setPlaying(false), at));
+    const noteTimes = audioReady
+      ? dingSequence(
+          picks.map((star) => STAR_PALETTE[star.c].freq),
+          times
+        )
+      : null;
+
+    if (!noteTimes) {
+      picks.forEach((star, i) => timers.current.push(setTimeout(() => animateTap(star), times[i])));
+      timers.current.push(setTimeout(() => setPlaying(false), at));
+      return;
+    }
+    const end = noteTimes[0] + at / 1000;
+    const giveUp = performance.now() + at + 2000; // audio stalled (e.g. a call)
+    let next = 0;
+    const frame = () => {
+      const heard = heardTime();
+      while (next < picks.length && heard >= noteTimes[next]) {
+        // Hops that come up late (frames paused, e.g. a background tab) are
+        // skipped rather than all bunched together
+        if (heard - noteTimes[next] < 0.15) animateTap(picks[next]);
+        next++;
+      }
+      if (heard < end && performance.now() < giveUp) {
+        tuneFrame.current = requestAnimationFrame(frame);
+      } else {
+        setPlaying(false);
+      }
+    };
+    tuneFrame.current = requestAnimationFrame(frame);
   };
 
   const allUsed = used.size >= STAR_PALETTE.length;
