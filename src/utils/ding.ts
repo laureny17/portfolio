@@ -67,6 +67,9 @@ function play(ctx: AudioContext, out: GainNode, freq: number, t: number) {
 // better a missing note than several bunched together when audio wakes up late
 const MAX_LATENCY_MS = 120;
 
+/** Is the audio engine awake, so a note would sound right away? */
+export const audioRunning = () => ctx?.state === "running";
+
 /**
  * Wake the audio engine (call from a user event). Resolves true once it's
  * running, so callers can schedule a sequence on the audio clock up front.

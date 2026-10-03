@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import type { CSSProperties, KeyboardEvent, PointerEvent } from "react";
 import type { GuestStar } from "@/app/api/stars/route";
 import { STAR_PALETTE } from "@/data/star-palette";
-import { allowSound, ding, dingSequence, heardTime, prepareAudio } from "@/utils/ding";
+import { allowSound, audioRunning, ding, dingSequence, heardTime, prepareAudio } from "@/utils/ding";
 import {
   advance,
   clearSpawnY,
@@ -482,6 +482,9 @@ export default function GuestStars() {
     [animateTap]
   );
 
+  /** A star already played on pointer down, so its click shouldn't again */
+  const pressedStar = useRef<string | null>(null);
+
   // ---- a little tune: up to 10 random stars, in a random order ----
 
   // "waiting": pressed, audio waking. "tuning": that's taking a while (over
@@ -647,7 +650,24 @@ export default function GuestStars() {
             }}
             type="button"
             aria-label={`star, note ${STAR_PALETTE[star.c].note}`}
+            // Sound on touch-down, like a key, not on release (a click waits
+            // for the finger to lift). Until the audio is awake (iPhones only
+            // let it wake on release), the click plays it instead.
+            onPointerDown={(e) => {
+              pressedStar.current = null;
+              if (e.button !== 0 || !audioRunning()) return;
+              allowSound();
+              tap(star);
+              pressedStar.current = star.id;
+            }}
+            onPointerCancel={() => {
+              pressedStar.current = null;
+            }}
             onClick={() => {
+              if (pressedStar.current === star.id) {
+                pressedStar.current = null;
+                return;
+              }
               allowSound();
               tap(star);
             }}
