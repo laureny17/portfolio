@@ -1,5 +1,8 @@
+import CopyEmail from "./copy-email";
+
+const EMAIL = "laureny@mit.edu";
+
 const links = [
-  { href: "mailto:laureny@mit.edu", label: "Email" },
   { href: "https://www.linkedin.com/in/lauren-yoo-454437287/", label: "LinkedIn" },
   { href: "https://github.com/laureny17", label: "GitHub" },
 ];
@@ -9,6 +12,7 @@ export default function Footer() {
     <footer className="col flex justify-between pt-24 pb-10 text-[13px] muted">
       <span>© {new Date().getFullYear()}</span>
       <div className="flex gap-4">
+        <CopyEmail email={EMAIL} />
         {links.map(({ href, label }) => (
           <a
             key={label}
