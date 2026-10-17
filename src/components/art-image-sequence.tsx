@@ -104,9 +104,11 @@ export default function ArtImageSequence({
   return (
     <div
       ref={containerRef}
-      className={`relative overflow-hidden rounded-[3px] block w-full select-none ${bgColor} cursor-pointer transition-opacity duration-300 hover:opacity-90`}
+      className={`relative overflow-hidden rounded-[3px] block w-full select-none [-webkit-touch-callout:none] ${bgColor} cursor-pointer transition-opacity duration-300 hover:opacity-90`}
       onMouseMove={handleMouseMove}
       onClick={handleClick}
+      // No "Save image as" (also covers the portaled modal via React bubbling)
+      onContextMenu={(e) => e.preventDefault()}
     >
       {isLoading && (
         <div
@@ -197,7 +199,7 @@ export default function ArtImageSequence({
       {mounted &&
         createPortal(
           <div
-            className={`fixed inset-0 z-50 flex items-center justify-center bg-[var(--background)]/95 px-4 transition-opacity duration-300 ${
+            className={`fixed inset-0 z-50 flex items-center justify-center bg-[var(--background)]/95 px-4 transition-opacity duration-300 [-webkit-touch-callout:none] ${
               isModalOpen
                 ? "opacity-100 pointer-events-auto"
                 : "opacity-0 pointer-events-none"

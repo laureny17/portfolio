@@ -10,7 +10,7 @@ const links = [
 export default function Footer() {
   return (
     <footer className="col flex justify-between pt-24 pb-10 text-[13px] muted">
-      <span>© {new Date().getFullYear()}</span>
+      <span>© Lauren Yoo, {new Date().getFullYear()}</span>
       <div className="flex gap-4">
         <CopyEmail email={EMAIL} />
         {links.map(({ href, label }) => (
