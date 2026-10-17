@@ -14,6 +14,8 @@ const sans = Geist({
 export const metadata: Metadata = {
   title: "Lauren Yoo",
   description: "Personal portfolio",
+  // noai/noimageai are non-standard opt-out signals; few crawlers honor them.
+  robots: "index, follow, noai, noimageai",
 };
 
 export const viewport: Viewport = {
