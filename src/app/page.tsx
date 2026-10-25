@@ -38,9 +38,8 @@ export default function Home() {
             />
           </div>
           <p className="reveal col-start-2 row-start-1 min-w-0" style={delay(2)}>
-            Hi! I&apos;m a senior at MIT studying computer science, passionate
-            about building meaningful experiences. Particularly excited about
-            networks and IoT, digital media, and education.
+            Hi, I'm Lauren! I&apos;m a senior at MIT studying computer science. My interests 
+            center on networked systems, game development, and accessible design.
           </p>
           <p
             className="reveal col-span-2 row-start-2 sm:col-span-1 sm:col-start-2 min-w-0"
